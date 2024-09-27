@@ -1,1 +1,1 @@
-export { default } from "./BoxMenuProfile";
+export {default} from './BoxMenuProfile';

@@ -1,7 +1,7 @@
 export interface PropsBaseLayout {
-	children: any;
+	children: React.ReactNode;
 	title: string;
-	bgLight?: boolean;
+	isAction?: boolean;
 }
 
 export interface TContextBaseLayout {

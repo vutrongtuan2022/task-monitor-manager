@@ -1,31 +1,15 @@
 @import '../../../styles/color';
 @import '../../../styles/variables';
 
-$height-header: 60px;
-$width-tab: 240px;
-$width-tab-hidden: 94px;
+$width-tab: 256px;
+$width-tab-hidden: 80px;
 $duration: 0.1s;
 
 .container {
 	min-height: 100vh;
-	background-color: var(--bg);
-
-	&.bgLight {
-		background-color: var(--bg-light);
-	}
-}
-
-.header {
-	height: $height-header;
-	position: fixed;
-	width: calc(100% - $width-tab);
-	top: 0;
-	right: 0;
-	left: calc($width-tab);
-	transition: width $duration ease-in-out, left $duration ease-in-out;
-	z-index: 100;
-	background-color: var(--bg-light);
-	border-bottom: 1px solid var(--border-color);
+	background-image: url('../../../../public/static/images/background.png');
+	background-repeat: no-repeat;
+	background-size: cover;
 }
 
 .tab {
@@ -36,14 +20,22 @@ $duration: 0.1s;
 	left: 0;
 	transition: width $duration ease-in-out;
 	z-index: 11;
-	background-color: var(--bg-light);
-	border-right: 1px solid var(--border-color);
+	background-color: var(--light);
+}
+
+.wrapper {
+	height: 100vh;
+	max-height: 100vh;
+	padding-left: $width-tab;
+	display: flex;
+	flex-direction: column;
+	padding-bottom: 32px;
 }
 
 .main {
-	padding-top: calc($height-header);
-	padding-left: calc($width-tab);
-	transition: padding-left $duration ease-in-out;
+	flex: 1;
+	overflow: auto;
+	padding: 0 32px;
 }
 
 .hidden {
@@ -51,46 +43,12 @@ $duration: 0.1s;
 		width: $width-tab-hidden;
 	}
 
-	.main {
-		padding-left: calc($width-tab-hidden);
-	}
-
-	.header {
-		width: calc(100% - $width-tab-hidden);
-		left: calc($width-tab-hidden);
+	.wrapper {
+		padding-left: $width-tab-hidden;
 	}
 }
 
 @media (max-width: $widthTablet) {
-	.tab {
-		width: $width-tab-hidden;
-	}
-
-	.main {
-		padding-top: $height-header;
-		padding-left: $width-tab-hidden;
-		margin-right: 0;
-	}
-
-	.header {
-		top: 0;
-		width: calc(100% - $width-tab-hidden);
-		left: calc($width-tab-hidden);
-	}
-
-	.hidden {
-		.header {
-			width: calc(100% - $width-tab-hidden);
-			left: calc($width-tab-hidden);
-		}
-
-		.main {
-			padding-left: calc($width-tab-hidden);
-		}
-	}
-}
-
-@media (max-width: $widthMobile) {
 	.tab {
 		position: fixed;
 		max-height: 100vh;
@@ -100,32 +58,37 @@ $duration: 0.1s;
 		transition: 0.3s;
 	}
 
-	.main {
+	.wrapper {
 		padding-left: 0;
+		padding-bottom: 24px;
 	}
 
-	.header {
-		width: calc(100%);
-		left: 0;
+	.main {
+		padding: 0 24px;
 	}
 
 	.hidden {
 		.tab {
 			position: fixed;
 			max-height: 100vh;
-			left: 0;
+			left: -100%;
 			top: 0;
 			bottom: 0;
+			transition: 0.3s;
 		}
 
-		.main {
-			padding-left: $width-tab-hidden;
+		.wrapper {
+			padding-left: 0;
 		}
+	}
+}
 
-		.header {
-			width: calc(100% - $width-tab-hidden);
-			left: $width-tab-hidden;
-			z-index: 100;
-		}
+@media (max-width: $widthMobile) {
+	.wrapper {
+		padding-bottom: 16px;
+	}
+
+	.main {
+		padding: 0 16px;
 	}
 }

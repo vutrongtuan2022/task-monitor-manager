@@ -49,6 +49,7 @@ function SplashScreen({}: PropsSplashScreen) {
 			store.dispatch(setLoading(false));
 
 			const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
 			store.dispatch(setIsMobile(isMobile));
 		})();
 	}, []);

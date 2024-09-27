@@ -2,16 +2,16 @@ import {RootState} from '~/redux/store';
 import {useCallback, useContext} from 'react';
 
 import {ContextBaseLayout} from '../../BaseLayout';
-// import ImageFill from '~/components/common/ImageFill';
-import Link from 'next/link';
-import {Menu, PATH} from '~/constants/config';
 import {PropsMenuTab} from './interfaces';
 import {TContextBaseLayout} from '../../interfaces';
-import clsx from 'clsx';
-import icons from '~/constants/images/icons';
 import styles from './MenuTab.module.scss';
 import {useRouter} from 'next/router';
 import {useSelector} from 'react-redux';
+import Link from 'next/link';
+import {Menu, PATH} from '~/constants/config';
+import ImageFill from '~/components/common/ImageFill';
+import icons from '~/constants/images/icons';
+import clsx from 'clsx';
 
 function MenuTab({}: PropsMenuTab) {
 	const router = useRouter();
@@ -35,38 +35,36 @@ function MenuTab({}: PropsMenuTab) {
 					[styles.header_small]: !context.showFull,
 				})}
 			>
-				<Link href={PATH.Home} className={styles.left}>
-					{/* <ImageFill src={icons.logo} className={styles.logo_icon} alt='Logo' /> */}
-					{context?.showFull && <h4 className={styles.title_logo}>Quản trị</h4>}
+				<Link href={PATH.Home} className={styles.box_logo}>
+					{context?.showFull ? (
+						<ImageFill src={icons.logoFull} className={styles.logo_icon} alt='Logo full' />
+					) : (
+						<ImageFill src={icons.logoSmall} className={styles.logo_small} alt='Logo small' />
+					)}
+				</Link>
+
+				<Link href={PATH.Home} className={styles.box_logo_mobile}>
+					<ImageFill src={icons.logoSmall} className={styles.logo_small} alt='Logo small' />
 				</Link>
 			</div>
-			<div
-				className={clsx(styles.menu, {
-					[styles.menu_small]: !context.showFull,
-				})}
-			>
+			<div className={clsx(styles.menu)}>
 				{Menu.map((v, i) => (
-					<div className={styles.group} key={i}>
-						<div className={styles.groupTitle}>{v.title}</div>
-						<div className={styles.menuGroup}>
-							{v.group.map((item, j) => (
-								<Link
-									onClick={() => {
-										isMobile && context?.setShowFull!(!context?.showFull);
-									}}
-									href={item.path}
-									className={clsx(styles.itemGroup, {
-										[styles.active]: checkActive(item.path) || checkActive(item.pathActive!),
-										[styles.small]: !context?.showFull,
-									})}
-									key={j}
-								>
-									<i>{/* <ImageFill style_1_1='true' src={item.icon} /> */}</i>
-									{context?.showFull ? <p className={styles.item_text}>{item.title}</p> : null}
-								</Link>
-							))}
+					<Link
+						href={v.path}
+						key={i}
+						className={clsx(styles.itemMenu, {
+							[styles.active]: checkActive(v.path) || checkActive(v?.pathActive!),
+							[styles.small]: !context?.showFull,
+						})}
+						onClick={() => {
+							isMobile && context?.setShowFull!(!context?.showFull);
+						}}
+					>
+						<div className={styles.iconMenu}>
+							<v.icon size={20} />
 						</div>
-					</div>
+						<p className={styles.textMenu}>{v.title}</p>
+					</Link>
 				))}
 			</div>
 		</div>

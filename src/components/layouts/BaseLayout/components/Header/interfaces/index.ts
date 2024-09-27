@@ -1,3 +1,4 @@
 export interface PropsHeader {
-  title: string;
+	title: string;
+	isAction?: boolean;
 }

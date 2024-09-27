@@ -2,11 +2,11 @@ import Head from 'next/head';
 import React, {Fragment} from 'react';
 
 import {PATH} from '~/constants/config';
-// import Button from "~/components/common/Button";
-// import ImageFill from "~/components/common/ImageFill";
-// import background from "~/constants/images/background";
 
 import styles from './Page404.module.scss';
+import ImageFill from '~/components/common/ImageFill';
+import images from '~/constants/images/images';
+import Button from '~/components/common/Button';
 
 function PageNotFound() {
 	return (
@@ -19,15 +19,15 @@ function PageNotFound() {
 			</Head>
 
 			<div className={styles.container}>
-				<div>{/* <ImageFill src={background.image404} className={styles.image} /> */}</div>
-				<h4 className={styles.title}>Oops! Không tìm thấy trang.</h4>
-				<p className={styles.text}>
-					Xin lỗi! Trang bạn đang tìm không tồn tại. Nếu bạn cho rằng có gì đó bị hỏng, hãy báo cáo sự cố cho đội ngũ kỹ thuật.
-				</p>
+				<div className={styles.box_image}>
+					<ImageFill src={images.image404} className={styles.image} />
+				</div>
+				<h4 className={styles.title}>RẤT TIẾC ! TRANG BẠN TÌM KIẾM KHÔNG TỒN TẠI.</h4>
+				<p className={styles.text}>Bạn vui lòng quay lại trang chủ để có thể khám phá thêm những chức năng hấp dẫn.</p>
 				<div className={styles.btn}>
-					{/* <Button href={PATH.Home} primary rounded_2 p_12_32 size_bold bold>
-            Quay về trang chủ
-          </Button> */}
+					<Button href={PATH.Home} primary p_10_40 rounded_8 bold size_bold rps_small>
+						Quay lại trang chủ
+					</Button>
 				</div>
 			</div>
 		</Fragment>
