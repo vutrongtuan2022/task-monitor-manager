@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import {Fragment, ReactElement} from 'react';
 import BaseLayout from '~/components/layouts/BaseLayout';
-import WrapperContainer from '~/components/layouts/WrapperContainer';
 
 export default function Home() {
 	return (
@@ -12,17 +11,12 @@ export default function Home() {
 				<meta name='viewport' content='width=device-width, initial-scale=1' />
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
-			<WrapperContainer>
-				<div>Trang chủ</div>
-			</WrapperContainer>
+
+			<div>Trang chu</div>
 		</Fragment>
 	);
 }
 
 Home.getLayout = function (Page: ReactElement) {
-	return (
-		<BaseLayout bgLight={true} title='Trang chủ'>
-			{Page}
-		</BaseLayout>
-	);
+	return <BaseLayout title='Trang chủ'>{Page}</BaseLayout>;
 };

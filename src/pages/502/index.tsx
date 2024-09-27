@@ -2,11 +2,11 @@ import Head from 'next/head';
 import React, {Fragment} from 'react';
 
 import {PATH} from '~/constants/config';
-// import Button from "~/components/common/Button";
-// import ImageFill from "~/components/common/ImageFill";
-// import background from "~/constants/images/background";
 
 import styles from './Page502.module.scss';
+import Button from '~/components/common/Button';
+import ImageFill from '~/components/common/ImageFill';
+import images from '~/constants/images/images';
 
 function PageError() {
 	return (
@@ -19,13 +19,15 @@ function PageError() {
 			</Head>
 
 			<div className={styles.container}>
-				<div>{/* <ImageFill src={background.image502} className={styles.image} /> */}</div>
+				<div className={styles.box_image}>
+					<ImageFill src={images.image502} className={styles.image} />
+				</div>
 				<h4 className={styles.title}>Oops! Lỗi máy chủ nội bộ..</h4>
 				<p className={styles.text}>Xin lỗi! Hiện tại máy chủ đang gặp sự cố. Bạn vui lòng chờ trong giây lát hoặc thử lại sau.</p>
 				<div className={styles.btn}>
-					{/* <Button href={PATH.Home} primary rounded_2 p_12_32 size_bold bold>
-            Quay về trang chủ
-          </Button> */}
+					<Button href={PATH.Home} primary p_10_40 rounded_8 bold size_bold rps_small>
+						Quay lại trang chủ
+					</Button>
 				</div>
 			</div>
 		</Fragment>

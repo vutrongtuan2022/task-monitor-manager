@@ -1,3 +1,3 @@
 export interface PropsBoxMenuProfile {
-	onCLose: () => void;
+	onClose: () => void;
 }

@@ -11,3 +11,8 @@ export enum TYPE_DATE {
 	THIS_YEAR = 7,
 	LUA_CHON = 8,
 }
+export enum TYPE_ACCOUNT {
+	USER = 1,
+	MANAGER,
+	ADMIN,
+}

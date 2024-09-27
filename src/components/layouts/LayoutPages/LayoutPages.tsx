@@ -1,16 +1,16 @@
 // import TabNavPage from '~/components/common/TabNavPage';
-import WrapperContainer from '../WrapperContainer';
+import {Fragment} from 'react';
 import {PropsLayoutPages} from './interfaces';
 
 import styles from './LayoutPages.module.scss';
 
 function LayoutPages({children, listPages}: PropsLayoutPages) {
 	return (
-		<WrapperContainer bg={true}>
+		<Fragment>
 			{/* <TabNavPage listPages={listPages} /> */}
 
 			<div className={styles.main}>{children}</div>
-		</WrapperContainer>
+		</Fragment>
 	);
 }
 

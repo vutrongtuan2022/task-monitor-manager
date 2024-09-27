@@ -1,3 +1,4 @@
+import {ElementEqual} from 'iconsax-react';
 import icons from '../images/icons';
 import {TYPE_DATE} from './enum';
 
@@ -13,6 +14,10 @@ export const allowFiles = [
 
 export enum PATH {
 	Any = 'any',
+	ForgotPassword = '/auth/forgot-password',
+
+	Profile = '/profile',
+	ChangePassword = '/change-password',
 
 	Login = '/auth/login',
 
@@ -21,16 +26,15 @@ export enum PATH {
 
 export const Menu: {
 	title: string;
-	group: {
-		path: string;
-		pathActive?: string;
-		title: string;
-		icon: any;
-	}[];
+	path: string;
+	pathActive?: string;
+	icon: any;
 }[] = [
 	{
-		title: 'overview',
-		group: [{title: 'Tổng quan', icon: icons.tongQuan, path: PATH.Home}],
+		title: 'Tổng quan',
+		path: PATH.Home,
+		pathActive: PATH.Home,
+		icon: ElementEqual,
 	},
 ];
 
