@@ -4,7 +4,7 @@ import styles from './Button.module.scss';
 import {useStyleClass} from '~/common/hooks/usStyleClass';
 
 interface props {
-	onClick?: () => void;
+	onClick?: (e?: any) => void;
 	children?: React.ReactNode;
 	href?: any;
 	div?: boolean;
@@ -31,7 +31,7 @@ function Button({children, onClick, icon, href, className, target, div, ...props
 		}
 
 		if (!props.disable && onClick) {
-			onClick();
+			onClick(e);
 		}
 	};
 

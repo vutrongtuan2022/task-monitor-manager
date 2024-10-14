@@ -15,7 +15,7 @@ import BoxMenuProfile from '../BoxMenuProfile';
 import {useSelector} from 'react-redux';
 import {RootState} from '~/redux/store';
 
-function Header({isAction, title}: PropsHeader) {
+function Header({isImport = false, isExport = false, title}: PropsHeader) {
 	const router = useRouter();
 
 	const {infoUser} = useSelector((state: RootState) => state.user);
@@ -39,7 +39,7 @@ function Header({isAction, title}: PropsHeader) {
 	}, [router]);
 
 	return (
-		<div className={clsx(styles.container, {[styles.isAction]: isAction})}>
+		<div className={clsx(styles.container, {[styles.isAction]: isImport || isExport})}>
 			<div className={styles.left}>
 				<div className={styles.top}>
 					<div className={styles.box_icon} onClick={() => context?.setShowFull!(!context?.showFull)}>
@@ -50,18 +50,42 @@ function Header({isAction, title}: PropsHeader) {
 					</div>
 					<h4 className={styles.title}>{title}</h4>
 				</div>
-				{isAction && (
-					<div className={styles.main_action}>
-						<div className={styles.btn}>
+				<div className={styles.main_action}>
+					{isImport && (
+						<div
+							className={styles.btn}
+							onClick={() =>
+								router.replace({
+									pathname: router.pathname,
+									query: {
+										...router.query,
+										_action: 'import',
+									},
+								})
+							}
+						>
 							<Image src={icons.iconAdd} alt='icon add' width={20} height={20} />
 							<p>Nhập file</p>
 						</div>
-						<div className={styles.btn}>
+					)}
+					{isExport && (
+						<div
+							className={styles.btn}
+							onClick={() =>
+								router.replace({
+									pathname: router.pathname,
+									query: {
+										...router.query,
+										_action: 'export',
+									},
+								})
+							}
+						>
 							<Image src={icons.iconDown} alt='icon down' width={20} height={20} />
 							<p>Xuất file</p>
 						</div>
-					</div>
-				)}
+					)}
+				</div>
 			</div>
 			<div className={styles.right}>
 				<div className={styles.box_noti}>

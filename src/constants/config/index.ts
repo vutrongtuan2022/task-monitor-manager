@@ -1,5 +1,4 @@
-import {ElementEqual} from 'iconsax-react';
-import icons from '../images/icons';
+import {ArchiveBook, DocumentForward, DocumentText1, ElementEqual, Moneys, Note, People} from 'iconsax-react';
 import {TYPE_DATE} from './enum';
 
 export const MAXIMUM_FILE = 10; //MB
@@ -22,6 +21,26 @@ export enum PATH {
 	Login = '/auth/login',
 
 	Home = '/',
+
+	Project = '/project',
+	ProjectCreate = '/project/create',
+	ProjectInfo = '/project/infor-project',
+	ProjectContractor = '/project/infor-contractor',
+	ProjectDisbursementProgress = '/project/disbursement-progress',
+	ProjectWorkReport = '/project/work-report',
+	UpdateInfoProject = '/project/update/infor-project',
+	UpdateInfoCapital = '/project/update/info-capital',
+	UpdateInfoContractor = '/project/update/infor-contractor',
+
+	ReportWork = '/report-work',
+
+	ReportDisbursement = '/report-disbursement',
+
+	WorkUser = '/work-user',
+
+	User = '/user',
+
+	ReportSummary = '/report-summary',
 }
 
 export const Menu: {
@@ -35,6 +54,42 @@ export const Menu: {
 		path: PATH.Home,
 		pathActive: PATH.Home,
 		icon: ElementEqual,
+	},
+	{
+		title: 'Quản lý dự án',
+		path: PATH.Project,
+		pathActive: PATH.Project,
+		icon: DocumentText1,
+	},
+	{
+		title: 'Báo cáo công việc',
+		path: PATH.ReportWork,
+		pathActive: PATH.ReportWork,
+		icon: DocumentForward,
+	},
+	{
+		title: 'Báo cáo giải ngân',
+		path: PATH.ReportDisbursement,
+		pathActive: PATH.ReportDisbursement,
+		icon: Moneys,
+	},
+	{
+		title: 'Công việc nhân viên',
+		path: PATH.WorkUser,
+		pathActive: PATH.WorkUser,
+		icon: Note,
+	},
+	{
+		title: 'Quản lý nhân viên',
+		path: PATH.User,
+		pathActive: PATH.User,
+		icon: People,
+	},
+	{
+		title: 'Báo cáo tổng hợp',
+		path: PATH.ReportSummary,
+		pathActive: PATH.ReportSummary,
+		icon: ArchiveBook,
 	},
 ];
 

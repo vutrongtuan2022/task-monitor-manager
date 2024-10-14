@@ -1,5 +1,5 @@
 import {toast} from 'react-toastify';
-import IconCustom from './IconCustom/IconCustom';
+import IconToastifyCustom from '~/components/common/IconToastifyCustom';
 
 export const toastText = ({msg}: {msg: string}) =>
 	toast.info(msg, {
@@ -8,7 +8,7 @@ export const toastText = ({msg}: {msg: string}) =>
 		hideProgressBar: true,
 		closeButton: false,
 		className: 'toastify-custom',
-		icon: IconCustom('info'),
+		icon: IconToastifyCustom({type: 'info'}),
 	});
 
 export const toastSuccess = ({msg}: {msg: string}) =>
@@ -18,7 +18,7 @@ export const toastSuccess = ({msg}: {msg: string}) =>
 		position: 'top-center',
 		closeButton: true,
 		className: 'toastify-custom-success',
-		icon: IconCustom('success'),
+		icon: IconToastifyCustom({type: 'success'}),
 	});
 
 export const toastInfo = ({msg}: {msg: string}) =>
@@ -28,8 +28,9 @@ export const toastInfo = ({msg}: {msg: string}) =>
 		position: 'top-center',
 		closeButton: true,
 		className: 'toastify-custom-info',
-		icon: IconCustom('info'),
+		icon: IconToastifyCustom({type: 'info'}),
 	});
+
 export const toastWarn = ({msg}: {msg: string}) =>
 	toast.warning(msg, {
 		autoClose: 2000,
@@ -37,8 +38,9 @@ export const toastWarn = ({msg}: {msg: string}) =>
 		position: 'top-center',
 		closeButton: true,
 		className: 'toastify-custom-warn',
-		icon: IconCustom('warn'),
+		icon: IconToastifyCustom({type: 'warn'}),
 	});
+
 export const toastError = ({msg}: {msg: string}) =>
 	toast.error(msg, {
 		autoClose: 2000,
@@ -46,5 +48,5 @@ export const toastError = ({msg}: {msg: string}) =>
 		position: 'top-center',
 		closeButton: true,
 		className: 'toastify-custom-error',
-		icon: IconCustom('error'),
+		icon: IconToastifyCustom({type: 'error'}),
 	});

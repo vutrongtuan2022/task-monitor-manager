@@ -1,4 +1,12 @@
 .container {
-	flex: 1;
+	max-height: 100%;
+	display: flex;
+	flex-direction: column;
 	overflow: auto;
+
+	&.isWrappreTable {
+		padding: 8px 10px;
+		background: #fff;
+		border-radius: 8px;
+	}
 }

@@ -8,6 +8,7 @@ import bell from '../../../public/static/images/bell.svg';
 import avatar from '../../../public/static/images/avatar-default.png';
 import question from '../../../public/static/images/question.svg';
 import empty from '../../../public/static/images/icon-empty.svg';
+import success from '../../../public/static/images/success.svg';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
@@ -21,4 +22,5 @@ export default {
 	avatar,
 	question,
 	empty,
+	success,
 };

@@ -9,7 +9,7 @@ import RequireAuth from '~/components/protected/RequiredAuth';
 
 export const ContextBaseLayout = createContext<TContextBaseLayout>({});
 
-function BaseLayout({children, title, isAction}: PropsBaseLayout) {
+function BaseLayout({children, title, isImport, isExport}: PropsBaseLayout) {
 	const [showFull, setShowFull] = useState(true);
 
 	return (
@@ -20,7 +20,7 @@ function BaseLayout({children, title, isAction}: PropsBaseLayout) {
 						<MenuTab />
 					</div>
 					<div className={styles.wrapper}>
-						<Header isAction={isAction} title={title} />
+						<Header isImport={isImport} isExport={isExport} title={title} />
 						<div className={styles.main}>{children}</div>
 					</div>
 				</div>

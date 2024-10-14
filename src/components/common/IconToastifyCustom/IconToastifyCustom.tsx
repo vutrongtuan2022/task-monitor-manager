@@ -1,10 +1,11 @@
-import styles from './IconCustom.module.scss';
+import styles from './IconToastifyCustom.module.scss';
 import {FaCheckCircle} from 'react-icons/fa';
 import clsx from 'clsx';
 import {MdOutlineVerified} from 'react-icons/md';
 import {PiWarningCircle} from 'react-icons/pi';
+import {PropsIconToastifyCustom} from './interfaces';
 
-function IconCustom(type: 'success' | 'info' | 'warn' | 'error') {
+function IconToastifyCustom({type}: PropsIconToastifyCustom) {
 	return (
 		<div
 			className={clsx(
@@ -41,4 +42,4 @@ function IconCustom(type: 'success' | 'info' | 'warn' | 'error') {
 	);
 }
 
-export default IconCustom;
+export default IconToastifyCustom;
