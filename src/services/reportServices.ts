@@ -18,6 +18,16 @@ const reportServices = {
 			cancelToken: tokenAxios,
 		});
 	},
+	detailReport: (
+		data: {
+			uuid: string;
+		},
+		tokenAxios?: any
+	) => {
+		return axiosClient.post(`/Report/user-get-report-detail`, data, {
+			cancelToken: tokenAxios,
+		});
+	},
 };
 
 export default reportServices;

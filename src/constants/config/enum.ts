@@ -21,6 +21,7 @@ export enum QUERY_KEY {
 	detail_project,
 	detail_project_fund,
 	detail_user,
+	detail_report_work,
 	detail_progress_fund_project,
 	detail_contractor_project,
 	detail_progress_project,

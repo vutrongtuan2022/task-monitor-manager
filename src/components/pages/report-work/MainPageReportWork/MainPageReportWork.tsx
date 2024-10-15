@@ -19,6 +19,7 @@ import IconCustom from '~/components/common/IconCustom';
 import {CloseCircle, Eye, TickCircle} from 'iconsax-react';
 import Moment from 'react-moment';
 import reportServices from '~/services/reportServices';
+import {PATH} from '~/constants/config';
 
 function MainPageReportWork({}: PropsMainPageReportWork) {
 	const router = useRouter();
@@ -241,7 +242,12 @@ function MainPageReportWork({}: PropsMainPageReportWork) {
 												/>
 											</>
 										)}
-										<IconCustom color='#005994' icon={<Eye fontSize={20} fontWeight={600} />} tooltip='Xem chi tiết' />
+										<IconCustom
+											color='#005994'
+											icon={<Eye fontSize={20} fontWeight={600} />}
+											tooltip='Xem chi tiết'
+											href={`${PATH.ReportWork}/${data?.uuid}`}
+										/>
 									</div>
 								),
 							},
