@@ -95,6 +95,10 @@ function MainPageReportWork({}: PropsMainPageReportWork) {
 									id: STATE_REPORT.PENDING_APPROVAL,
 									name: 'Chưa xử lý',
 								},
+								{
+									id: STATE_REPORT.IN_PROGRESS,
+									name: 'Đang thực hiện',
+								},
 							]}
 						/>
 					</div>
@@ -185,6 +189,12 @@ function MainPageReportWork({}: PropsMainPageReportWork) {
 												text: 'Chưa xử lý',
 												textColor: '#fff',
 												backgroundColor: '#5B70B3',
+											},
+											{
+												state: STATE_REPORT.IN_PROGRESS,
+												text: 'Đang thực hiện',
+												textColor: '#fff',
+												backgroundColor: '#F69E51',
 											},
 										]}
 									/>
