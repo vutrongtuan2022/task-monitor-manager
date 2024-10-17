@@ -45,3 +45,31 @@
 		text-decoration: underline;
 	}
 }
+
+.main_popup {
+	width: 600px;
+	border-radius: 20px;
+	background: #fff;
+	box-shadow: 0px 3px 46px 0px rgba(175, 190, 211, 0.2);
+}
+
+.head_popup {
+	padding: 24px;
+	color: #2f3d50;
+	font-size: 26px;
+	font-weight: 700;
+}
+
+.form_poup {
+	background: #f4f5f6;
+	padding: 24px;
+	border-radius: 0 0 20px 20px;
+}
+
+.group_button {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 10px;
+	margin-top: 12px;
+}

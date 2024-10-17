@@ -301,7 +301,7 @@ function MainPageReportDisbursement({}: PropsMainPageReportDisbursement) {
 						<div className={styles.head_popup}>
 							<h4>Xác nhận từ chối duyệt báo cáo giải ngân</h4>
 						</div>
-						<div className={styles.form}>
+						<div className={styles.form_poup}>
 							<TextArea name='feedback' placeholder='Nhập lý do từ chối' label='Lý do từ chối' />
 							<div className={styles.group_button}>
 								<div>

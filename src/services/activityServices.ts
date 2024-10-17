@@ -10,6 +10,7 @@ const activityServices = {
 			projectUuid: string;
 			activityType: number | null;
 			state: number | null;
+			deadLine: number | null;
 		},
 		tokenAxios?: any
 	) => {
@@ -31,6 +32,36 @@ const activityServices = {
 		tokenAxios?: any
 	) => {
 		return axiosClient.post(`/Activity/get-page-activities-for-action`, data, {
+			cancelToken: tokenAxios,
+		});
+	},
+	listActyvityLastMonth: (
+		data: {
+			pageSize: number;
+			page: number;
+			keyword: string;
+			status: number | null;
+			state: number | null;
+			uuid: string;
+		},
+		tokenAxios?: any
+	) => {
+		return axiosClient.post(`/Activity/get-page-list-user-activity-last-month`, data, {
+			cancelToken: tokenAxios,
+		});
+	},
+	listActyvityInReport: (
+		data: {
+			pageSize: number;
+			page: number;
+			keyword: string;
+			status: number | null;
+			state: number | null;
+			uuid: string;
+		},
+		tokenAxios?: any
+	) => {
+		return axiosClient.post(`/Activity/get-page-activity-in-report`, data, {
 			cancelToken: tokenAxios,
 		});
 	},

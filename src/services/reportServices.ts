@@ -28,6 +28,18 @@ const reportServices = {
 			cancelToken: tokenAxios,
 		});
 	},
+	approveReport: (
+		data: {
+			uuid: string;
+			note: string;
+			isApprove: number;
+		},
+		tokenAxios?: any
+	) => {
+		return axiosClient.post(`/Report/approve-report`, data, {
+			cancelToken: tokenAxios,
+		});
+	},
 };
 
 export default reportServices;

@@ -32,13 +32,14 @@ export interface IActivitiProject {
 	status: number;
 	megatype: string;
 	reporter: {
+		fullname: string;
 		code: string;
-		name: string;
-		state: number;
 		uuid: string;
 	};
 	activityType: number;
 	deadline: string;
 	deadlineStage: number;
 	uuid: string;
+	isWorkFlow: number;
+	digitalization: number;
 }

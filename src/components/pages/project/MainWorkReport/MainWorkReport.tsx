@@ -16,7 +16,7 @@ import Table from '~/components/common/Table';
 import StateActive from '~/components/common/StateActive';
 import Breadcrumb from '~/components/common/Breadcrumb';
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
-import {QUERY_KEY, STATE_PROJECT, STATE_WORK_PROJECT, STATUS_WORK_PROJECT, TYPE_OF_WORK} from '~/constants/config/enum';
+import {QUERY_KEY, STATE_PROJECT, STATE_WORK_PROJECT, STATUS_CONFIG, STATUS_WORK_PROJECT, TYPE_OF_WORK} from '~/constants/config/enum';
 import {httpRequest} from '~/services';
 import Dialog from '~/components/common/Dialog';
 import icons from '~/constants/images/icons';
@@ -29,7 +29,7 @@ function MainWorkReport({}: PropsMainWorkReport) {
 	const router = useRouter();
 	const queryClient = useQueryClient();
 
-	const {_uuid, _page, _pageSize, _keyword, _state, _status, _activityType} = router.query;
+	const {_uuid, _page, _pageSize, _keyword, _state, _activityType, _deadLine} = router.query;
 
 	const [openDelete, setOpenDelete] = useState<boolean>(false);
 	const [openStart, setOpenStart] = useState<boolean>(false);
@@ -49,7 +49,7 @@ function MainWorkReport({}: PropsMainWorkReport) {
 	});
 
 	const {data: listActivityProject, isLoading} = useQuery(
-		[QUERY_KEY.table_list_activity_project, _uuid, _page, _pageSize, _keyword, _state, _status, _activityType],
+		[QUERY_KEY.table_list_activity_project, _uuid, _page, _pageSize, _keyword, _state, _activityType, _deadLine],
 		{
 			queryFn: () =>
 				httpRequest({
@@ -59,8 +59,9 @@ function MainWorkReport({}: PropsMainWorkReport) {
 						projectUuid: _uuid as string,
 						keyword: _keyword as string,
 						state: !!_state ? Number(_state) : null,
-						status: !!_status ? Number(_status) : null,
+						status: STATUS_CONFIG.ACTIVE,
 						activityType: !!_activityType ? Number(_activityType) : null,
+						deadLine: !!_deadLine ? Number(_deadLine) : null,
 					}),
 				}),
 			select(data) {
@@ -277,7 +278,7 @@ function MainWorkReport({}: PropsMainWorkReport) {
 									<FilterCustom
 										isSearch
 										name='Tình trạng'
-										query='_status'
+										query='_deadLine'
 										listFilter={[
 											{
 												id: STATUS_WORK_PROJECT.NOT_DONE,
@@ -324,8 +325,8 @@ function MainWorkReport({}: PropsMainWorkReport) {
 									{
 										title: 'Tên công việc',
 										render: (data: IActivitiProject) => (
-											<Tippy content={data?.categoryTask?.name}>
-												<p className={styles.name}>{data?.categoryTask?.name || ''}</p>
+											<Tippy content={data?.name || '---'}>
+												<p className={styles.name}>{data?.name || ''}</p>
 											</Tippy>
 										),
 									},
@@ -333,6 +334,7 @@ function MainWorkReport({}: PropsMainWorkReport) {
 										title: 'Giai đoạn thực hiện',
 										render: (data: IActivitiProject) => (
 											<>
+												{!data?.stage && '---'}
 												{data?.stage == 1 && 'Giai đoạn chuẩn bị đầu tư'}
 												{data?.stage == 2 && 'Giai đoạn thực hiện đầu tư'}
 												{data?.stage == 3 && 'Giai đoạn kết thúc đầu tư'}
@@ -341,7 +343,7 @@ function MainWorkReport({}: PropsMainWorkReport) {
 									},
 									{
 										title: 'Megatype',
-										render: (data: IActivitiProject) => <>{data?.megatype || ''}</>,
+										render: (data: IActivitiProject) => <>{data?.megatype || '---'}</>,
 									},
 									{
 										title: 'Loại công việc',
@@ -354,7 +356,7 @@ function MainWorkReport({}: PropsMainWorkReport) {
 									},
 									{
 										title: 'Người báo cáo',
-										render: (data: IActivitiProject) => <>{data?.reporter?.name || '---'}</>,
+										render: (data: IActivitiProject) => <>{data?.reporter?.fullname || '---'}</>,
 									},
 									{
 										title: 'Trạng thái',
@@ -389,7 +391,7 @@ function MainWorkReport({}: PropsMainWorkReport) {
 										render: (data: IActivitiProject) => (
 											<StateActive
 												isBox={false}
-												stateActive={data?.status}
+												stateActive={data?.deadlineStage}
 												listState={[
 													{
 														state: STATUS_WORK_PROJECT.NOT_DONE,
@@ -420,7 +422,7 @@ function MainWorkReport({}: PropsMainWorkReport) {
 							currentPage={Number(_page) || 1}
 							pageSize={Number(_pageSize) || 20}
 							total={listActivityProject?.pagination?.totalCount || 0}
-							dependencies={[_uuid, _pageSize, _keyword, _state, _status, _activityType]}
+							dependencies={[_uuid, _pageSize, _keyword, _state, _activityType, _deadLine]}
 						/>
 					</div>
 				</div>

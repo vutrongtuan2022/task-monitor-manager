@@ -1,6 +1,6 @@
-export interface PropsMainDetailReportWork {}
+export interface PropsDisbursementReportOverview {}
 
-export interface IDetailReportWork {
+export interface IDisbursementReportOverview {
 	project: {
 		code: string;
 		name: string;
@@ -21,8 +21,8 @@ export interface IDetailReportWork {
 		uuid: string;
 	};
 	approved: number;
-	note: string;
-	feedback: string;
 	status: number;
 	uuid: string;
+	note: string;
+	feedback: string;
 }

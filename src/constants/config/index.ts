@@ -40,7 +40,7 @@ export enum PATH {
 
 	User = '/user',
 
-	ReportSummary = '/report-summary',
+	ReportOverview = '/report-overview',
 }
 
 export const Menu: {
@@ -87,8 +87,8 @@ export const Menu: {
 	},
 	{
 		title: 'Báo cáo tổng hợp',
-		path: PATH.ReportSummary,
-		pathActive: PATH.ReportSummary,
+		path: PATH.ReportOverview,
+		pathActive: PATH.ReportOverview,
 		icon: ArchiveBook,
 	},
 ];

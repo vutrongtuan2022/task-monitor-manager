@@ -1,9 +1,9 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import {IReportWork, PropsMainPageReportWork} from './interfaces';
 import styles from './MainPageReportWork.module.scss';
 import {useRouter} from 'next/router';
-import {useQuery} from '@tanstack/react-query';
+import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import {QUERY_KEY, STATE_COMPLETE_REPORT, STATE_REPORT, STATUS_CONFIG} from '~/constants/config/enum';
 import {httpRequest} from '~/services';
 import Search from '~/components/common/Search';
@@ -20,14 +20,28 @@ import {CloseCircle, Eye, TickCircle} from 'iconsax-react';
 import Moment from 'react-moment';
 import reportServices from '~/services/reportServices';
 import {PATH} from '~/constants/config';
+import Form from '~/components/common/Form';
+import Dialog from '~/components/common/Dialog';
+import icons from '~/constants/images/icons';
+import Popup from '~/components/common/Popup';
+import TextArea from '~/components/common/Form/components/TextArea';
+import Button from '~/components/common/Button';
+import Loading from '~/components/common/Loading';
 
 function MainPageReportWork({}: PropsMainPageReportWork) {
 	const router = useRouter();
+	const queryClient = useQueryClient();
 
 	const years = generateYearsArray();
 	const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
 	const {_page, _pageSize, _keyword, _year, _month, _state, _completeState} = router.query;
+
+	const [uuidConfirm, setUuidConfirm] = useState<string>('');
+	const [uuidCancel, setUuidCancel] = useState<string>('');
+	const [form, setForm] = useState<{note: string}>({
+		note: '',
+	});
 
 	const listReportWork = useQuery([QUERY_KEY.table_list_report_work, _page, _pageSize, _keyword, _year, _month, _state, _completeState], {
 		queryFn: () =>
@@ -48,8 +62,51 @@ function MainPageReportWork({}: PropsMainPageReportWork) {
 		},
 	});
 
+	const funcConfirm = useMutation({
+		mutationFn: () => {
+			return httpRequest({
+				showMessageFailed: true,
+				showMessageSuccess: true,
+				msgSuccess: 'Duyệt báo cáo thành công!',
+				http: reportServices.approveReport({
+					uuid: uuidConfirm,
+					isApprove: 1,
+					note: '',
+				}),
+			});
+		},
+		onSuccess(data) {
+			if (data) {
+				setUuidConfirm('');
+				queryClient.invalidateQueries([QUERY_KEY.table_list_report_work]);
+			}
+		},
+	});
+
+	const funcCancel = useMutation({
+		mutationFn: () => {
+			return httpRequest({
+				showMessageFailed: true,
+				showMessageSuccess: true,
+				msgSuccess: 'Từ chối báo cáo thành công!',
+				http: reportServices.approveReport({
+					uuid: uuidCancel,
+					isApprove: 0,
+					note: form.note,
+				}),
+			});
+		},
+		onSuccess(data) {
+			if (data) {
+				setUuidCancel('');
+				queryClient.invalidateQueries([QUERY_KEY.table_list_report_work]);
+			}
+		},
+	});
+
 	return (
 		<div className={styles.container}>
+			<Loading loading={funcConfirm.isLoading || funcCancel.isLoading} />
 			<div className={styles.head}>
 				<div className={styles.main_search}>
 					<div className={styles.search}>
@@ -240,15 +297,13 @@ function MainPageReportWork({}: PropsMainPageReportWork) {
 													color='#06D7A0'
 													icon={<TickCircle fontSize={20} fontWeight={600} />}
 													tooltip='Duyệt báo cáo'
-													// disnable={data?.state == STATE_PROJECT.FINISH}
-													// href={`${PATH.UpdateInfoProject}?_uuid=${data?.uuid}`}
+													onClick={() => setUuidConfirm(data?.uuid)}
 												/>
 												<IconCustom
 													color='#EE464C'
 													icon={<CloseCircle fontSize={20} fontWeight={600} />}
 													tooltip='Từ chối báo cáo'
-													// disnable={data?.state == STATE_PROJECT.FINISH}
-													// href={`${PATH.UpdateInfoProject}?_uuid=${data?.uuid}`}
+													onClick={() => setUuidCancel(data?.uuid)}
 												/>
 											</>
 										)}
@@ -271,6 +326,41 @@ function MainPageReportWork({}: PropsMainPageReportWork) {
 					dependencies={[_pageSize, _keyword, _year, _month, _state, _completeState]}
 				/>
 			</WrapperScrollbar>
+
+			<Dialog
+				type='primary'
+				open={!!uuidConfirm}
+				icon={icons.success}
+				onClose={() => setUuidConfirm('')}
+				title={'Duyệt báo cáo'}
+				note={'Bạn có chắc chắn muốn duyệt báo cáo này không?'}
+				onSubmit={funcConfirm.mutate}
+			/>
+
+			<Form form={form} setForm={setForm}>
+				<Popup open={!!uuidCancel} onClose={() => setUuidCancel('')}>
+					<div className={styles.main_popup}>
+						<div className={styles.head_popup}>
+							<h4>Xác nhận từ chối duyệt báo cáo</h4>
+						</div>
+						<div className={styles.form_poup}>
+							<TextArea name='note' placeholder='Nhập lý do từ chối' label='Lý do từ chối' />
+							<div className={styles.group_button}>
+								<div>
+									<Button p_12_20 grey rounded_6 onClick={() => setUuidCancel('')}>
+										Hủy bỏ
+									</Button>
+								</div>
+								<div className={styles.btn}>
+									<Button disable={!form.note} p_12_20 error rounded_6 onClick={funcCancel.mutate}>
+										Xác nhận
+									</Button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</Popup>
+			</Form>
 		</div>
 	);
 }
