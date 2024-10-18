@@ -1,0 +1,151 @@
+@import '../../../../styles/variables';
+
+.container {
+	position: relative;
+	width: 540px;
+	height: 100vh;
+	background: #fff;
+
+	display: flex;
+	flex-direction: column;
+}
+
+.title {
+	color: #2f3d50;
+	font-size: 24px;
+	font-weight: 600;
+	padding: 24px;
+}
+
+.form {
+	flex: 1;
+	overflow: auto;
+	background: #f4f5f6;
+	border-radius: 16px;
+	padding: 24px;
+}
+
+.note {
+	margin-top: 24px;
+}
+
+.group_button {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 10px;
+	padding: 24px;
+}
+
+.close {
+	cursor: pointer;
+	user-select: none;
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	transition: 0.3s;
+
+	&:active {
+		transform: scale(0.9);
+	}
+}
+
+.mt {
+	margin-top: 16px;
+}
+
+.gennder {
+	margin-top: 16px;
+
+	.group_radio {
+		margin-top: 8px;
+		display: flex;
+		align-items: center;
+		gap: 24px;
+	}
+
+	.input_radio {
+		appearance: none;
+		border-radius: 50%;
+		width: 20px;
+		height: 20px;
+		position: relative;
+		cursor: pointer;
+		border: 2px solid #777e90;
+	}
+
+	.input_radio:checked {
+		background-color: inherit;
+		border: 2px solid #3772ff;
+	}
+
+	.input_radio:checked::before {
+		content: '';
+		display: block;
+		width: 11px;
+		height: 11px;
+		background-color: #3772ff;
+		border: 1px solid #3772ff;
+		border-radius: 50%;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+
+	.input_lable {
+		display: block;
+		color: var(--dark-2);
+		font-size: 14px;
+		font-weight: 500;
+		margin-bottom: 0;
+		cursor: pointer;
+		user-select: none;
+	}
+
+	.item_radio {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+	}
+}
+
+@media (max-width: $widthTablet) {
+	.title {
+		padding: 20px;
+	}
+
+	.form {
+		padding: 20px;
+	}
+
+	.mt {
+		margin-top: 20px;
+	}
+
+	.group_button {
+		padding: 20px;
+	}
+}
+
+@media (max-width: $widthMobile) {
+	.container {
+		width: 100vw;
+	}
+
+	.title {
+		padding: 16px;
+	}
+
+	.form {
+		padding: 16px;
+	}
+
+	.mt {
+		margin-top: 16px;
+	}
+
+	.group_button {
+		padding: 16px;
+	}
+}

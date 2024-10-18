@@ -38,6 +38,26 @@ const userServices = {
 			cancelToken: tokenAxios,
 		});
 	},
+	upsertUser: (
+		data: {
+			uuid: string;
+			fullName: string;
+			email: string;
+			gender: number;
+			phone: string;
+			birthday: string | null;
+			address: string;
+			matp: string;
+			maqh: string;
+			xaid: string;
+			note: string;
+		},
+		tokenAxios?: any
+	) => {
+		return axiosClient.post(`/User/upsert-user`, data, {
+			cancelToken: tokenAxios,
+		});
+	},
 };
 
 export default userServices;
