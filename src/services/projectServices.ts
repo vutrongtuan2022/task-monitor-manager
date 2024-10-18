@@ -50,9 +50,9 @@ const projectServices = {
 			realBudget: number;
 			totalInvest: number;
 			reserveBudget: number;
-			expectStart: string;
-			expectEnd: string;
-			realStart: string;
+			expectStart: string | null;
+			expectEnd: string | null;
+			realStart: string | null;
 			matp: string;
 			maqh: string;
 			xaid: string;
@@ -130,9 +130,9 @@ const projectServices = {
 			type: number;
 			employeeUuid: string[];
 			managerUuid: string;
-			expectStart: string;
-			expectEnd: string;
-			realStart: string;
+			expectStart: string | null;
+			expectEnd: string | null;
+			realStart: string | null;
 			matp: string;
 			maqh: string;
 			xaid: string;
