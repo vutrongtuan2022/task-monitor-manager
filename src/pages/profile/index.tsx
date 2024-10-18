@@ -2,7 +2,6 @@ import Head from 'next/head';
 import {Fragment, ReactElement} from 'react';
 import BaseLayout from '~/components/layouts/BaseLayout';
 import MainPageProfile from '~/components/pages/profile/MainPageProfile';
-import MainPageReportDisbursement from '~/components/pages/report-disbursement/MainPageReportDisbursement';
 
 export default function Page() {
 	return (

@@ -25,7 +25,6 @@ const accountServices = {
 			cancelToken: tokenAxios,
 		});
 	},
-
 	changePassword: (data: {uuid: string; oldPassword: string; newPassword: string}, tokenAxios?: any) => {
 		return axiosClient.post(`/Account/change-pass`, data, {
 			cancelToken: tokenAxios,

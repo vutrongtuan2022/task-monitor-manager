@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-import styles from './UpdateUser.module.scss';
+import styles from './UpdateProfile.module.scss';
 import Form, {FormContext, Input} from '~/components/common/Form';
 import {IoClose} from 'react-icons/io5';
 import Button from '~/components/common/Button';
@@ -13,7 +13,7 @@ import provineServices from '~/services/provineServices';
 import Loading from '~/components/common/Loading';
 import {FolderOpen} from 'iconsax-react';
 import TextArea from '~/components/common/Form/components/TextArea';
-import {IUpdateUser, PropsUpdateUser} from './interfaces';
+import {IUpdateProfile, PropsUpdateProfile} from './interfaces';
 import DatePicker from '~/components/common/DatePicker';
 import {timeSubmit} from '~/common/funcs/optionConvert';
 import {toastWarn} from '~/common/funcs/toast';
@@ -22,12 +22,12 @@ import {RootState, store} from '~/redux/store';
 import moment from 'moment';
 import {setInfoUser} from '~/redux/reducer/user';
 
-function UpdateUser({onClose}: PropsUpdateUser) {
+function UpdateProfile({onClose}: PropsUpdateProfile) {
 	const queryClient = useQueryClient();
 
 	const {infoUser} = useSelector((state: RootState) => state.user);
 
-	const [form, setForm] = useState<IUpdateUser>({
+	const [form, setForm] = useState<IUpdateProfile>({
 		uuid: '',
 		fullName: '',
 		email: '',
@@ -41,7 +41,7 @@ function UpdateUser({onClose}: PropsUpdateUser) {
 		note: '',
 	});
 
-	useQuery([QUERY_KEY.detail_user], {
+	useQuery([QUERY_KEY.detail_profile_update], {
 		queryFn: () =>
 			httpRequest({
 				http: userServices.detailUser({
@@ -67,45 +67,6 @@ function UpdateUser({onClose}: PropsUpdateUser) {
 			return data;
 		},
 		enabled: !!infoUser?.userUuid,
-	});
-
-	const funcCreateUser = useMutation({
-		mutationFn: () => {
-			return httpRequest({
-				showMessageFailed: true,
-				showMessageSuccess: true,
-				msgSuccess: 'Chỉnh sửa thông tin thành công!',
-				http: userServices.upsertUser({
-					uuid: form.uuid,
-					fullName: form.fullName,
-					email: form.email,
-					gender: form.gender,
-					phone: form.phone,
-					birthday: form.birthday ? moment(form.birthday).format('YYYY-MM-DD') : '',
-					address: form.address,
-					matp: form.matp,
-					maqh: form.maqh,
-					xaid: form.xaid,
-					note: form.note,
-				}),
-			});
-		},
-		onSuccess(data) {
-			if (data) {
-				onClose();
-				store.dispatch(
-					setInfoUser({
-						uuid: infoUser?.uuid!,
-						userName: infoUser?.userName!,
-						userUuid: infoUser?.userUuid!,
-						avatar: infoUser?.avatar!,
-						regencyUuid: infoUser?.regencyUuid!,
-						fullname: form?.fullName,
-					})
-				);
-				queryClient.invalidateQueries([QUERY_KEY.detail_profile]);
-			}
-		},
 	});
 
 	const listProvince = useQuery([QUERY_KEY.dropdown_province], {
@@ -148,6 +109,43 @@ function UpdateUser({onClose}: PropsUpdateUser) {
 		enabled: !!form?.maqh,
 	});
 
+	const funcUpdateProfile = useMutation({
+		mutationFn: () => {
+			return httpRequest({
+				showMessageFailed: true,
+				showMessageSuccess: true,
+				msgSuccess: 'Chỉnh sửa thông tin thành công!',
+				http: userServices.upsertUser({
+					uuid: form.uuid,
+					fullName: form.fullName,
+					email: form.email,
+					gender: form.gender,
+					phone: form.phone,
+					birthday: form.birthday ? moment(form.birthday).format('YYYY-MM-DD') : '',
+					address: form.address,
+					matp: form.matp,
+					maqh: form.maqh,
+					xaid: form.xaid,
+					note: form.note,
+				}),
+			});
+		},
+		onSuccess(data) {
+			if (data) {
+				onClose();
+				store.dispatch(
+					setInfoUser({
+						uuid: infoUser?.uuid!,
+						userName: infoUser?.userName!,
+						userUuid: infoUser?.userUuid!,
+						fullname: form?.fullName,
+					})
+				);
+				queryClient.invalidateQueries([QUERY_KEY.detail_profile]);
+			}
+		},
+	});
+
 	const handleSubmit = async () => {
 		const today = new Date(timeSubmit(new Date())!);
 		const birthday = form.birthday ? new Date(form.birthday) : null;
@@ -157,12 +155,12 @@ function UpdateUser({onClose}: PropsUpdateUser) {
 		if (!birthday || today < birthday) {
 			return toastWarn({msg: 'Ngày sinh không hợp lệ!'});
 		}
-		return funcCreateUser.mutate();
+		return funcUpdateProfile.mutate();
 	};
 
 	return (
 		<Form form={form} setForm={setForm} onSubmit={handleSubmit}>
-			<Loading loading={funcCreateUser.isLoading} />
+			<Loading loading={funcUpdateProfile.isLoading} />
 			<div className={styles.container}>
 				<h4 className={styles.title}>Chỉnh sửa thông tin</h4>
 				<div className={styles.form}>
@@ -207,8 +205,6 @@ function UpdateUser({onClose}: PropsUpdateUser) {
 							</span>
 						}
 					/>
-
-					{/* <Input placeholder='Nhập ngày sinh' name='birthday' type='date' value={form.birthday} label={<span>Ngày sinh</span>} /> */}
 					<div className={styles.mt}>
 						<DatePicker
 							onClean={true}
@@ -389,4 +385,4 @@ function UpdateUser({onClose}: PropsUpdateUser) {
 	);
 }
 
-export default UpdateUser;
+export default UpdateProfile;

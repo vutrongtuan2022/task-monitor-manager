@@ -16,6 +16,7 @@ import {IoClose} from 'react-icons/io5';
 
 function FormChangePassword({onClose}: PropsFormChangePassword) {
 	const {infoUser} = useSelector((state: RootState) => state.user);
+
 	const [form, setForm] = useState<{
 		oldpassword: string;
 		newpassword: string;
@@ -29,7 +30,7 @@ function FormChangePassword({onClose}: PropsFormChangePassword) {
 			httpRequest({
 				showMessageFailed: true,
 				showMessageSuccess: true,
-				msgSuccess: 'Chỉnh sửa mật khẩu thành công',
+				msgSuccess: 'Thay đổi mật khẩu thành công!',
 				http: accountServices.changePassword({
 					uuid: infoUser?.uuid as string,
 					oldPassword: md5(`${form?.oldpassword}${process.env.NEXT_PUBLIC_KEY_PASS}`),

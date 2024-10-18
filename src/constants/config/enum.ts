@@ -37,6 +37,7 @@ export enum QUERY_KEY {
 	detail_report_overview,
 	detail_project_report_overview,
 	detail_profile,
+	detail_profile_update,
 }
 
 export enum TYPE_DATE {

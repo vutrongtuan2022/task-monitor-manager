@@ -5,20 +5,16 @@ import styles from './MainPageProfile.module.scss';
 import GridColumn from '~/components/layouts/GridColumn';
 import Button from '~/components/common/Button';
 import Breadcrumb from '~/components/common/Breadcrumb';
-import Loading from '~/components/common/Loading';
 import clsx from 'clsx';
-import {useSelector} from 'react-redux';
 import {useRouter} from 'next/router';
-import {RootState} from '~/redux/store';
 import {PATH} from '~/constants/config';
 import {useQuery} from '@tanstack/react-query';
 import {httpRequest} from '~/services';
-import userServices from '~/services/userServices';
 import {QUERY_KEY, TYPE_ACCOUNT, TYPE_GENDER} from '~/constants/config/enum';
 import StateActive from '~/components/common/StateActive';
 import accountServices from '~/services/accountServices';
 import PositionContainer from '~/components/common/PositionContainer';
-import UpdateUser from '../UpdateUser';
+import UpdateProfile from '../UpdateProfile';
 import Moment from 'react-moment';
 import Popup from '~/components/common/Popup';
 import FormChangePassword from '../FormChangePassword';
@@ -38,38 +34,8 @@ function MainPageProfile({}: PropsMainPageProfile) {
 		},
 	});
 
-	const handleOpenChangePassword = () => {
-		router.replace(
-			{
-				pathname: router.pathname,
-				query: {
-					...router.query,
-					_action: 'change-password',
-				},
-			},
-			undefined,
-			{shallow: true, scroll: false}
-		);
-	};
-
-	const handleClosePopup = () => {
-		const {_action, ...rest} = router.query;
-
-		router.replace(
-			{
-				pathname: router.pathname,
-				query: {
-					...rest,
-				},
-			},
-			undefined,
-			{shallow: true, scroll: false}
-		);
-	};
-
 	return (
 		<div className={styles.container}>
-			{/* <Loading loading={funcDeleteTaskCat.isLoading} /> */}
 			<Breadcrumb
 				listUrls={[
 					{path: PATH.Home, title: 'Trang chủ'},
@@ -77,7 +43,24 @@ function MainPageProfile({}: PropsMainPageProfile) {
 				]}
 				action={
 					<div className={styles.group_btn}>
-						<Button p_14_24 rounded_8 light-blue onClick={handleOpenChangePassword}>
+						<Button
+							p_14_24
+							rounded_8
+							light-blue
+							onClick={() =>
+								router.replace(
+									{
+										pathname: router.pathname,
+										query: {
+											...router.query,
+											_action: 'change-password',
+										},
+									},
+									undefined,
+									{shallow: true, scroll: false}
+								)
+							}
+						>
 							Đổi mật khẩu
 						</Button>
 						<Button
@@ -222,7 +205,7 @@ function MainPageProfile({}: PropsMainPageProfile) {
 					});
 				}}
 			>
-				<UpdateUser
+				<UpdateProfile
 					onClose={() => {
 						const {_action, ...rest} = router.query;
 
@@ -235,8 +218,40 @@ function MainPageProfile({}: PropsMainPageProfile) {
 					}}
 				/>
 			</PositionContainer>
-			<Popup open={_action == 'change-password'} onClose={handleClosePopup}>
-				<FormChangePassword onClose={handleClosePopup} />
+
+			<Popup
+				open={_action == 'change-password'}
+				onClose={() => {
+					const {_action, ...rest} = router.query;
+
+					router.replace(
+						{
+							pathname: router.pathname,
+							query: {
+								...rest,
+							},
+						},
+						undefined,
+						{shallow: true, scroll: false}
+					);
+				}}
+			>
+				<FormChangePassword
+					onClose={() => {
+						const {_action, ...rest} = router.query;
+
+						router.replace(
+							{
+								pathname: router.pathname,
+								query: {
+									...rest,
+								},
+							},
+							undefined,
+							{shallow: true, scroll: false}
+						);
+					}}
+				/>
 			</Popup>
 		</div>
 	);
