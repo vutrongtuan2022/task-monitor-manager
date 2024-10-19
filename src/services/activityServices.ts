@@ -65,6 +65,21 @@ const activityServices = {
 			cancelToken: tokenAxios,
 		});
 	},
+	listActivityLastMonth: (
+		data: {
+			pageSize: number;
+			page: number;
+			keyword: string;
+			status: number | null;
+			state: number | null;
+			uuid: string;
+		},
+		tokenAxios?: any
+	) => {
+		return axiosClient.post(`/Activity/get-page-list-user-activity-last-month`, data, {
+			cancelToken: tokenAxios,
+		});
+	},
 };
 
 export default activityServices;
