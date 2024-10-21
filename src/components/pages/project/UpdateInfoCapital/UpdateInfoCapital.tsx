@@ -108,7 +108,7 @@ function UpdateInfoCapital({}: PropsUpdateInfoCapital) {
 
 	const updateBudgetProject = () => {
 		if (form?.annual?.some((v) => !v?.budget || !v?.year)) {
-			return toastWarn({msg: 'Nhập đầy đủ kế hoạch vốn theo năm!'});
+			return toastWarn({msg: 'Nhập đầy đủ kế hoạch năm!'});
 		}
 
 		return funcUpdateBudgetProject.mutate();
@@ -239,10 +239,10 @@ function UpdateInfoCapital({}: PropsUpdateInfoCapital) {
 								<div className={clsx(styles.mt)}>
 									<GridColumn col_2>
 										<p className={styles.label}>
-											Kế hoạch vốn theo năm <span style={{color: 'red'}}>*</span>
+											Kế hoạch năm <span style={{color: 'red'}}>*</span>
 										</p>
 										<p className={styles.label}>
-											Số tiền <span style={{color: 'red'}}>*</span>
+											Kế hoạch vốn theo năm <span style={{color: 'red'}}>*</span>
 										</p>
 									</GridColumn>
 								</div>
@@ -269,7 +269,7 @@ function UpdateInfoCapital({}: PropsUpdateInfoCapital) {
 									<div>
 										<AddCircle size={20} />
 									</div>
-									<p>Thêm kế hoạch vốn theo năm</p>
+									<p>Thêm kế hoạch năm</p>
 								</div>
 							</div>
 						</div>
