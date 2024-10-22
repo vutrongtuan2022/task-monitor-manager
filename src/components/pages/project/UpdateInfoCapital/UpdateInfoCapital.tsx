@@ -107,8 +107,8 @@ function UpdateInfoCapital({}: PropsUpdateInfoCapital) {
 	});
 
 	const updateBudgetProject = () => {
-		if (form?.annual?.some((v) => !v?.budget || !v?.year)) {
-			return toastWarn({msg: 'Nhập đầy đủ kế hoạch năm!'});
+		if (form?.annual?.some((v) => price(v?.budget) == 0 || !v?.year)) {
+			return toastWarn({msg: 'Nhập đầy đủ kế hoạch vốn theo năm!'});
 		}
 
 		return funcUpdateBudgetProject.mutate();
@@ -204,11 +204,7 @@ function UpdateInfoCapital({}: PropsUpdateInfoCapital) {
 										/>
 									</div>
 									<Input
-										label={
-											<span>
-												Tổng dự toán <span style={{color: 'red'}}>*</span>
-											</span>
-										}
+										label={<span>Tổng dự toán</span>}
 										unit='VNĐ'
 										type='text'
 										placeholder='Nhập tổng dự toán'

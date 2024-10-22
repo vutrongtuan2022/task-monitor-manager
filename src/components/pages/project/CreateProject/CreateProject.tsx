@@ -461,11 +461,7 @@ function CreateProject({}: PropsCreateProject) {
 									unit='VND'
 								/>
 								<Input
-									label={
-										<span>
-											Tổng dự toán <span style={{color: 'red'}}>*</span>
-										</span>
-									}
+									label={<span>Tổng dự toán</span>}
 									type='text'
 									placeholder='Nhập tổng dự toán'
 									isMoney

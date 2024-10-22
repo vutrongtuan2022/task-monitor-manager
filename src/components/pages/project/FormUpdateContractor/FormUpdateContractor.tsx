@@ -208,10 +208,10 @@ function FormUpdateContractor({onClose}: PropsFormUpdateContractor) {
 						<DatePicker
 							onClean={true}
 							icon={true}
-							label={<span>Thời gian THHĐ</span>}
+							label={<span>Thời gian thực hiện hợp đồng</span>}
 							name='contractEndDate'
 							value={form.contractEndDate}
-							placeholder='Chọn thời gian THHĐ'
+							placeholder='Chọn thời gian thực hiện hợp đồng'
 							onSetValue={(date) =>
 								setForm((prev) => ({
 									...prev,
@@ -222,8 +222,8 @@ function FormUpdateContractor({onClose}: PropsFormUpdateContractor) {
 					</div>
 					<div className={styles.mt}>
 						<Input
-							label={<span>GTBLTHHĐ</span>}
-							placeholder='Nhập GTBLTHHĐ'
+							label={<span>Giá trị bảo lãnh thực hiện hợp đồng</span>}
+							placeholder='Nhập giá trị bảo lãnh thực hiện hợp đồng'
 							type='text'
 							isMoney
 							name='projectGuaranteeAmount'
@@ -235,10 +235,10 @@ function FormUpdateContractor({onClose}: PropsFormUpdateContractor) {
 						<DatePicker
 							onClean={true}
 							icon={true}
-							label={<span>NKTBLTHHĐ</span>}
+							label={<span>Ngày kết thúc bảo lãnh thực hiện hợp đồng</span>}
 							name='projectGuaranteeEndDate'
 							value={form.projectGuaranteeEndDate}
-							placeholder='Chọn NKTBLTHHĐ'
+							placeholder='Chọn ngày kết thúc bảo lãnh thực hiện hợp đồng'
 							onSetValue={(date) =>
 								setForm((prev) => ({
 									...prev,
@@ -249,8 +249,8 @@ function FormUpdateContractor({onClose}: PropsFormUpdateContractor) {
 					</div>
 					<div className={styles.mt}>
 						<Input
-							label={<span>Giá trị BLTƯ </span>}
-							placeholder='Nhập giá trị BLTƯ'
+							label={<span>Giá trị bảo lãnh tạm ứng </span>}
+							placeholder='Nhập giá trị bảo lãnh tạm ứng'
 							type='text'
 							isMoney
 							name='disbursementGuaranteeAmount'
@@ -262,10 +262,10 @@ function FormUpdateContractor({onClose}: PropsFormUpdateContractor) {
 						<DatePicker
 							onClean={true}
 							icon={true}
-							label={<span>Ngày kết thúc BLTƯ</span>}
+							label={<span>Ngày kết thúc bảo lãnh tạm ứng</span>}
 							name='disbursementGuaranteeEndDate'
 							value={form.disbursementGuaranteeEndDate}
-							placeholder='Chọn ngày kết thúc BLTƯ'
+							placeholder='Chọn ngày kết thúc bảo lãnh tạm ứng'
 							onSetValue={(date) =>
 								setForm((prev) => ({
 									...prev,
