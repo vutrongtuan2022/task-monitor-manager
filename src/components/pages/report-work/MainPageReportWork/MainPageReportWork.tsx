@@ -201,6 +201,10 @@ function MainPageReportWork({}: PropsMainPageReportWork) {
 								render: (data: IReportWork) => <>{data?.project?.name}</>,
 							},
 							{
+								title: 'Người báo cáo',
+								render: (data: IReportWork) => <>{data?.reporter?.fullname}</>,
+							},
+							{
 								title: 'Số công việc thực hiện',
 								render: (data: IReportWork) => (
 									<p>

@@ -217,7 +217,11 @@ function DetailReportWork({}: PropsDetailReportWork) {
 							<div className={styles.item}>
 								<p>Ngày gửi báo cáo</p>
 								<p>
-									<Moment date={detailReportWork?.completed} format='DD/MM/YYYY' />
+									{detailReportWork?.completed ? (
+										<Moment date={detailReportWork?.completed} format='DD/MM/YYYY' />
+									) : (
+										'---'
+									)}
 								</p>
 							</div>
 							<div className={styles.item}>
@@ -226,7 +230,7 @@ function DetailReportWork({}: PropsDetailReportWork) {
 							</div>
 							<div className={styles.item}>
 								<p>Lý do từ chối</p>
-								<p>{detailReportWork?.note || '---'}</p>
+								<p>{detailReportWork?.state === STATE_REPORT.REJECTED ? detailReportWork?.note : '---'}</p>
 							</div>
 						</GridColumn>
 					</div>
