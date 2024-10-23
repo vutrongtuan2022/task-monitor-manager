@@ -228,10 +228,12 @@ function DetailReportWork({}: PropsDetailReportWork) {
 								<p>Người gửi báo cáo</p>
 								<p>{detailReportWork?.reporter?.fullname}</p>
 							</div>
-							<div className={styles.item}>
-								<p>Lý do từ chối</p>
-								<p>{detailReportWork?.state === STATE_REPORT.REJECTED ? detailReportWork?.note : '---'}</p>
-							</div>
+							{detailReportWork?.state === STATE_REPORT.REJECTED && (
+								<div className={styles.item}>
+									<p>Lý do từ chối</p>
+									<p>{detailReportWork?.note || '---'}</p>
+								</div>
+							)}
 						</GridColumn>
 					</div>
 				</div>
