@@ -21,6 +21,7 @@ import Breadcrumb from '~/components/common/Breadcrumb';
 import icons from '~/constants/images/icons';
 import WrapperScrollbar from '~/components/layouts/WrapperScrollbar';
 import projectServices from '~/services/projectServices';
+import Tippy from '@tippyjs/react';
 
 function MainInfoProject({}: PropsMainInfoProject) {
 	const router = useRouter();
@@ -241,7 +242,21 @@ function MainInfoProject({}: PropsMainInfoProject) {
 											<p>Cán bộ chuyên quản</p>
 											<p>
 												{detailProject?.user?.[0]?.fullname}
-												<span className={styles.link}>và {detailProject?.user?.length! - 1} người khác</span>
+												{detailProject?.user?.length! > 1 && (
+													<Tippy
+														content={
+															<ol style={{paddingLeft: '16px'}}>
+																{[...detailProject?.user!]?.slice(1)?.map((v, i) => (
+																	<li key={i}>{v?.fullname}</li>
+																))}
+															</ol>
+														}
+													>
+														<span className={styles.link}>
+															và {detailProject?.user?.length! - 1} người khác
+														</span>
+													</Tippy>
+												)}
 											</p>
 										</div>
 										<div className={styles.item}>
