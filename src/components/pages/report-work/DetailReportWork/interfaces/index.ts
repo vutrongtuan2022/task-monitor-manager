@@ -24,4 +24,5 @@ export interface IDetailReportWork {
 	status: number;
 	uuid: string;
 	note: string;
+	rejectedReason: string;
 }
