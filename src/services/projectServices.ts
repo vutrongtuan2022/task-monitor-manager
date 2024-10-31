@@ -145,6 +145,17 @@ const projectServices = {
 			cancelToken: tokenAxios,
 		});
 	},
+	categoryProject: (
+		data: {
+			keyword: string;
+			status: number;
+		},
+		tokenAxios?: any
+	) => {
+		return axiosClient.post(`/Project/category-project`, data, {
+			cancelToken: tokenAxios,
+		});
+	},
 };
 
 export default projectServices;

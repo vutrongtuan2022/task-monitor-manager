@@ -4,7 +4,15 @@ import {IWorkUser, PropsMainPageWorkUser} from './interfaces';
 import styles from './MainPageWorkUser.module.scss';
 import Search from '~/components/common/Search';
 import FilterCustom from '~/components/common/FilterCustom';
-import {QUERY_KEY, STATE_COMPLETE_REPORT, STATE_REPORT_WORK, STATUS_CONFIG, TYPE_OF_WORK} from '~/constants/config/enum';
+import {
+	QUERY_KEY,
+	STATE_COMPLETE_REPORT,
+	STATE_REPORT_WORK,
+	STATUS_CONFIG,
+	TYPE_ACCOUNT,
+	TYPE_OF_WORK,
+	TYPE_WORK,
+} from '~/constants/config/enum';
 import {useRouter} from 'next/router';
 import WrapperScrollbar from '~/components/layouts/WrapperScrollbar';
 import {useQuery} from '@tanstack/react-query';
@@ -18,6 +26,8 @@ import Progress from '~/components/common/Progress';
 import StateActive from '~/components/common/StateActive';
 import {generateYearsArray} from '~/common/funcs/selectDate';
 import Tippy from '@tippyjs/react';
+import userServices from '~/services/userServices';
+import projectServices from '~/services/projectServices';
 
 function MainPageWorkUser({}: PropsMainPageWorkUser) {
 	const router = useRouter();
@@ -25,20 +35,16 @@ function MainPageWorkUser({}: PropsMainPageWorkUser) {
 	const years = generateYearsArray();
 	const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
-	const {_page, _pageSize, _keyword, _state, _year, _month, _type} = router.query;
+	const {_page, _pageSize, _keyword, _state, _year, _month, _type, _reporterUuid, _project} = router.query;
 
-	const listWork = useQuery([QUERY_KEY.table_list_work_user, _page, _pageSize, _keyword, _state, _year, _month, _type], {
+	const {data: listUser} = useQuery([QUERY_KEY.dropdown_user], {
 		queryFn: () =>
 			httpRequest({
-				http: activityServices.listActivityForAction({
-					page: Number(_page) || 1,
-					pageSize: Number(_pageSize) || 20,
-					keyword: (_keyword as string) || '',
+				http: userServices.categoryUser({
+					keyword: '',
 					status: STATUS_CONFIG.ACTIVE,
-					state: !!_state ? Number(_state) : null,
-					year: !!_year ? Number(_year) : null,
-					month: !!_month ? Number(_month) : null,
-					type: !!_type ? Number(_type) : null,
+					roleUuid: '',
+					type: TYPE_ACCOUNT.USER,
 				}),
 			}),
 		select(data) {
@@ -46,12 +52,71 @@ function MainPageWorkUser({}: PropsMainPageWorkUser) {
 		},
 	});
 
+	const {data: listProject} = useQuery([QUERY_KEY.dropdown_project], {
+		queryFn: () =>
+			httpRequest({
+				http: projectServices.categoryProject({
+					keyword: '',
+					status: STATUS_CONFIG.ACTIVE,
+				}),
+			}),
+		select(data) {
+			return data;
+		},
+	});
+
+	const listWork = useQuery(
+		[QUERY_KEY.table_list_work_user, _page, _pageSize, _keyword, _state, _year, _month, _type, _reporterUuid, _project],
+		{
+			queryFn: () =>
+				httpRequest({
+					http: activityServices.listActivityForActionNew({
+						page: Number(_page) || 1,
+						pageSize: Number(_pageSize) || 20,
+						keyword: (_keyword as string) || '',
+						status: STATUS_CONFIG.ACTIVE,
+						state: !!_state ? Number(_state) : null,
+						year: !!_year ? Number(_year) : null,
+						month: !!_month ? Number(_month) : null,
+						type: !!_type ? Number(_type) : null,
+						projectUuid: (_project as string) || '',
+						userUuid: (_reporterUuid as string) || '',
+					}),
+				}),
+			select(data) {
+				return data;
+			},
+		}
+	);
+
 	return (
 		<div className={styles.container}>
 			<div className={styles.head}>
 				<div className={styles.main_search}>
 					<div className={styles.search}>
 						<Search keyName='_keyword' placeholder='Tìm kiếm theo tên công việc, dự án' />
+					</div>
+					<div className={styles.filter}>
+						<FilterCustom
+							isSearch
+							name='Dự án'
+							query='_project'
+							listFilter={listProject?.map((v: any) => ({
+								id: v?.uuid,
+								name: v?.name,
+							}))}
+						/>
+					</div>
+					<div className={styles.filter}>
+						<FilterCustom
+							isSearch
+							name='Người báo cáo'
+							query='_reporterUuid'
+							listFilter={listUser?.map((v: any) => ({
+								id: v?.uuid,
+								name: v?.fullname,
+							}))}
+						/>
 					</div>
 					<div className={styles.filter}>
 						<FilterCustom
@@ -134,13 +199,13 @@ function MainPageWorkUser({}: PropsMainPageWorkUser) {
 								fixedLeft: true,
 								render: (data: IWorkUser) => (
 									<>
-										Tháng <span>{data?.month}</span> - <span>{data?.year}</span>
+										Tháng <span>{data?.report?.month}</span> - <span>{data?.report?.year}</span>
 									</>
 								),
 							},
 							{
 								title: 'Tên công trình',
-								render: (data: IWorkUser) => <>{data?.project?.name}</>,
+								render: (data: IWorkUser) => <>{data?.report?.project?.name}</>,
 							},
 							{
 								title: 'Tên công việc',
@@ -163,24 +228,39 @@ function MainPageWorkUser({}: PropsMainPageWorkUser) {
 							},
 							{
 								title: 'Megatype',
-								render: (data: IWorkUser) => <>{data?.megatype || '---'}</>,
+								render: (data: IWorkUser) => (
+									<p>
+										{data?.type == TYPE_WORK.TASK && 'Task'}
+										{data?.type == TYPE_WORK.SUB_TASK && 'Subtask'}
+										{data?.type == TYPE_WORK.SUB_SUB_TASK && 'Subsubtask'}
+									</p>
+								),
 							},
 							{
 								title: 'Người báo cáo',
-								render: (data: IWorkUser) => <>{data?.reporter?.fullname || '---'}</>,
+								render: (data: IWorkUser) => <>{data?.report?.reporter?.fullname || '---'}</>,
 							},
 							{
 								title: 'Loại công việc',
 								render: (data: IWorkUser) => (
 									<>
-										{!data?.isInWorkFlow && 'Phát sinh'}
-										{data?.isInWorkFlow && 'Có kế hoạch'}
+										{!data?.isInWorkflow && 'Phát sinh'}
+										{data?.isInWorkflow && 'Có kế hoạch'}
 									</>
 								),
 							},
 							{
 								title: 'Khó khăn vướng mắc',
-								render: (data: IWorkUser) => <>{data?.issue || '---'}</>,
+								render: (data: IWorkUser) => (
+									<>
+										{(data?.issue && (
+											<Tippy content={data?.issue}>
+												<p className={styles.name}>{data?.issue || '---'}</p>
+											</Tippy>
+										)) ||
+											'---'}
+									</>
+								),
 							},
 							{
 								title: 'Tiến độ công việc',
@@ -250,7 +330,7 @@ function MainPageWorkUser({}: PropsMainPageWorkUser) {
 					currentPage={Number(_page) || 1}
 					pageSize={Number(_pageSize) || 20}
 					total={listWork?.data?.pagination?.totalCount}
-					dependencies={[_pageSize, _keyword, _state, _year, _month, _type]}
+					dependencies={[_pageSize, _keyword, _state, _year, _month, _type, _reporterUuid, _project]}
 				/>
 			</WrapperScrollbar>
 		</div>

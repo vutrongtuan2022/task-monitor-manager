@@ -21,6 +21,7 @@ export enum QUERY_KEY {
 	dropdown_town,
 	dropdown_group_contractor,
 	dropdown_contractor,
+	dropdown_project,
 
 	detail_update_contractor_project,
 	detail_project,
@@ -135,4 +136,10 @@ export enum TYPE_GENDER {
 	MALE,
 	FEMALE,
 	OTHER,
+}
+
+export enum TYPE_WORK {
+	TASK,
+	SUB_TASK,
+	SUB_SUB_TASK,
 }

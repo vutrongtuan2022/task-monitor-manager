@@ -35,6 +35,25 @@ const activityServices = {
 			cancelToken: tokenAxios,
 		});
 	},
+	listActivityForActionNew: (
+		data: {
+			pageSize: number;
+			page: number;
+			keyword: string;
+			status: number;
+			month: number | null;
+			year: number | null;
+			state: number | null;
+			type: number | null;
+			userUuid: string;
+			projectUuid: string;
+		},
+		tokenAxios?: any
+	) => {
+		return axiosClient.post(`/Activity/get-page-activities-for-action-new`, data, {
+			cancelToken: tokenAxios,
+		});
+	},
 	listActyvityLastMonth: (
 		data: {
 			pageSize: number;
