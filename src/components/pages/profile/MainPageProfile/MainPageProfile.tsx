@@ -85,7 +85,7 @@ function MainPageProfile({}: PropsMainPageProfile) {
 
 			<div className={styles.basic_info}>
 				<div className={styles.head}>
-					<h4>Thông tin cá nhân</h4>
+					<h4>Thông tin tài khoản</h4>
 				</div>
 				<div className={styles.progress_group}>
 					<GridColumn col_2>
@@ -169,7 +169,7 @@ function MainPageProfile({}: PropsMainPageProfile) {
 					<div className={styles.mt}>
 						<GridColumn col_3>
 							<div className={styles.item}>
-								<p>Tỉnh/thành phố</p>
+								<p>Tỉnh/Thành phố</p>
 								<p>{detaillUser?.user?.tp?.name || '---'}</p>
 							</div>
 							<div className={styles.item}>
