@@ -39,6 +39,7 @@ function MainInfoContractor({}: PropsMainInfoContractor) {
 	const [openDelete, setOpenDelete] = useState<boolean>(false);
 	const [openStart, setOpenStart] = useState<boolean>(false);
 	const [openFinish, setOpenFinish] = useState<boolean>(false);
+	const [openReStart, setOpenReStart] = useState<boolean>(false);
 	const [uuidDeleteContractor, setUuidDeleteContractor] = useState<string>('');
 
 	const {data: detailProject} = useQuery<IDetailInfoProject>([QUERY_KEY.detail_contractor_project, _uuid], {
@@ -152,9 +153,36 @@ function MainInfoContractor({}: PropsMainInfoContractor) {
 		},
 	});
 
+	const funcReStartProject = useMutation({
+		mutationFn: () => {
+			return httpRequest({
+				showMessageFailed: true,
+				showMessageSuccess: true,
+				msgSuccess: 'Tái hoạt động dự án thành công!',
+				http: projectServices.updateState({
+					uuid: _uuid as string,
+				}),
+			});
+		},
+		onSuccess(data) {
+			if (data) {
+				setOpenReStart(false);
+				queryClient.invalidateQueries([QUERY_KEY.detail_contractor_project]);
+			}
+		},
+	});
+
 	return (
 		<div className={styles.container}>
-			<Loading loading={funcDeleteContractorProject.isLoading} />
+			<Loading
+				loading={
+					funcDeleteContractorProject.isLoading ||
+					funcDeleteProject.isLoading ||
+					funcStartProject.isLoading ||
+					funcFinishProject.isLoading ||
+					funcReStartProject.isLoading
+				}
+			/>
 			<Breadcrumb
 				listUrls={[
 					{
@@ -206,6 +234,11 @@ function MainInfoContractor({}: PropsMainInfoContractor) {
 						{detailProject?.state != STATE_PROJECT.FINISH && (
 							<Button p_14_24 rounded_8 primaryLinear href={`${PATH.UpdateInfoProject}?_uuid=${_uuid}`}>
 								Chỉnh sửa
+							</Button>
+						)}
+						{detailProject?.state == STATE_PROJECT.FINISH && (
+							<Button p_14_24 rounded_8 blueLinear onClick={() => setOpenReStart(true)}>
+								Tái hoạt động dự án
 							</Button>
 						)}
 					</div>
@@ -435,6 +468,15 @@ function MainInfoContractor({}: PropsMainInfoContractor) {
 				title={'Xóa nhà thầu'}
 				note={'Bạn có chắc chắn muốn xóa nhà thầu ra khỏi dự án này không?'}
 				onSubmit={funcDeleteContractorProject.mutate}
+			/>
+			<Dialog
+				type='primary'
+				open={openReStart}
+				icon={icons.success}
+				onClose={() => setOpenReStart(false)}
+				title={'Tái hoạt động dự án'}
+				note={'Bạn có chắc chắn muốn tái hoạt động dự án này không?'}
+				onSubmit={funcStartProject.mutate}
 			/>
 		</div>
 	);

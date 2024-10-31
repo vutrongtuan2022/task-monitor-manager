@@ -168,6 +168,10 @@ function DetailReportDisbursement({}: PropsDetailReportDisbursement) {
 								<p>{detailReportDisbursement?.monthReport || '---'}</p>
 							</div>
 							<div className={styles.item}>
+								<p>Người gửi báo cáo</p>
+								<p>{detailReportDisbursement?.reporter?.fullname || '---'}</p>
+							</div>
+							<div className={styles.item}>
 								<p>Tổng mức đầu tư (VND)</p>
 								<p>{convertCoin(detailReportDisbursement?.totalInvest || 0) || '---'}</p>
 							</div>
