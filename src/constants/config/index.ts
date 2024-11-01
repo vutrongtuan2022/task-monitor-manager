@@ -62,6 +62,12 @@ export const Menu: {
 		icon: DocumentText1,
 	},
 	{
+		title: 'Công việc nhân viên',
+		path: PATH.WorkUser,
+		pathActive: PATH.WorkUser,
+		icon: Note,
+	},
+	{
 		title: 'Báo cáo công việc',
 		path: PATH.ReportWork,
 		pathActive: PATH.ReportWork,
@@ -72,12 +78,6 @@ export const Menu: {
 		path: PATH.ReportDisbursement,
 		pathActive: PATH.ReportDisbursement,
 		icon: Moneys,
-	},
-	{
-		title: 'Công việc nhân viên',
-		path: PATH.WorkUser,
-		pathActive: PATH.WorkUser,
-		icon: Note,
 	},
 	{
 		title: 'Quản lý nhân viên',
