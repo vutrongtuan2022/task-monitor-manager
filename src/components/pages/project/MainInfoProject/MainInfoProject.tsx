@@ -298,19 +298,31 @@ function MainInfoProject({}: PropsMainInfoProject) {
 										<div className={styles.item}>
 											<p>Ngày tạo dự án</p>
 											<p>
-												<Moment date={detailProject?.created} format='HH:mm, DD/MM/YYYY' />
+												{detailProject?.created ? (
+													<Moment date={detailProject?.created} format='DD/MM/YYYY' />
+												) : (
+													'---'
+												)}
 											</p>
 										</div>
 										<div className={styles.item}>
 											<p>Thời gian bắt đầu dự tính</p>
 											<p>
-												<Moment date={detailProject?.expectStart} format='DD/MM/YYYY' />
+												{detailProject?.expectStart ? (
+													<Moment date={detailProject?.expectStart} format='DD/MM/YYYY' />
+												) : (
+													'---'
+												)}
 											</p>
 										</div>
 										<div className={styles.item}>
 											<p>Thời gian kết thúc dự tính</p>
 											<p>
-												<Moment date={detailProject?.expectEnd} format='DD/MM/YYYY' />
+												{detailProject?.expectEnd ? (
+													<Moment date={detailProject?.expectEnd} format='DD/MM/YYYY' />
+												) : (
+													'---'
+												)}
 											</p>
 										</div>
 									</GridColumn>
@@ -320,7 +332,11 @@ function MainInfoProject({}: PropsMainInfoProject) {
 										<div className={styles.item}>
 											<p>Thời gian bắt đầu dự án được phê duyệt</p>
 											<p>
-												<Moment date={detailProject?.realStart} format='DD/MM/YYYY' />
+												{detailProject?.realStart ? (
+													<Moment date={detailProject?.realStart} format='DD/MM/YYYY' />
+												) : (
+													'---'
+												)}
 											</p>
 										</div>
 										<div className={styles.item}>
