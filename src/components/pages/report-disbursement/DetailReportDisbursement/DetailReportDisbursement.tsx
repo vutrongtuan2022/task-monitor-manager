@@ -131,7 +131,7 @@ function DetailReportDisbursement({}: PropsDetailReportDisbursement) {
 					<div className={styles.head}>
 						<h4>Thông tin cơ bản</h4>
 						<div className={styles.state}>
-							<p>Trạng thái dự án:</p>
+							<p>Trạng thái giải ngân:</p>
 							<StateActive
 								stateActive={detailReportDisbursement?.approved!}
 								listState={[
