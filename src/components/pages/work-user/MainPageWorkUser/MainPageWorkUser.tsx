@@ -271,7 +271,7 @@ function MainPageWorkUser({}: PropsMainPageWorkUser) {
 								title: 'Trạng thái',
 								render: (data: IWorkUser) => (
 									<StateActive
-										stateActive={data?.activity?.state}
+										stateActive={data?.activityState}
 										listState={[
 											{
 												state: STATE_REPORT_WORK.NOT_PROCESSED,

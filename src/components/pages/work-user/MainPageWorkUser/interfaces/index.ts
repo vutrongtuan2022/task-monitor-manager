@@ -2,28 +2,28 @@ export interface PropsMainPageWorkUser {}
 
 export interface IWorkUser {
 	report: {
+		uuid: string;
 		title: string;
-		state: number | null;
+		state: number;
 		status: number;
 		month: number;
 		year: number;
 		project: {
+			uuid: string;
 			code: string;
 			name: string;
 			state: number;
-			uuid: string;
 		};
 		reporter: {
+			uuid: string;
 			fullname: string;
 			code: string;
-			uuid: string;
 		};
-		uuid: string;
 	};
 	activity: {
+		uuid: string;
 		name: string;
 		state: number;
-		uuid: string;
 	};
 	type: number;
 	isInWorkflow: boolean;
