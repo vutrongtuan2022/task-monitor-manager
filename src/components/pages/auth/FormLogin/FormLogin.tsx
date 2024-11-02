@@ -102,7 +102,11 @@ function FormLogin({}: PropsFormLogin) {
 					<ImageFill src={icons.logoSmall} className={styles.logo} alt='Logo viettinbank' />
 				</div>
 				<h4 className={styles.title}>ĐĂNG NHẬP TÀI KHOẢN</h4>
-				<p className={styles.des}>Chào mừng bạn đến với hệ thống VietinBank. Đăng nhập để bắt đầu sử dụng</p>
+				<p className={styles.des}>
+					Chào mừng bạn đến với hệ thống dành cho Phó trưởng phòng VietinBank.
+					<br />
+					Đăng nhập để bắt đầu sử dụng!
+				</p>
 				<div className={styles.form}>
 					<Input type='text' placeholder='Tên tài khoản' name='username' value={form?.username} onClean isRequired />
 					<Input type='password' placeholder='Mật khẩu' name='password' value={form?.password} onClean isRequired />
