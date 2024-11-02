@@ -22,7 +22,7 @@ export enum PATH {
 
 	Home = '/',
 
-	Project = '/project',
+	Project = '/',
 	ProjectCreate = '/project/create',
 	ProjectInfo = '/project/infor-project',
 	ProjectContractor = '/project/infor-contractor',
@@ -49,16 +49,16 @@ export const Menu: {
 	pathActive?: string;
 	icon: any;
 }[] = [
-	{
-		title: 'Tổng quan',
-		path: PATH.Home,
-		pathActive: PATH.Home,
-		icon: ElementEqual,
-	},
+	// {
+	// 	title: 'Tổng quan',
+	// 	path: PATH.Home,
+	// 	pathActive: PATH.Home,
+	// 	icon: ElementEqual,
+	// },
 	{
 		title: 'Quản lý dự án',
 		path: PATH.Project,
-		pathActive: PATH.Project,
+		pathActive: '/project',
 		icon: DocumentText1,
 	},
 	{
