@@ -196,10 +196,6 @@ function DetailReportDisbursement({}: PropsDetailReportDisbursement) {
 								<Progress percent={detailReportDisbursement?.fundProgress!} width={80} />
 							</div>
 							<div className={styles.item}>
-								<p>Người báo cáo</p>
-								<p>{detailReportDisbursement?.reporter?.fullname || '---'}</p>
-							</div>
-							<div className={styles.item}>
 								<p>Ngày gửi báo cáo</p>
 								<p>
 									{detailReportDisbursement?.created ? (
