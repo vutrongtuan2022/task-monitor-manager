@@ -84,8 +84,8 @@ function PlanReportOverview({}: PropsPlanReportOverview) {
 									title: 'Loại công việc',
 									render: (data: IPlanReportOverview) => (
 										<>
-											{data?.isInWorkFlow && 'Có kế hoạch'}
-											{!data?.isInWorkFlow && 'Phát sinh'}
+											{data?.isWorkFlow == 1 && 'Có kế hoạch'}
+											{data?.isWorkFlow == 0 && 'Phát sinh'}
 										</>
 									),
 								},

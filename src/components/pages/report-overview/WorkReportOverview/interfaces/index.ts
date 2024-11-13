@@ -26,5 +26,5 @@ export interface IWorkReportOverview {
 	deadlineStage: number;
 	digitalization: number;
 	uuid: string;
-	isInWorkFlow: boolean;
+	isWorkFlow: number;
 }
