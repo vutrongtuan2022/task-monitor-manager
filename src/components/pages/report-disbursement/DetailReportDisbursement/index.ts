@@ -1,1 +1,1 @@
-export {default} from './DetailReportDisbursement';
+export { default } from "./DetailReportDisbursement";

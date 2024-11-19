@@ -140,7 +140,7 @@ function UpdateInfoCapital({}: PropsUpdateInfoCapital) {
 						path: `${PATH.UpdateInfoCapital}?_uuid=${_uuid}`,
 					},
 					{
-						title: 'Thông tin nhà thầu',
+						title: 'Quản lý nhà thầu',
 						path: `${PATH.UpdateInfoContractor}?_uuid=${_uuid}`,
 					},
 				]}

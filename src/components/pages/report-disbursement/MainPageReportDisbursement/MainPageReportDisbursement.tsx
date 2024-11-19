@@ -4,7 +4,7 @@ import {IReportDisbursement, PropsMainPageReportDisbursement} from './interfaces
 import styles from './MainPageReportDisbursement.module.scss';
 import {useRouter} from 'next/router';
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
-import {QUERY_KEY, STATE_REPORT_DISBURSEMENT, STATUS_CONFIG} from '~/constants/config/enum';
+import {QUERY_KEY, STATE_REPORT_DISBURSEMENT, STATUS_CONFIG, TYPE_ACCOUNT} from '~/constants/config/enum';
 import {httpRequest} from '~/services';
 import Search from '~/components/common/Search';
 import FilterCustom from '~/components/common/FilterCustom';
@@ -16,9 +16,7 @@ import Noti from '~/components/common/DataWrapper/components/Noti';
 import {generateYearsArray} from '~/common/funcs/selectDate';
 import StateActive from '~/components/common/StateActive';
 import Moment from 'react-moment';
-import projectFundServices from '~/services/projectFundServices';
 import {convertCoin} from '~/common/funcs/convertCoin';
-import Progress from '~/components/common/Progress';
 import IconCustom from '~/components/common/IconCustom';
 import {CloseCircle, Eye, TickCircle} from 'iconsax-react';
 import {PATH} from '~/constants/config';
@@ -29,6 +27,9 @@ import Form from '~/components/common/Form';
 import Popup from '~/components/common/Popup';
 import TextArea from '~/components/common/Form/components/TextArea';
 import Button from '~/components/common/Button';
+import contractsFundServices from '~/services/contractsFundServices';
+import userServices from '~/services/userServices';
+import projectServices from '~/services/projectServices';
 
 function MainPageReportDisbursement({}: PropsMainPageReportDisbursement) {
 	const router = useRouter();
@@ -37,7 +38,7 @@ function MainPageReportDisbursement({}: PropsMainPageReportDisbursement) {
 	const years = generateYearsArray();
 	const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
-	const {_page, _pageSize, _keyword, _year, _month, _approved} = router.query;
+	const {_page, _pageSize, _keyword, _year, _month, _state, _reporterUuid, _project} = router.query;
 
 	const [uuidConfirm, setUuidConfirm] = useState<string>('');
 	const [uuidCancel, setUuidCancel] = useState<string>('');
@@ -45,19 +46,49 @@ function MainPageReportDisbursement({}: PropsMainPageReportDisbursement) {
 		feedback: '',
 	});
 
+	const {data: listUser} = useQuery([QUERY_KEY.dropdown_user], {
+		queryFn: () =>
+			httpRequest({
+				http: userServices.categoryUser({
+					keyword: '',
+					status: STATUS_CONFIG.ACTIVE,
+					roleUuid: '',
+					type: TYPE_ACCOUNT.USER,
+				}),
+			}),
+		select(data) {
+			return data;
+		},
+	});
+
+	const {data: listProject} = useQuery([QUERY_KEY.dropdown_project], {
+		queryFn: () =>
+			httpRequest({
+				http: projectServices.categoryProject({
+					keyword: '',
+					status: STATUS_CONFIG.ACTIVE,
+				}),
+			}),
+		select(data) {
+			return data;
+		},
+	});
+
 	const listReportDisbursement = useQuery(
-		[QUERY_KEY.table_list_report_disbursement, _page, _pageSize, _keyword, _year, _month, _approved],
+		[QUERY_KEY.table_list_report_disbursement, _page, _pageSize, _keyword, _year, _month, _state, _reporterUuid, _project],
 		{
 			queryFn: () =>
 				httpRequest({
-					http: projectFundServices.listProjectFundAll({
+					http: contractsFundServices.getPmContractFundPaged({
 						page: Number(_page) || 1,
 						pageSize: Number(_pageSize) || 20,
 						keyword: (_keyword as string) || '',
 						status: STATUS_CONFIG.ACTIVE,
 						year: !!_year ? Number(_year) : null,
 						month: !!_month ? Number(_month) : null,
-						approved: !!_approved ? Number(_approved) : null,
+						state: !!_state ? Number(_state) : null,
+						projectUuid: (_project as string) || '',
+						userUuid: (_reporterUuid as string) || '',
 					}),
 				}),
 			select(data) {
@@ -72,8 +103,10 @@ function MainPageReportDisbursement({}: PropsMainPageReportDisbursement) {
 				showMessageFailed: true,
 				showMessageSuccess: true,
 				msgSuccess: 'Duyệt báo cáo thành công!',
-				http: projectFundServices.approvedFund({
+				http: contractsFundServices.approveContractFund({
 					uuid: uuidConfirm,
+					isApproved: 1,
+					reason: '',
 				}),
 			});
 		},
@@ -91,9 +124,10 @@ function MainPageReportDisbursement({}: PropsMainPageReportDisbursement) {
 				showMessageFailed: true,
 				showMessageSuccess: true,
 				msgSuccess: 'Từ chối báo cáo thành công!',
-				http: projectFundServices.rejectFund({
+				http: contractsFundServices.approveContractFund({
 					uuid: uuidCancel,
-					feedback: form.feedback,
+					isApproved: 0,
+					reason: form.feedback,
 				}),
 			});
 		},
@@ -112,6 +146,28 @@ function MainPageReportDisbursement({}: PropsMainPageReportDisbursement) {
 				<div className={styles.main_search}>
 					<div className={styles.search}>
 						<Search keyName='_keyword' placeholder='Tìm kiếm theo tên công trình, ID' />
+					</div>
+					<div className={styles.filter}>
+						<FilterCustom
+							isSearch
+							name='Dự án'
+							query='_project'
+							listFilter={listProject?.map((v: any) => ({
+								id: v?.uuid,
+								name: v?.name,
+							}))}
+						/>
+					</div>
+					<div className={styles.filter}>
+						<FilterCustom
+							isSearch
+							name='Người báo cáo'
+							query='_reporterUuid'
+							listFilter={listUser?.map((v: any) => ({
+								id: v?.uuid,
+								name: v?.fullname,
+							}))}
+						/>
 					</div>
 					<div className={styles.filter}>
 						<FilterCustom
@@ -139,19 +195,23 @@ function MainPageReportDisbursement({}: PropsMainPageReportDisbursement) {
 						<FilterCustom
 							isSearch
 							name='Trạng thái'
-							query='_approved'
+							query='_state'
 							listFilter={[
 								{
-									id: STATE_REPORT_DISBURSEMENT.PENDING_APPROVAL,
-									name: 'Chưa xử lý',
+									id: STATE_REPORT_DISBURSEMENT.NOT_REPORT,
+									name: 'Chưa báo cáo',
 								},
 								{
 									id: STATE_REPORT_DISBURSEMENT.REPORTED,
+									name: 'Đã báo cáo',
+								},
+								{
+									id: STATE_REPORT_DISBURSEMENT.APPROVED,
 									name: 'Đã duyệt',
 								},
 								{
 									id: STATE_REPORT_DISBURSEMENT.REJECTED,
-									name: 'Đã từ chối',
+									name: 'Bị từ chối',
 								},
 							]}
 						/>
@@ -178,67 +238,63 @@ function MainPageReportDisbursement({}: PropsMainPageReportDisbursement) {
 							},
 							{
 								title: 'Báo cáo tháng',
-								render: (data: IReportDisbursement) => <>{data?.monthReport}</>,
+								render: (data: IReportDisbursement) => <>{`Tháng ${data?.releasedMonth} - ${data?.releasedYear}`}</>,
 							},
 							{
-								title: 'Tổng mức đầu tư (VND)',
-								render: (data: IReportDisbursement) => <>{convertCoin(data?.totalInvest)}</>,
+								title: 'Vốn dự phòng (VND)',
+								render: (data: IReportDisbursement) => <>{convertCoin(data?.reverseAmount) || '---'}</>,
+							},
+							{
+								title: 'Vốn dự án (VND)',
+								render: (data: IReportDisbursement) => <>{convertCoin(data?.projectAmount) || '---'}</>,
 							},
 							{
 								title: 'Kế hoạch vốn năm (VND)',
-								render: (data: IReportDisbursement) => <>{convertCoin(data?.annualBudget)}</>,
+								render: (data: IReportDisbursement) => <>{convertCoin(data?.yearlyBudget) || '---'}</>,
 							},
 							{
-								title: 'Số tiền giải ngân (VND)',
-								render: (data: IReportDisbursement) => <>{convertCoin(data?.realeaseBudget)}</>,
-							},
-							{
-								title: 'Lũy kế toàn bộ dự án (VND)',
-								render: (data: IReportDisbursement) => <>{convertCoin(data?.projectAccumAmount)}</>,
-							},
-							{
-								title: 'Lũy kế theo năm (VND)',
-								render: (data: IReportDisbursement) => <>{convertCoin(data?.annualAccumAmount)}</>,
-							},
-							{
-								title: 'Tỷ lệ giải ngân',
-								render: (data: IReportDisbursement) => (
-									<Progress backgroundPercent='#005994' percent={data?.fundProgress} width={80} />
-								),
+								title: 'Tổng mức đầu tư (VND)',
+								render: (data: IReportDisbursement) => <>{convertCoin(data?.totalBudget) || '---'}</>,
 							},
 							{
 								title: 'Người báo cáo',
-								render: (data: IReportDisbursement) => <>{data?.reporter?.fullname || '---'}</>,
+								render: (data: IReportDisbursement) => <>{data?.creator?.fullname || '---'}</>,
 							},
 							{
 								title: 'Ngày gửi báo cáo',
 								render: (data: IReportDisbursement) => (
-									<>{data?.created ? <Moment date={data?.created} format='DD/MM/YYYY' /> : '---'}</>
+									<p>{data?.sendDate ? <Moment date={data?.sendDate} format='DD/MM/YYYY' /> : '---'}</p>
 								),
 							},
 							{
 								title: 'Trạng thái',
 								render: (data: IReportDisbursement) => (
 									<StateActive
-										stateActive={data?.approved}
+										stateActive={data?.state}
 										listState={[
-											{
-												state: STATE_REPORT_DISBURSEMENT.PENDING_APPROVAL,
-												text: 'Chưa xử lý',
-												textColor: '#fff',
-												backgroundColor: '#5B70B3',
-											},
 											{
 												state: STATE_REPORT_DISBURSEMENT.REJECTED,
 												text: 'Bị từ chối',
-												textColor: '#fff',
-												backgroundColor: '#EE464C',
+												textColor: '#FFFFFF',
+												backgroundColor: '#F37277',
 											},
 											{
 												state: STATE_REPORT_DISBURSEMENT.REPORTED,
+												text: 'Đã báo cáo',
+												textColor: '#FFFFFF',
+												backgroundColor: '#4BC9F0',
+											},
+											{
+												state: STATE_REPORT_DISBURSEMENT.APPROVED,
 												text: 'Đã duyệt',
-												textColor: '#fff',
+												textColor: '#FFFFFF',
 												backgroundColor: '#06D7A0',
+											},
+											{
+												state: STATE_REPORT_DISBURSEMENT.NOT_REPORT,
+												text: 'Chưa báo cáo',
+												textColor: '#FFFFFF',
+												backgroundColor: '#FF852C',
 											},
 										]}
 									/>
@@ -249,7 +305,7 @@ function MainPageReportDisbursement({}: PropsMainPageReportDisbursement) {
 								fixedRight: true,
 								render: (data: IReportDisbursement) => (
 									<div style={{display: 'flex', alignItems: 'center', gap: '4px'}}>
-										{data?.approved == STATE_REPORT_DISBURSEMENT.PENDING_APPROVAL && (
+										{data?.state == STATE_REPORT_DISBURSEMENT.REPORTED && (
 											<>
 												<IconCustom
 													color='#06D7A0'
@@ -281,7 +337,7 @@ function MainPageReportDisbursement({}: PropsMainPageReportDisbursement) {
 					currentPage={Number(_page) || 1}
 					pageSize={Number(_pageSize) || 20}
 					total={listReportDisbursement?.data?.pagination?.totalCount}
-					dependencies={[_pageSize, _keyword, _year, _month, _approved]}
+					dependencies={[_pageSize, _keyword, _year, _month, _state, _reporterUuid, _project]}
 				/>
 			</WrapperScrollbar>
 

@@ -1,26 +1,25 @@
 export interface PropsMainPageReportDisbursement {}
 
 export interface IReportDisbursement {
+	uuid: string;
 	project: {
+		uuid: string;
 		code: string;
 		name: string;
 		state: number;
-		uuid: string;
 	};
-	monthReport: string;
-	realeaseBudget: number;
-	totalInvest: number;
-	annualBudget: number;
-	annualAccumAmount: number;
-	projectAccumAmount: number;
-	fundProgress: number;
-	created: string;
-	reporter: {
+	creator: {
+		uuid: string;
 		fullname: string;
 		code: string;
-		uuid: string;
 	};
-	approved: number;
-	status: number;
-	uuid: string;
+	releasedMonth: number;
+	releasedYear: number;
+	totalAmount: number;
+	sendDate: string | null;
+	state: number;
+	yearlyBudget: number | null;
+	totalBudget: number;
+	projectAmount: number;
+	reverseAmount: number;
 }

@@ -122,7 +122,7 @@ function UpdateInforContractor({}: PropsUpdateInforContractor) {
 						path: `${PATH.UpdateInfoCapital}?_uuid=${_uuid}`,
 					},
 					{
-						title: 'Thông tin nhà thầu',
+						title: 'Quản lý nhà thầu',
 						path: `${PATH.UpdateInfoContractor}?_uuid=${_uuid}`,
 					},
 				]}
@@ -148,7 +148,7 @@ function UpdateInforContractor({}: PropsUpdateInforContractor) {
 				<div className={styles.main}>
 					<div className={styles.basic_info}>
 						<div className={styles.head}>
-							<h4>Thông tin nhà thầu</h4>
+							<h4>Quản lý nhà thầu</h4>
 						</div>
 						<div className={styles.form}>
 							<GridColumn col_2>

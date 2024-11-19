@@ -11,10 +11,7 @@ import Pagination from '~/components/common/Pagination';
 import Table from '~/components/common/Table';
 import Search from '~/components/common/Search';
 import clsx from 'clsx';
-import Image from 'next/image';
 import icons from '~/constants/images/icons';
-import IconCustom from '~/components/common/IconCustom';
-import {Edit, Trash} from 'iconsax-react';
 import Breadcrumb from '~/components/common/Breadcrumb';
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import {httpRequest} from '~/services';
@@ -24,23 +21,22 @@ import Dialog from '~/components/common/Dialog';
 import {convertCoin} from '~/common/funcs/convertCoin';
 import Moment from 'react-moment';
 import Loading from '~/components/common/Loading';
-import FormAddContractor from '../FormAddContractor';
-import FormUpdateContractor from '../FormUpdateContractor';
 import projectServices from '~/services/projectServices';
 import projectContractorServices from '~/services/projectContractorServices';
-import PositionContainer from '~/components/common/PositionContainer';
+import contractorcatServices from '~/services/contractorcatServices';
+import contractorServices from '~/services/contractorServices';
+import FilterCustom from '~/components/common/FilterCustom';
 
 function MainInfoContractor({}: PropsMainInfoContractor) {
 	const router = useRouter();
 	const queryClient = useQueryClient();
 
-	const {_uuid, _keyword, _page, _pageSize, _action, _projectContractorUuid} = router.query;
+	const {_uuid, _page, _pageSize, _keyword, _contractorUuid, _contractorCat} = router.query;
 
 	const [openDelete, setOpenDelete] = useState<boolean>(false);
 	const [openStart, setOpenStart] = useState<boolean>(false);
 	const [openFinish, setOpenFinish] = useState<boolean>(false);
 	const [openReStart, setOpenReStart] = useState<boolean>(false);
-	const [uuidDeleteContractor, setUuidDeleteContractor] = useState<string>('');
 
 	const {data: detailProject} = useQuery<IDetailInfoProject>([QUERY_KEY.detail_contractor_project, _uuid], {
 		queryFn: () =>
@@ -56,16 +52,18 @@ function MainInfoContractor({}: PropsMainInfoContractor) {
 	});
 
 	const {data: listContractorProject, isLoading} = useQuery(
-		[QUERY_KEY.table_list_contractor_project, _uuid, _keyword, _page, _pageSize],
+		[QUERY_KEY.table_list_contractor_project, _uuid, _page, _pageSize, _keyword, _contractorUuid, _contractorCat],
 		{
 			queryFn: () =>
 				httpRequest({
-					http: projectContractorServices.listContractorProject({
-						uuid: _uuid as string,
-						keyword: (_keyword as string) || '',
+					http: contractorServices.getContractorForProject({
 						page: Number(_page) || 1,
 						pageSize: Number(_pageSize) || 20,
+						keyword: (_keyword as string) || '',
 						status: STATUS_CONFIG.ACTIVE,
+						projectUuid: (_uuid as string) || '',
+						contractorUuid: (_contractorUuid as string) || '',
+						contractorCat: Number(_contractorCat) || null,
 					}),
 				}),
 			select(data) {
@@ -74,6 +72,33 @@ function MainInfoContractor({}: PropsMainInfoContractor) {
 			enabled: !!_uuid,
 		}
 	);
+
+	const {data: listGroupContractor} = useQuery([QUERY_KEY.dropdown_group_contractor], {
+		queryFn: () =>
+			httpRequest({
+				http: contractorcatServices.categoryContractorCat({
+					keyword: '',
+					status: STATUS_CONFIG.ACTIVE,
+				}),
+			}),
+		select(data) {
+			return data;
+		},
+	});
+
+	const {data: dropdownContractor} = useQuery([QUERY_KEY.dropdown_contractor, _contractorCat], {
+		queryFn: () =>
+			httpRequest({
+				http: contractorServices.categoryContractor({
+					keyword: '',
+					status: STATUS_CONFIG.ACTIVE,
+					type: Number(_contractorCat) || null,
+				}),
+			}),
+		select(data) {
+			return data;
+		},
+	});
 
 	const funcDeleteProject = useMutation({
 		mutationFn: () => {
@@ -135,24 +160,6 @@ function MainInfoContractor({}: PropsMainInfoContractor) {
 		},
 	});
 
-	const funcDeleteContractorProject = useMutation({
-		mutationFn: () =>
-			httpRequest({
-				showMessageFailed: true,
-				showMessageSuccess: true,
-				msgSuccess: 'Xóa nhà thầu thành công!',
-				http: projectContractorServices.deleteContractorProject({
-					uuid: uuidDeleteContractor!,
-				}),
-			}),
-		onSuccess(data) {
-			if (data) {
-				setUuidDeleteContractor('');
-				queryClient.invalidateQueries([QUERY_KEY.table_list_contractor_project]);
-			}
-		},
-	});
-
 	const funcReStartProject = useMutation({
 		mutationFn: () => {
 			return httpRequest({
@@ -176,11 +183,7 @@ function MainInfoContractor({}: PropsMainInfoContractor) {
 		<div className={styles.container}>
 			<Loading
 				loading={
-					funcDeleteContractorProject.isLoading ||
-					funcDeleteProject.isLoading ||
-					funcStartProject.isLoading ||
-					funcFinishProject.isLoading ||
-					funcReStartProject.isLoading
+					funcDeleteProject.isLoading || funcStartProject.isLoading || funcFinishProject.isLoading || funcReStartProject.isLoading
 				}
 			/>
 			<Breadcrumb
@@ -202,16 +205,20 @@ function MainInfoContractor({}: PropsMainInfoContractor) {
 						path: `${PATH.ProjectInfo}?_uuid=${_uuid}`,
 					},
 					{
-						title: 'Báo cáo công việc',
+						title: 'Quản lý công việc',
 						path: `${PATH.ProjectWorkReport}?_uuid=${_uuid}`,
 					},
 					{
-						title: 'Tiến độ giải ngân',
+						title: 'Quản lý hợp đồng',
 						path: `${PATH.ProjectDisbursementProgress}?_uuid=${_uuid}`,
 					},
 					{
-						title: 'Thông tin nhà thầu',
+						title: 'Quản lý nhà thầu',
 						path: `${PATH.ProjectContractor}?_uuid=${_uuid}`,
+					},
+					{
+						title: 'Nhật ký kế hoạch vốn',
+						path: `${PATH.ProjectPlanningCapital}?_uuid=${_uuid}`,
 					},
 				]}
 				action={
@@ -246,7 +253,7 @@ function MainInfoContractor({}: PropsMainInfoContractor) {
 			>
 				<div className={clsx(styles.basic_info)}>
 					<div className={styles.head}>
-						<h4>Thông tin nhà thầu</h4>
+						<h4>Danh sách nhà thầu</h4>
 					</div>
 					<div className={styles.main_table}>
 						<div className={styles.head_filt}>
@@ -254,25 +261,28 @@ function MainInfoContractor({}: PropsMainInfoContractor) {
 								<div className={styles.search}>
 									<Search keyName='_keyword' placeholder='Tìm kiếm theo tên nhà thầu,nhóm nhà thầu' />
 								</div>
-							</div>
-							<div className={styles.btn}>
-								<Button
-									p_14_24
-									rounded_8
-									light-blue
-									icon={<Image alt='icon add' src={icons.iconAdd} width={20} height={20} />}
-									onClick={() => {
-										router.replace({
-											pathname: router.pathname,
-											query: {
-												...router.query,
-												_action: 'create',
-											},
-										});
-									}}
-								>
-									Thêm mới nhà thầu
-								</Button>
+								<div className={styles.filter}>
+									<FilterCustom
+										isSearch
+										name='Nhóm nhà thầu'
+										query='_contractorCat'
+										listFilter={listGroupContractor?.map((v: any) => ({
+											id: v?.id,
+											name: v?.name,
+										}))}
+									/>
+								</div>
+								<div className={styles.filter}>
+									<FilterCustom
+										isSearch
+										name='Tên nhà thầu'
+										query='_contractorUuid'
+										listFilter={dropdownContractor?.map((v: any) => ({
+											id: v?.uuid,
+											name: v?.name,
+										}))}
+									/>
+								</div>
 							</div>
 						</div>
 						<DataWrapper loading={isLoading} data={listContractorProject?.items || []}>
@@ -284,90 +294,20 @@ function MainInfoContractor({}: PropsMainInfoContractor) {
 										render: (data: IContractorProject, index: number) => <>{index + 1}</>,
 									},
 									{
-										title: 'Thuộc nhóm',
-										render: (data: IContractorProject) => <>{data?.contractorCategory?.name}</>,
+										title: 'Nhóm nhà thầu',
+										render: (data: IContractorProject) => <>{data?.contractor?.contractorCat?.name || '---'}</>,
 									},
 									{
 										title: 'Tên nhà thầu',
-										render: (data: IContractorProject) => <>{data?.name || ''}</>,
+										render: (data: IContractorProject) => <>{data?.contractor?.name || ''}</>,
 									},
 									{
-										title: 'Giá trị hợp đồng (VND)',
-										render: (data: IContractorProject) => <>{convertCoin(data?.contractAmount)}</>,
+										title: 'Số lượng hợp đồng',
+										render: (data: IContractorProject) => <>{data?.totalContract || ''}</>,
 									},
 									{
-										title: 'Thời gian THHĐ',
-										render: (data: IContractorProject) => (
-											<>
-												{data?.contractEndDate ? (
-													<Moment date={data?.contractEndDate} format='DD/MM/YYYY' />
-												) : (
-													'---'
-												)}
-											</>
-										),
-									},
-									{
-										title: 'GTBLTHHĐ (VND)',
-										render: (data: IContractorProject) => <>{convertCoin(data?.projectGuarantee?.amount)}</>,
-									},
-									{
-										title: 'NKTBLTHHĐ',
-										render: (data: IContractorProject) => (
-											<>
-												{data?.projectGuarantee?.endDate ? (
-													<Moment date={data?.projectGuarantee?.endDate} format='DD/MM/YYYY' />
-												) : (
-													'---'
-												)}
-											</>
-										),
-									},
-									{
-										title: 'Giá trị BLTƯ (VND)',
-										render: (data: IContractorProject) => <>{convertCoin(data?.disbursementGuarantee?.amount)}</>,
-									},
-									{
-										title: 'Ngày kết thúc BLTƯ',
-										render: (data: IContractorProject) => (
-											<>
-												{data?.disbursementGuarantee?.endDate ? (
-													<Moment date={data?.disbursementGuarantee?.endDate} format='DD/MM/YYYY' />
-												) : (
-													'---'
-												)}
-											</>
-										),
-									},
-									{
-										title: 'Hành động',
-										fixedRight: true,
-										render: (data: IContractorProject) => (
-											<div style={{display: 'flex', alignItems: 'center', gap: '4px'}}>
-												<IconCustom
-													type='edit'
-													icon={<Edit fontSize={20} fontWeight={600} />}
-													tooltip='Chỉnh sửa'
-													onClick={() => {
-														router.replace({
-															pathname: router.pathname,
-															query: {
-																...router.query,
-																_projectContractorUuid: data?.projectContractorUuid,
-															},
-														});
-													}}
-												/>
-												<IconCustom
-													type='delete'
-													icon={<Trash fontSize={20} fontWeight={600} />}
-													tooltip='Xóa bỏ'
-													onClick={() => {
-														setUuidDeleteContractor(data?.projectContractorUuid);
-													}}
-												/>
-											</div>
-										),
+										title: 'Tổng giá trị hợp đồng (VND',
+										render: (data: IContractorProject) => <>{convertCoin(data?.amount)}</>,
 									},
 								]}
 							/>
@@ -376,65 +316,11 @@ function MainInfoContractor({}: PropsMainInfoContractor) {
 							currentPage={Number(_page) || 1}
 							pageSize={Number(_pageSize) || 20}
 							total={listContractorProject?.pagination?.totalCount || 0}
-							dependencies={[_uuid, _pageSize, _keyword]}
+							dependencies={[_uuid, _pageSize, _keyword, _contractorUuid, _contractorCat]}
 						/>
 					</div>
 				</div>
 			</LayoutPages>
-
-			<PositionContainer
-				open={_action == 'create'}
-				onClose={() => {
-					const {_action, ...rest} = router.query;
-
-					router.replace({
-						pathname: router.pathname,
-						query: {
-							...rest,
-						},
-					});
-				}}
-			>
-				<FormAddContractor
-					onClose={() => {
-						const {_action, ...rest} = router.query;
-
-						router.replace({
-							pathname: router.pathname,
-							query: {
-								...rest,
-							},
-						});
-					}}
-				/>
-			</PositionContainer>
-
-			<PositionContainer
-				open={!!_projectContractorUuid}
-				onClose={() => {
-					const {_projectContractorUuid, ...rest} = router.query;
-
-					router.replace({
-						pathname: router.pathname,
-						query: {
-							...rest,
-						},
-					});
-				}}
-			>
-				<FormUpdateContractor
-					onClose={() => {
-						const {_projectContractorUuid, ...rest} = router.query;
-
-						router.replace({
-							pathname: router.pathname,
-							query: {
-								...rest,
-							},
-						});
-					}}
-				/>
-			</PositionContainer>
 
 			<Dialog
 				type='error'
@@ -460,14 +346,6 @@ function MainInfoContractor({}: PropsMainInfoContractor) {
 				title={'Kết thúc dự án'}
 				note={'Bạn có chắc chắn muốn kết thúc dự án này?'}
 				onSubmit={funcFinishProject.mutate}
-			/>
-			<Dialog
-				type='error'
-				open={!!uuidDeleteContractor}
-				onClose={() => setUuidDeleteContractor('')}
-				title={'Xóa nhà thầu'}
-				note={'Bạn có chắc chắn muốn xóa nhà thầu ra khỏi dự án này không?'}
-				onSubmit={funcDeleteContractorProject.mutate}
 			/>
 			<Dialog
 				type='primary'

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-import {IDetailProgressFundProject, IProjectFund, PropsMainDisbursementProgress} from './interfaces';
+import {IDetailProgressContractFund, IContractsForProject, PropsMainDisbursementProgress} from './interfaces';
 import styles from './MainDisbursementProgress.module.scss';
 import LayoutPages from '~/components/layouts/LayoutPages';
 import {PATH} from '~/constants/config';
@@ -8,7 +8,6 @@ import {useRouter} from 'next/router';
 import Button from '~/components/common/Button';
 import Pagination from '~/components/common/Pagination';
 import DataWrapper from '~/components/common/DataWrapper';
-import StateActive from '~/components/common/StateActive';
 import Table from '~/components/common/Table';
 import FilterCustom from '~/components/common/FilterCustom';
 import GridColumn from '~/components/layouts/GridColumn';
@@ -18,54 +17,36 @@ import {convertCoin} from '~/common/funcs/convertCoin';
 import Breadcrumb from '~/components/common/Breadcrumb';
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import {httpRequest} from '~/services';
-import {QUERY_KEY, STATE_PROJECT, STATUS_CONFIG, STATUS_DISBURSEMENT_PROJECT} from '~/constants/config/enum';
+import {QUERY_KEY, STATE_PROJECT, STATUS_CONFIG} from '~/constants/config/enum';
 import Dialog from '~/components/common/Dialog';
 import icons from '~/constants/images/icons';
 import Moment from 'react-moment';
-import {generateYearsArray} from '~/common/funcs/selectDate';
 import projectServices from '~/services/projectServices';
-import projectFundServices from '~/services/projectFundServices';
+import Loading from '~/components/common/Loading';
+import contractsServices from '~/services/contractsServices';
+import contractorcatServices from '~/services/contractorcatServices';
+import Search from '~/components/common/Search';
+import Tippy from '@tippyjs/react';
+import contractorServices from '~/services/contractorServices';
 
 function MainDisbursementProgress({}: PropsMainDisbursementProgress) {
 	const router = useRouter();
 	const queryClient = useQueryClient();
-	const years = generateYearsArray();
 
-	const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-
-	const {_uuid, _page, _pageSize, _approved, _year, _month} = router.query;
+	const {_uuid, _page, _pageSize, _keyword, _contractorUuid, _contractorCat} = router.query;
 
 	const [openDelete, setOpenDelete] = useState<boolean>(false);
 	const [openStart, setOpenStart] = useState<boolean>(false);
 	const [openFinish, setOpenFinish] = useState<boolean>(false);
 	const [openReStart, setOpenReStart] = useState<boolean>(false);
 
-	const {data: detailProgressFundProject} = useQuery<IDetailProgressFundProject>([QUERY_KEY.detail_progress_fund_project, _uuid], {
-		queryFn: () =>
-			httpRequest({
-				http: projectServices.detailProgressFundProject({
-					uuid: _uuid as string,
-				}),
-			}),
-		select(data) {
-			return data;
-		},
-		enabled: !!_uuid,
-	});
-
-	const {data: listProjectFund, isLoading} = useQuery(
-		[QUERY_KEY.table_list_project_fund, _uuid, _page, _pageSize, _approved, _year, _month],
+	const {data: detailProgressContractFund} = useQuery<IDetailProgressContractFund>(
+		[QUERY_KEY.detail_progress_contract_fund_project, _uuid],
 		{
 			queryFn: () =>
 				httpRequest({
-					http: projectFundServices.listProjectFund({
-						page: Number(_page) || 1,
-						pageSize: Number(_pageSize) || 20,
-						projectUuid: _uuid as string,
-						status: STATUS_CONFIG.ACTIVE,
-						approved: !!_approved ? Number(_approved) : null,
-						year: Number(_year) || null,
-						month: Number(_month) || null,
+					http: projectServices.progressContractFund({
+						uuid: _uuid as string,
 					}),
 				}),
 			select(data) {
@@ -74,6 +55,55 @@ function MainDisbursementProgress({}: PropsMainDisbursementProgress) {
 			enabled: !!_uuid,
 		}
 	);
+
+	const {data: listContractForProject, isLoading} = useQuery(
+		[QUERY_KEY.table_contract_for_project, _uuid, _page, _pageSize, _keyword, _contractorUuid, _contractorCat],
+		{
+			queryFn: () =>
+				httpRequest({
+					http: contractsServices.listContractsForProject({
+						page: Number(_page) || 1,
+						pageSize: Number(_pageSize) || 20,
+						keyword: (_keyword as string) || '',
+						status: STATUS_CONFIG.ACTIVE,
+						projectUuid: (_uuid as string) || '',
+						contractorUuid: (_contractorUuid as string) || '',
+						contractorCat: Number(_contractorCat) || null,
+					}),
+				}),
+			select(data) {
+				return data;
+			},
+			enabled: !!_uuid,
+		}
+	);
+
+	const {data: listGroupContractor} = useQuery([QUERY_KEY.dropdown_group_contractor], {
+		queryFn: () =>
+			httpRequest({
+				http: contractorcatServices.categoryContractorCat({
+					keyword: '',
+					status: STATUS_CONFIG.ACTIVE,
+				}),
+			}),
+		select(data) {
+			return data;
+		},
+	});
+
+	const {data: dropdownContractor} = useQuery([QUERY_KEY.dropdown_contractor, _contractorCat], {
+		queryFn: () =>
+			httpRequest({
+				http: contractorServices.categoryContractor({
+					keyword: '',
+					status: STATUS_CONFIG.ACTIVE,
+					type: Number(_contractorCat) || null,
+				}),
+			}),
+		select(data) {
+			return data;
+		},
+	});
 
 	const funcDeleteProject = useMutation({
 		mutationFn: () => {
@@ -111,7 +141,7 @@ function MainDisbursementProgress({}: PropsMainDisbursementProgress) {
 		onSuccess(data) {
 			if (data) {
 				setOpenStart(false);
-				queryClient.invalidateQueries([QUERY_KEY.detail_progress_fund_project]);
+				queryClient.invalidateQueries([QUERY_KEY.detail_progress_contract_fund_project]);
 			}
 		},
 	});
@@ -130,7 +160,7 @@ function MainDisbursementProgress({}: PropsMainDisbursementProgress) {
 		onSuccess(data) {
 			if (data) {
 				setOpenFinish(false);
-				queryClient.invalidateQueries([QUERY_KEY.detail_progress_fund_project]);
+				queryClient.invalidateQueries([QUERY_KEY.detail_progress_contract_fund_project]);
 			}
 		},
 	});
@@ -149,13 +179,18 @@ function MainDisbursementProgress({}: PropsMainDisbursementProgress) {
 		onSuccess(data) {
 			if (data) {
 				setOpenReStart(false);
-				queryClient.invalidateQueries([QUERY_KEY.detail_progress_fund_project]);
+				queryClient.invalidateQueries([QUERY_KEY.detail_progress_contract_fund_project]);
 			}
 		},
 	});
 
 	return (
 		<div className={styles.container}>
+			<Loading
+				loading={
+					funcDeleteProject.isLoading || funcStartProject.isLoading || funcFinishProject.isLoading || funcReStartProject.isLoading
+				}
+			/>
 			<Breadcrumb
 				listUrls={[
 					{
@@ -175,38 +210,47 @@ function MainDisbursementProgress({}: PropsMainDisbursementProgress) {
 						path: `${PATH.ProjectInfo}?_uuid=${_uuid}`,
 					},
 					{
-						title: 'Báo cáo công việc',
+						title: 'Quản lý công việc',
 						path: `${PATH.ProjectWorkReport}?_uuid=${_uuid}`,
 					},
 					{
-						title: 'Tiến độ giải ngân',
+						title: 'Quản lý hợp đồng',
 						path: `${PATH.ProjectDisbursementProgress}?_uuid=${_uuid}`,
 					},
 					{
-						title: 'Thông tin nhà thầu',
+						title: 'Quản lý nhà thầu',
 						path: `${PATH.ProjectContractor}?_uuid=${_uuid}`,
+					},
+					{
+						title: 'Nhật ký kế hoạch vốn',
+						path: `${PATH.ProjectPlanningCapital}?_uuid=${_uuid}`,
 					},
 				]}
 				action={
 					<div className={styles.group_btn}>
-						{detailProgressFundProject?.categoryProjectDTO?.state == STATE_PROJECT.PREPARE && (
+						{detailProgressContractFund?.categoryProjectDTO?.state == STATE_PROJECT.PREPARE && (
 							<Button p_14_24 rounded_8 blueLinear onClick={() => setOpenStart(true)}>
 								Thực hiện dự án
 							</Button>
 						)}
-						{detailProgressFundProject?.categoryProjectDTO?.state == STATE_PROJECT.DO && (
+						{detailProgressContractFund?.categoryProjectDTO?.state == STATE_PROJECT.DO && (
 							<Button p_14_24 rounded_8 primary onClick={() => setOpenFinish(true)}>
 								Kết thúc dự án
 							</Button>
 						)}
-						{detailProgressFundProject?.categoryProjectDTO?.state == STATE_PROJECT.PREPARE && (
+						{detailProgressContractFund?.categoryProjectDTO?.state == STATE_PROJECT.PREPARE && (
 							<Button p_14_24 rounded_8 light-red onClick={() => setOpenDelete(true)}>
 								Xóa
 							</Button>
 						)}
-						{detailProgressFundProject?.categoryProjectDTO?.state != STATE_PROJECT.FINISH && (
+						{detailProgressContractFund?.categoryProjectDTO?.state != STATE_PROJECT.FINISH && (
 							<Button p_14_24 rounded_8 primaryLinear href={`${PATH.UpdateInfoProject}?_uuid=${_uuid}`}>
 								Chỉnh sửa
+							</Button>
+						)}
+						{detailProgressContractFund?.categoryProjectDTO?.state == STATE_PROJECT.FINISH && (
+							<Button p_14_24 rounded_8 blueLinear onClick={() => setOpenReStart(true)}>
+								Tái hoạt động dự án
 							</Button>
 						)}
 					</div>
@@ -219,36 +263,25 @@ function MainDisbursementProgress({}: PropsMainDisbursementProgress) {
 					<div className={styles.progress_group}>
 						<GridColumn col_2>
 							<div className={styles.progress}>
-								<p>Trong năm (VND)</p>
+								<p>Tổng số hợp đồng</p>
 								<div className={styles.progress_label}>
-									<Progress
-										percent={
-											(Number(detailProgressFundProject?.countYearly) * 100) /
-											Number(detailProgressFundProject?.totalYearly)
-										}
-										width={120}
-										isPercent={false}
-									/>
-									<div>
-										<span className={styles.value}>{convertCoin(detailProgressFundProject?.countYearly || 0)}</span>/
-										{convertCoin(detailProgressFundProject?.totalYearly || 0)}
-									</div>
+									<span style={{color: '#005994'}}>{detailProgressContractFund?.totalContract}</span>
 								</div>
 							</div>
 							<div className={styles.progress}>
-								<p>Trong dự án (VND)</p>
+								<p>Số tiền đã giải ngân (VND)</p>
 								<div className={styles.progress_label}>
 									<Progress
 										percent={
-											(Number(detailProgressFundProject?.countInProject) * 100) /
-											Number(detailProgressFundProject?.totalInProject)
+											(Number(detailProgressContractFund?.countRelease) * 100) /
+											Number(detailProgressContractFund?.totalContractAmount)
 										}
 										width={120}
 										isPercent={false}
 									/>
 									<div>
-										<span className={styles.value}>{convertCoin(detailProgressFundProject?.countInProject || 0)}</span>/
-										{convertCoin(detailProgressFundProject?.totalInProject || 0)}
+										<span className={styles.value}>{convertCoin(detailProgressContractFund?.countRelease || 0)}</span> /{' '}
+										<span>{convertCoin(detailProgressContractFund?.totalContractAmount || 0)}</span>
 									</div>
 								</div>
 							</div>
@@ -257,122 +290,103 @@ function MainDisbursementProgress({}: PropsMainDisbursementProgress) {
 				</div>
 				<div className={clsx(styles.basic_info, styles.mt)}>
 					<div className={styles.head}>
-						<h4>Danh sách báo cáo số tiền giải ngân</h4>
+						<h4>Danh sách hợp đồng công việc</h4>
 					</div>
 					<div className={styles.main_table}>
 						<div className={styles.head_filt}>
 							<div className={styles.main_search}>
+								<div className={styles.search}>
+									<Search keyName='_keyword' placeholder='Tìm kiếm theo số hợp đồng' />
+								</div>
 								<div className={styles.filter}>
 									<FilterCustom
 										isSearch
-										name='Năm'
-										query='_year'
-										listFilter={years?.map((v) => ({
-											id: v,
-											name: `Năm ${v}`,
+										name='Nhóm nhà thầu'
+										query='_contractorCat'
+										listFilter={listGroupContractor?.map((v: any) => ({
+											id: v?.id,
+											name: v?.name,
 										}))}
 									/>
 								</div>
 								<div className={styles.filter}>
 									<FilterCustom
 										isSearch
-										name='Tháng'
-										query='_month'
-										listFilter={months?.map((v) => ({
-											id: v,
-											name: `Tháng ${v}`,
+										name='Tên nhà thầu'
+										query='_contractorUuid'
+										listFilter={dropdownContractor?.map((v: any) => ({
+											id: v?.uuid,
+											name: v?.name,
 										}))}
-									/>
-								</div>
-								<div className={styles.filter}>
-									<FilterCustom
-										isSearch
-										name='Trạng thái'
-										query='_approved'
-										listFilter={[
-											{
-												id: STATUS_DISBURSEMENT_PROJECT.NOT_APPROVED,
-												name: 'Chưa duyệt',
-											},
-											{
-												id: STATUS_DISBURSEMENT_PROJECT.APPROVED,
-												name: 'Đã duyệt',
-											},
-											{
-												id: STATUS_DISBURSEMENT_PROJECT.REJECTED,
-												name: 'Bị từ chối',
-											},
-										]}
 									/>
 								</div>
 							</div>
 						</div>
-						<DataWrapper loading={isLoading} data={listProjectFund?.items || []}>
+						<DataWrapper loading={isLoading} data={listContractForProject?.items || []}>
 							<Table
-								data={listProjectFund?.items || []}
+								data={listContractForProject?.items || []}
 								column={[
 									{
 										title: 'STT',
-										render: (data: IProjectFund, index: number) => <>{index + 1}</>,
+										render: (data: IContractsForProject, index: number) => <>{index + 1}</>,
 									},
 									{
-										title: 'Báo cáo tháng',
-										render: (data: IProjectFund) => <>{data?.monthReport}</>,
+										title: 'Số hợp đồng',
+										render: (data: IContractsForProject) => <>{data?.code || '---'}</>,
 									},
 									{
-										title: 'Số tiền giải ngân (VND)',
-										render: (data: IProjectFund) => <>{convertCoin(data?.realeaseBudget)}</>,
+										title: 'Giá trị hợp đồng (VND)',
+										render: (data: IContractsForProject) => <>{convertCoin(data?.amount)}</>,
 									},
 									{
-										title: 'Tổng mức đầu tư (VND)',
-										render: (data: IProjectFund) => <>{convertCoin(data?.totalInvest)}</>,
+										title: 'Ngày ký hợp đồng',
+										render: (data: IContractsForProject) =>
+											data?.startDate ? <Moment date={data?.startDate} format='DD/MM/YYYY' /> : '---',
 									},
 									{
-										title: 'Kế hoạch vốn năm (VND)',
-										render: (data: IProjectFund) => <>{convertCoin(data?.annualBudget)}</>,
+										title: 'Số ngày',
+										render: (data: IContractsForProject) => <>{data?.totalDayAdvantage}</>,
 									},
 									{
-										title: 'Lũy kế theo năm (VND)',
-										render: (data: IProjectFund) => <>{convertCoin(data?.annualAccumAmount)}</>,
+										title: 'Nhóm nhà thầu',
+										render: (data: IContractsForProject) => <>{data?.contractor?.contractorCat?.name || '---'}</>,
 									},
 									{
-										title: 'Lũy kế theo dự án (VND)',
-										render: (data: IProjectFund) => <>{convertCoin(data?.projectAccumAmount)}</>,
+										title: 'Tên nhà thầu',
+										render: (data: IContractsForProject) => <>{data?.contractor?.name || '---'}</>,
 									},
 									{
-										title: 'Tỷ lệ giải ngân',
-										render: (data: IProjectFund) => <Progress percent={data?.fundProgress} width={80} />,
+										title: 'Giá trị BLTHHĐ (VND)',
+										render: (data: IContractsForProject) => <>{convertCoin(data?.contractExecution?.amount)}</>,
 									},
 									{
-										title: 'Ngày gửi báo cáo',
-										render: (data: IProjectFund) => <Moment date={data?.created} format='DD/MM/YYYY' />,
+										title: 'Ngày kết thúc BLTHHĐ',
+										render: (data: IContractsForProject) =>
+											data?.contractExecution?.endDate ? (
+												<Moment date={data?.contractExecution?.endDate} format='DD/MM/YYYY' />
+											) : (
+												'---'
+											),
 									},
 									{
-										title: 'Người báo cáo',
-										render: (data: IProjectFund) => <>{data?.reporter?.fullname}</>,
+										title: 'Giá trị BLTƯ (VND)',
+										render: (data: IContractsForProject) => <>{convertCoin(data?.advanceGuarantee?.amount)}</>,
 									},
 									{
-										title: 'Trạng thái',
-										render: (data: IProjectFund) => (
-											<div className={styles.state}>
-												<StateActive
-													stateActive={data?.status}
-													listState={[
-														{
-															state: 1,
-															text: 'Đã báo cáo',
-															textColor: '#fff',
-															backgroundColor: '#06D7A0',
-														},
-														{
-															state: 2,
-															text: 'Bị từ chối',
-															textColor: '#fff',
-															backgroundColor: '#F37277',
-														},
-													]}
-												/>
-											</div>
+										title: 'Ngày kết thúc BLTƯ',
+										render: (data: IContractsForProject) =>
+											data?.advanceGuarantee?.endDate ? (
+												<Moment date={data?.advanceGuarantee?.endDate} format='DD/MM/YYYY' />
+											) : (
+												'---'
+											),
+									},
+									{
+										title: 'Tên công việc',
+										render: (data: IContractsForProject) => (
+											<Tippy content={data?.activityName || '---'}>
+												<p className={styles.name}>{data?.activityName || ''}</p>
+											</Tippy>
 										),
 									},
 								]}
@@ -381,8 +395,8 @@ function MainDisbursementProgress({}: PropsMainDisbursementProgress) {
 						<Pagination
 							currentPage={Number(_page) || 1}
 							pageSize={Number(_pageSize) || 20}
-							total={listProjectFund?.pagination?.totalCount || 0}
-							dependencies={[_uuid, _pageSize, _approved, _year, _month]}
+							total={listContractForProject?.pagination?.totalCount || 0}
+							dependencies={[_uuid, _pageSize, _keyword, _contractorUuid, _contractorCat]}
 						/>
 					</div>
 				</div>

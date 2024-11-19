@@ -1,10 +1,9 @@
 export interface PropsMainDisbursementProgress {}
 
-export interface IDetailProgressFundProject {
-	countYearly: number;
-	countInProject: number;
-	totalYearly: number;
-	totalInProject: number;
+export interface IDetailProgressContractFund {
+	totalContract: number;
+	countRelease: number;
+	totalContractAmount: number;
 	categoryProjectDTO: {
 		code: string;
 		name: string;
@@ -13,21 +12,35 @@ export interface IDetailProgressFundProject {
 	};
 }
 
-export interface IProjectFund {
-	monthReport: string;
-	realeaseBudget: number;
-	totalInvest: number;
-	annualBudget: number;
-	annualAccumAmount: number;
-	projectAccumAmount: number;
-	fundProgress: number;
-	created: string;
-	reporter: {
-		fullname: string;
+export interface IContractsForProject {
+	code: string;
+	amount: number;
+	startDate: string;
+	endDate: string;
+	totalDayAdvantage: number;
+	contractor: {
 		code: string;
+		name: string;
+		contractorCat: {
+			id: number;
+			code: string;
+			name: string;
+			isDefault: number;
+			uuid: string;
+		};
 		uuid: string;
 	};
-	approved: number;
+	advanceGuarantee: {
+		amount: number;
+		endDate: string;
+		type: number;
+	};
+	contractExecution: {
+		amount: number;
+		endDate: string;
+		type: number;
+	};
+	activityName: string;
 	status: number;
 	uuid: string;
 }

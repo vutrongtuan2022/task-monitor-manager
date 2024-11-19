@@ -75,7 +75,7 @@ const projectContractorServices = {
 		},
 		tokenAxios?: any
 	) => {
-		return axiosClient.post(`/ProjectContractor/admin-get-for-modify-project-contractor`, data, {
+		return axiosClient.post(`/ProjectContractor/get-all-contractor-in-project`, data, {
 			cancelToken: tokenAxios,
 		});
 	},

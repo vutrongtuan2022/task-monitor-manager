@@ -74,6 +74,16 @@ const projectServices = {
 			cancelToken: tokenAxios,
 		});
 	},
+	progressContractFund: (
+		data: {
+			uuid: string;
+		},
+		tokenAxios?: any
+	) => {
+		return axiosClient.post(`/Project/progress-contract-fund-project`, data, {
+			cancelToken: tokenAxios,
+		});
+	},
 	detailInfoProject: (
 		data: {
 			uuid: string;

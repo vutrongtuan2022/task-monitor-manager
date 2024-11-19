@@ -172,16 +172,20 @@ function MainWorkReport({}: PropsMainWorkReport) {
 						path: `${PATH.ProjectInfo}?_uuid=${_uuid}`,
 					},
 					{
-						title: 'Báo cáo công việc',
+						title: 'Quản lý công việc',
 						path: `${PATH.ProjectWorkReport}?_uuid=${_uuid}`,
 					},
 					{
-						title: 'Tiến độ giải ngân',
+						title: 'Quản lý hợp đồng',
 						path: `${PATH.ProjectDisbursementProgress}?_uuid=${_uuid}`,
 					},
 					{
-						title: 'Thông tin nhà thầu',
+						title: 'Quản lý nhà thầu',
 						path: `${PATH.ProjectContractor}?_uuid=${_uuid}`,
+					},
+					{
+						title: 'Nhật ký kế hoạch vốn',
+						path: `${PATH.ProjectPlanningCapital}?_uuid=${_uuid}`,
 					},
 				]}
 				action={
