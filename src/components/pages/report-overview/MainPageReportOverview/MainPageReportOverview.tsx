@@ -4,7 +4,7 @@ import styles from './MainPageReportOverview.module.scss';
 import {useRouter} from 'next/router';
 import {generateYearsArray} from '~/common/funcs/selectDate';
 import {useQuery} from '@tanstack/react-query';
-import {QUERY_KEY, STATUS_CONFIG, TYPE_ACCOUNT} from '~/constants/config/enum';
+import {QUERY_KEY, STATUS_CONFIG} from '~/constants/config/enum';
 import {httpRequest} from '~/services';
 import Search from '~/components/common/Search';
 import FilterCustom from '~/components/common/FilterCustom';
@@ -12,23 +12,22 @@ import WrapperScrollbar from '~/components/layouts/WrapperScrollbar';
 import DataWrapper from '~/components/common/DataWrapper';
 import Noti from '~/components/common/DataWrapper/components/Noti';
 import Table from '~/components/common/Table';
-import Progress from '~/components/common/Progress';
 import {convertCoin} from '~/common/funcs/convertCoin';
 import Moment from 'react-moment';
 import IconCustom from '~/components/common/IconCustom';
 import {Eye} from 'iconsax-react';
 import Pagination from '~/components/common/Pagination';
-import overviewServices from '~/services/overviewServices';
-import userServices from '~/services/userServices';
 import {PATH} from '~/constants/config';
+import overviewServices from '~/services/overviewServices';
+
 function MainPageReportOverview({}: PropsMainPageReportOverview) {
 	const router = useRouter();
 	const years = generateYearsArray();
 	const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
-	const {_page, _pageSize, _keyword, _year, _month, _reporterUuid} = router.query;
+	const {_page, _pageSize, _keyword, _year, _month} = router.query;
 
-	const listOverview = useQuery([QUERY_KEY.table_overview_report, _page, _pageSize, _keyword, _year, _month, _reporterUuid], {
+	const listOverview = useQuery([QUERY_KEY.table_overview_report, _page, _pageSize, _keyword, _year, _month], {
 		queryFn: () =>
 			httpRequest({
 				http: overviewServices.listOverview({
@@ -38,22 +37,7 @@ function MainPageReportOverview({}: PropsMainPageReportOverview) {
 					status: STATUS_CONFIG.ACTIVE,
 					year: !!_year ? Number(_year) : null,
 					month: !!_month ? Number(_month) : null,
-					reporterUuid: _reporterUuid as string,
-				}),
-			}),
-		select(data) {
-			return data;
-		},
-	});
-
-	const {data: listUser} = useQuery([QUERY_KEY.dropdown_user], {
-		queryFn: () =>
-			httpRequest({
-				http: userServices.categoryUser({
-					keyword: '',
-					status: STATUS_CONFIG.ACTIVE,
-					roleUuid: '',
-					type: TYPE_ACCOUNT.USER,
+					reporterUuid: '',
 				}),
 			}),
 		select(data) {
@@ -68,7 +52,6 @@ function MainPageReportOverview({}: PropsMainPageReportOverview) {
 					<div className={styles.search}>
 						<Search keyName='_keyword' placeholder='Tìm kiếm theo tên công trình' />
 					</div>
-
 					<div className={styles.filter}>
 						<FilterCustom
 							isSearch
@@ -88,17 +71,6 @@ function MainPageReportOverview({}: PropsMainPageReportOverview) {
 							listFilter={months?.map((v) => ({
 								id: v,
 								name: `Tháng ${v}`,
-							}))}
-						/>
-					</div>
-					<div className={styles.filter}>
-						<FilterCustom
-							isSearch
-							name='Người báo cáo'
-							query='_reporterUuid'
-							listFilter={listUser?.map((v: any) => ({
-								id: v?.uuid,
-								name: v?.fullname,
 							}))}
 						/>
 					</div>
@@ -124,7 +96,7 @@ function MainPageReportOverview({}: PropsMainPageReportOverview) {
 							},
 							{
 								title: 'Tên công trình',
-								render: (data: IReportOverview) => <>{data?.project?.name}</>,
+								render: (data: IReportOverview) => <>{data?.project?.name || '---'}</>,
 							},
 							{
 								title: 'Số công việc thực hiện',
@@ -136,21 +108,16 @@ function MainPageReportOverview({}: PropsMainPageReportOverview) {
 								),
 							},
 							{
+								title: 'Hợp đồng giải ngân',
+								render: (data: IReportOverview) => <>{data?.fund?.totalContracts}</>,
+							},
+							{
 								title: 'Số tiền giải ngân (VND)',
-								render: (data: IReportOverview) => <>{convertCoin(data?.fundReport?.realeaseBudget) || '---'}</>,
+								render: (data: IReportOverview) => <>{convertCoin(data?.fund?.totalFunds) || '---'}</>,
 							},
 							{
 								title: 'Tổng mức đầu tư (VND)',
-								render: (data: IReportOverview) => <>{convertCoin(data?.fundReport?.totalInvest) || '---'}</>,
-							},
-
-							{
-								title: 'Tỷ lệ giải ngân',
-								render: (data: IReportOverview) => <Progress percent={data?.fundReport?.fundProgress} width={80} />,
-							},
-							{
-								title: 'Người báo cáo',
-								render: (data: IReportOverview) => <>{data?.reporter?.fullname || '---'}</>,
+								render: (data: IReportOverview) => <>{convertCoin(data?.totalInvest) || '---'}</>,
 							},
 							{
 								title: 'Ngày gửi báo cáo',
@@ -179,7 +146,7 @@ function MainPageReportOverview({}: PropsMainPageReportOverview) {
 					currentPage={Number(_page) || 1}
 					pageSize={Number(_pageSize) || 20}
 					total={listOverview?.data?.pagination?.totalCount}
-					dependencies={[_pageSize, _keyword, _year, _month, _reporterUuid]}
+					dependencies={[_pageSize, _keyword, _year, _month]}
 				/>
 			</WrapperScrollbar>
 		</div>

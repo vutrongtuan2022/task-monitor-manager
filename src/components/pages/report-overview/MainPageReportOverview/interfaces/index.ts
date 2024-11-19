@@ -1,69 +1,58 @@
 export interface PropsMainPageReportOverview {}
 
 export interface IReportOverview {
-	uuid: string;
 	month: number;
 	year: number;
 	project: {
-		uuid: string;
 		code: string;
 		name: string;
 		state: number;
+		uuid: string;
 	};
 	report: {
-		uuid: string;
-		title: string;
-		state: number;
-		status: number;
-		project: {
-			uuid: string;
-			code: string;
-			name: string;
-			state: number;
-		};
-		reporter: {
-			uuid: string;
-			fullname: string;
-			code: string;
-		};
-		month: number;
-		year: number;
 		completeState: number;
 		completed: string;
 		created: string;
 		totalActivity: number;
 		completedActivity: number;
-	};
-	fundReport: {
-		uuid: string;
-		monthReport: string;
-		realeaseBudget: number;
-		totalInvest: number;
-		annualBudget: number;
-		annualAccumAmount: number;
-		projectAccumAmount: number;
-		fundProgress: number;
-		created: string;
-		reporter: {
-			uuid: string;
-			fullname: string;
-			code: string;
-		};
-		approved: number;
+		title: string;
+		state: number;
 		status: number;
+		month: number;
+		year: number;
 		project: {
-			uuid: string;
 			code: string;
 			name: string;
 			state: number;
+			uuid: string;
 		};
-	};
-	reporter: {
+		reporter: {
+			fullname: string;
+			code: string;
+			uuid: string;
+		};
 		uuid: string;
+	};
+	fund: {
+		projectDTO: {
+			code: string;
+			name: string;
+			state: number;
+			uuid: string;
+		};
+		year: number;
+		month: number;
+		totalContracts: number;
+		totalFunds: number;
+	};
+	totalInvest: number;
+	reporter: {
 		fullname: string;
 		code: string;
+		uuid: string;
 	};
 	updated: string;
 	created: string;
 	status: number;
+	uuid: string;
 }

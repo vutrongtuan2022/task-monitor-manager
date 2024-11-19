@@ -1,0 +1,25 @@
+.basic_info {
+	background-color: #fff;
+	border-radius: 12px;
+}
+
+.head {
+	border-left: 4px solid #005994;
+	padding: 0 20px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+
+	& > h4 {
+		color: #202939;
+		font-size: 20px;
+		font-weight: 600;
+	}
+}
+
+.link {
+	color: #005994;
+	font-size: 14px;
+	font-weight: 600;
+	transition: 0.3s;
+}

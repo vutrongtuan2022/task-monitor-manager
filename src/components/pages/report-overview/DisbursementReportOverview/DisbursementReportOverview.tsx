@@ -4,14 +4,11 @@ import {IDisbursementReportOverview, PropsDisbursementReportOverview} from './in
 import styles from './DisbursementReportOverview.module.scss';
 import {useRouter} from 'next/router';
 import {useQuery} from '@tanstack/react-query';
-import {QUERY_KEY, STATE_REPORT_DISBURSEMENT_OVERVIEW} from '~/constants/config/enum';
+import {QUERY_KEY} from '~/constants/config/enum';
 import {httpRequest} from '~/services';
 import overviewServices from '~/services/overviewServices';
-import StateActive from '~/components/common/StateActive';
 import GridColumn from '~/components/layouts/GridColumn';
 import {convertCoin} from '~/common/funcs/convertCoin';
-import Progress from '~/components/common/Progress';
-import Moment from 'react-moment';
 
 function DisbursementReportOverview({}: PropsDisbursementReportOverview) {
 	const router = useRouter();
@@ -37,94 +34,34 @@ function DisbursementReportOverview({}: PropsDisbursementReportOverview) {
 	return (
 		<div className={styles.container}>
 			<div className={styles.head}>
-				<h4>Thông tin chi tiết</h4>
-				<div className={styles.state}>
-					<p>Trạng thái giải ngân:</p>
-					<StateActive
-						stateActive={disbursementReportOverview?.approved!}
-						listState={[
-							{
-								state: STATE_REPORT_DISBURSEMENT_OVERVIEW.REJECTED,
-								text: 'Bị từ chối',
-								textColor: '#FFFFFF',
-								backgroundColor: '#F37277',
-							},
-							{
-								state: STATE_REPORT_DISBURSEMENT_OVERVIEW.NOT_APPROVED,
-								text: 'Chưa xử lý',
-								textColor: '#FFFFFF',
-								backgroundColor: '#4BC9F0',
-							},
-							{
-								state: STATE_REPORT_DISBURSEMENT_OVERVIEW.APPROVED,
-								text: 'Đã duyệt',
-								textColor: '#FFFFFF',
-								backgroundColor: '#06D7A0',
-							},
-						]}
-					/>
-				</div>
+				<h4>Thông tin cơ bản</h4>
 			</div>
 			<div className={styles.progress_group}>
 				<GridColumn col_3>
 					<div className={styles.item}>
 						<p>Tên công trình</p>
-						<p>{disbursementReportOverview?.project?.name || '---'}</p>
+						<p>{disbursementReportOverview?.projectDTO?.name || '---'}</p>
 					</div>
 					<div className={styles.item}>
 						<p>Báo cáo tháng</p>
-						<p>{disbursementReportOverview?.monthReport || '---'}</p>
+						{!!disbursementReportOverview?.month && disbursementReportOverview?.year ? (
+							<p>{`Tháng ${disbursementReportOverview?.month} - ${disbursementReportOverview?.year}` || '---'}</p>
+						) : (
+							'---'
+						)}
 					</div>
 					<div className={styles.item}>
-						<p>Số tiền giải ngân (VND)</p>
-						<p>{convertCoin(disbursementReportOverview?.realeaseBudget!) || '---'}</p>
+						<p>Số hợp đồng giải ngân</p>
+						<p>{disbursementReportOverview?.totalContracts || '---'}</p>
 					</div>
 					<div className={styles.item}>
-						<p>Tổng mức đầu tư (VND)</p>
-						<p>{convertCoin(disbursementReportOverview?.totalInvest!) || '---'}</p>
-					</div>
-					<div className={styles.item}>
-						<p>Kế hoạch vốn năm (VND)</p>
-						<p>{convertCoin(disbursementReportOverview?.annualBudget!) || '---'}</p>
-					</div>
-					<div className={styles.item}>
-						<p>Lũy kế theo năm (VND)</p>
-						<p>{convertCoin(disbursementReportOverview?.annualAccumAmount!) || '---'}</p>
-					</div>
-					<div className={styles.item}>
-						<p>Lũy kế theo dự án (VND)</p>
-						<p>{convertCoin(disbursementReportOverview?.projectAccumAmount!) || '---'}</p>
-					</div>
-					<div className={styles.item}>
-						<p>Tỷ lệ giải ngân</p>
+						<p>Tổng số tiền đã giải ngân (VND)</p>
 						<p>
-							<Progress percent={disbursementReportOverview?.fundProgress!} width={80} />
+							<span style={{color: '#EE464C'}}>
+								{disbursementReportOverview?.totalFunds ? convertCoin(disbursementReportOverview?.totalFunds!) : '---'}
+							</span>
 						</p>
 					</div>
-					<div className={styles.item}>
-						<p>Người báo cáo</p>
-						<p>{disbursementReportOverview?.reporter?.fullname || ''}</p>
-					</div>
-					<div className={styles.item}>
-						<p>Ngày gửi báo cáo</p>
-						<p>
-							{disbursementReportOverview?.created ? (
-								<Moment date={disbursementReportOverview?.created} format='DD/MM/YYYY' />
-							) : (
-								'---'
-							)}
-						</p>
-					</div>
-					<div className={styles.item}>
-						<p>Ghi chú</p>
-						<p>{disbursementReportOverview?.note || '---'}</p>
-					</div>
-					{disbursementReportOverview?.approved == STATE_REPORT_DISBURSEMENT_OVERVIEW.REJECTED && (
-						<div className={styles.item}>
-							<p>Lý do từ chối báo cáo giải ngân</p>
-							<p>{disbursementReportOverview?.feedback || '---'}</p>
-						</div>
-					)}
 				</GridColumn>
 			</div>
 		</div>
