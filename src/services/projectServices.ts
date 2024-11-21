@@ -10,6 +10,10 @@ const projectServices = {
 			state: number | null;
 			userUuid?: string;
 			managerUuid: string;
+			sort: {
+				column: number | null;
+				type: number | null;
+			};
 		},
 		tokenAxios?: any
 	) => {
