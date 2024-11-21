@@ -30,6 +30,7 @@ import Button from '~/components/common/Button';
 import contractsFundServices from '~/services/contractsFundServices';
 import userServices from '~/services/userServices';
 import projectServices from '~/services/projectServices';
+import Tippy from '@tippyjs/react';
 
 function MainPageReportDisbursement({}: PropsMainPageReportDisbursement) {
 	const router = useRouter();
@@ -81,7 +82,7 @@ function MainPageReportDisbursement({}: PropsMainPageReportDisbursement) {
 				httpRequest({
 					http: contractsFundServices.getPmContractFundPaged({
 						page: Number(_page) || 1,
-						pageSize: Number(_pageSize) || 20,
+						pageSize: Number(_pageSize) || 10,
 						keyword: (_keyword as string) || '',
 						status: STATUS_CONFIG.ACTIVE,
 						year: !!_year ? Number(_year) : null,
@@ -234,11 +235,19 @@ function MainPageReportDisbursement({}: PropsMainPageReportDisbursement) {
 							},
 							{
 								title: 'Tên công trình',
-								render: (data: IReportDisbursement) => <>{data?.project?.name}</>,
+								render: (data: IReportDisbursement) => (
+									<Tippy content={data?.project?.name}>
+										<p className={styles.name}>{data?.project?.name}</p>
+									</Tippy>
+								),
 							},
 							{
 								title: 'Báo cáo tháng',
 								render: (data: IReportDisbursement) => <>{`Tháng ${data?.releasedMonth} - ${data?.releasedYear}`}</>,
+							},
+							{
+								title: 'Người báo cáo',
+								render: (data: IReportDisbursement) => <>{data?.creator?.fullname || '---'}</>,
 							},
 							{
 								title: 'Vốn dự phòng (VND)',
@@ -255,10 +264,6 @@ function MainPageReportDisbursement({}: PropsMainPageReportDisbursement) {
 							{
 								title: 'Tổng mức đầu tư (VND)',
 								render: (data: IReportDisbursement) => <>{convertCoin(data?.totalBudget) || '---'}</>,
-							},
-							{
-								title: 'Người báo cáo',
-								render: (data: IReportDisbursement) => <>{data?.creator?.fullname || '---'}</>,
 							},
 							{
 								title: 'Ngày gửi báo cáo',
@@ -335,7 +340,7 @@ function MainPageReportDisbursement({}: PropsMainPageReportDisbursement) {
 				</DataWrapper>
 				<Pagination
 					currentPage={Number(_page) || 1}
-					pageSize={Number(_pageSize) || 20}
+					pageSize={Number(_pageSize) || 10}
 					total={listReportDisbursement?.data?.pagination?.totalCount}
 					dependencies={[_pageSize, _keyword, _year, _month, _state, _reporterUuid, _project]}
 				/>

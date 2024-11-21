@@ -26,7 +26,7 @@ function PlanReportOverview({}: PropsPlanReportOverview) {
 				http: overviewServices.nextReportOverview({
 					uuid: _uuid as string,
 					page: Number(_page) || 1,
-					pageSize: Number(_pageSize) || 20,
+					pageSize: Number(_pageSize) || 10,
 					keyword: '',
 					status: STATUS_CONFIG.ACTIVE,
 				}),
@@ -156,7 +156,7 @@ function PlanReportOverview({}: PropsPlanReportOverview) {
 					</DataWrapper>
 					<Pagination
 						currentPage={Number(_page) || 1}
-						pageSize={Number(_pageSize) || 20}
+						pageSize={Number(_pageSize) || 10}
 						total={nextPlanReport?.pagination?.totalCount}
 						dependencies={[_uuid, _pageSize]}
 					/>

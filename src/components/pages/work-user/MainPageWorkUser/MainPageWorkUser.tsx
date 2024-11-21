@@ -72,7 +72,7 @@ function MainPageWorkUser({}: PropsMainPageWorkUser) {
 				httpRequest({
 					http: activityServices.listActivityForActionNew({
 						page: Number(_page) || 1,
-						pageSize: Number(_pageSize) || 20,
+						pageSize: Number(_pageSize) || 10,
 						keyword: (_keyword as string) || '',
 						status: STATUS_CONFIG.ACTIVE,
 						state: !!_state ? Number(_state) : null,
@@ -206,7 +206,11 @@ function MainPageWorkUser({}: PropsMainPageWorkUser) {
 							},
 							{
 								title: 'Tên công trình',
-								render: (data: IWorkUser) => <>{data?.report?.project?.name}</>,
+								render: (data: IWorkUser) => (
+									<Tippy content={data?.report?.project?.name}>
+										<p className={styles.project_name}>{data?.report?.project?.name}</p>
+									</Tippy>
+								),
 							},
 							{
 								title: 'Tên công việc',
@@ -329,7 +333,7 @@ function MainPageWorkUser({}: PropsMainPageWorkUser) {
 				</DataWrapper>
 				<Pagination
 					currentPage={Number(_page) || 1}
-					pageSize={Number(_pageSize) || 20}
+					pageSize={Number(_pageSize) || 10}
 					total={listWork?.data?.pagination?.totalCount}
 					dependencies={[_pageSize, _keyword, _state, _year, _month, _type, _reporterUuid, _project]}
 				/>

@@ -44,7 +44,7 @@ function DetailContractReportDisbursement({}: PropsDetailContractReportDisbursem
 			httpRequest({
 				http: contractsServices.contractsReportFundpaged({
 					page: Number(_page) || 1,
-					pageSize: Number(_pageSize) || 20,
+					pageSize: Number(_pageSize) || 10,
 					keyword: '',
 					status: STATUS_CONFIG.ACTIVE,
 					uuid: _uuid as string,
@@ -243,7 +243,7 @@ function DetailContractReportDisbursement({}: PropsDetailContractReportDisbursem
 						</DataWrapper>
 						<Pagination
 							currentPage={Number(_page) || 1}
-							pageSize={Number(_pageSize) || 20}
+							pageSize={Number(_pageSize) || 10}
 							total={listContractFund?.pagination?.totalCount}
 							dependencies={[_pageSize, _uuid]}
 						/>

@@ -56,7 +56,7 @@ function MainWorkReport({}: PropsMainWorkReport) {
 				httpRequest({
 					http: activityServices.listActivity({
 						page: Number(_page) || 1,
-						pageSize: Number(_pageSize) || 20,
+						pageSize: Number(_pageSize) || 10,
 						projectUuid: _uuid as string,
 						keyword: _keyword as string,
 						state: !!_state ? Number(_state) : null,
@@ -449,7 +449,7 @@ function MainWorkReport({}: PropsMainWorkReport) {
 						</DataWrapper>
 						<Pagination
 							currentPage={Number(_page) || 1}
-							pageSize={Number(_pageSize) || 20}
+							pageSize={Number(_pageSize) || 10}
 							total={listActivityProject?.pagination?.totalCount || 0}
 							dependencies={[_uuid, _pageSize, _keyword, _state, _activityType, _deadLine]}
 						/>
