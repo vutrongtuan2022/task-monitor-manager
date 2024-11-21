@@ -17,7 +17,7 @@ import IconCustom from '~/components/common/IconCustom';
 import {Edit, Trash} from 'iconsax-react';
 import Progress from '~/components/common/Progress';
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
-import {QUERY_KEY, STATUS_CONFIG, STATE_PROJECT} from '~/constants/config/enum';
+import {QUERY_KEY, STATUS_CONFIG, STATE_PROJECT, SORT_TYPE} from '~/constants/config/enum';
 import {httpRequest} from '~/services';
 import FilterCustom from '~/components/common/FilterCustom';
 import Loading from '~/components/common/Loading';
@@ -27,16 +27,29 @@ import Link from 'next/link';
 import Tippy from '@tippyjs/react';
 import {convertCoin} from '~/common/funcs/convertCoin';
 import projectServices from '~/services/projectServices';
+import {TiArrowSortedDown, TiArrowSortedUp, TiArrowUnsorted} from 'react-icons/ti';
+
+enum COLUMN_SORT_PROJECT {
+	PROGRESS = 1,
+	DATE_TIME,
+	INVEST,
+}
 
 function MainPageProject({}: PropsMainPageProject) {
 	const router = useRouter();
 	const queryClient = useQueryClient();
 
 	const [deleteProject, setDeleteProject] = useState<IProject | null>(null);
-
+	const [sort, setSort] = useState<{
+		column: COLUMN_SORT_PROJECT | null;
+		type: SORT_TYPE | null;
+	}>({
+		column: null,
+		type: null,
+	});
 	const {_page, _pageSize, _keyword, _status, _managerUuid, _state} = router.query;
 
-	const listProject = useQuery([QUERY_KEY.table_list_user, _page, _pageSize, _state, _keyword, _status, _managerUuid], {
+	const listProject = useQuery([QUERY_KEY.table_list_user, _page, _pageSize, _state, _keyword, _status, _managerUuid, sort], {
 		queryFn: () =>
 			httpRequest({
 				http: projectServices.listProject({
@@ -46,6 +59,10 @@ function MainPageProject({}: PropsMainPageProject) {
 					status: STATUS_CONFIG.ACTIVE,
 					state: !!_state ? Number(_state) : null,
 					managerUuid: (_managerUuid as string) || '',
+					sort: {
+						column: sort.column,
+						type: sort.type,
+					},
 				}),
 			}),
 		select(data) {
@@ -71,6 +88,23 @@ function MainPageProject({}: PropsMainPageProject) {
 			}
 		},
 	});
+
+	const handleSortChange = (column: COLUMN_SORT_PROJECT) => {
+		setSort((prev) => {
+			if (prev.column === column) {
+				return {
+					column,
+					type:
+						prev.type === SORT_TYPE.DECREASE
+							? SORT_TYPE.INCREASE
+							: prev.type === SORT_TYPE.INCREASE
+							? null
+							: SORT_TYPE.DECREASE,
+				};
+			}
+			return {column, type: SORT_TYPE.DECREASE};
+		});
+	};
 
 	return (
 		<div className={styles.container}>
@@ -175,11 +209,43 @@ function MainPageProject({}: PropsMainPageProject) {
 								render: (data: IProject) => <>{data?.user?.fullname}</>,
 							},
 							{
-								title: 'TMĐT(VND)',
+								title: (
+									<div className={styles.sort} onClick={() => handleSortChange(COLUMN_SORT_PROJECT.INVEST)}>
+										<p>TMĐT(VND)</p>
+										<div className={styles.icon_sort}>
+											{(sort.column != COLUMN_SORT_PROJECT.INVEST ||
+												(sort.column == COLUMN_SORT_PROJECT.INVEST && sort.type == null)) && (
+												<TiArrowUnsorted size={16} />
+											)}
+											{sort.column === COLUMN_SORT_PROJECT.INVEST && sort.type === SORT_TYPE.DECREASE && (
+												<TiArrowSortedDown size={16} />
+											)}
+											{sort.column === COLUMN_SORT_PROJECT.INVEST && sort.type === SORT_TYPE.INCREASE && (
+												<TiArrowSortedUp size={16} />
+											)}
+										</div>
+									</div>
+								),
 								render: (data: IProject) => <>{convertCoin(data?.totalInvest)}</>,
 							},
 							{
-								title: 'Tiến độ dự án',
+								title: (
+									<div className={styles.sort} onClick={() => handleSortChange(COLUMN_SORT_PROJECT.PROGRESS)}>
+										<p>Tiến độ dự án</p>
+										<div className={styles.icon_sort}>
+											{(sort.column != COLUMN_SORT_PROJECT.PROGRESS ||
+												(sort.column == COLUMN_SORT_PROJECT.PROGRESS && sort.type == null)) && (
+												<TiArrowUnsorted size={16} />
+											)}
+											{sort.column === COLUMN_SORT_PROJECT.PROGRESS && sort.type === SORT_TYPE.DECREASE && (
+												<TiArrowSortedDown size={16} />
+											)}
+											{sort.column === COLUMN_SORT_PROJECT.PROGRESS && sort.type === SORT_TYPE.INCREASE && (
+												<TiArrowSortedUp size={16} />
+											)}
+										</div>
+									</div>
+								),
 								render: (data: IProject) => <Progress percent={data?.progress} width={80} />,
 							},
 							{
