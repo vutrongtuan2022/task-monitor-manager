@@ -216,10 +216,10 @@ function MainInfoContractor({}: PropsMainInfoContractor) {
 						title: 'Quản lý nhà thầu',
 						path: `${PATH.ProjectContractor}?_uuid=${_uuid}`,
 					},
-					{
-						title: 'Nhật ký kế hoạch vốn',
-						path: `${PATH.ProjectPlanningCapital}?_uuid=${_uuid}`,
-					},
+					// {
+					// 	title: 'Nhật ký kế hoạch vốn',
+					// 	path: `${PATH.ProjectPlanningCapital}?_uuid=${_uuid}`,
+					// },
 				]}
 				action={
 					<div className={styles.group_btn}>
