@@ -25,7 +25,7 @@ function TableContracfund({}: PropsTableContracFund) {
 			httpRequest({
 				http: overviewServices.listContractFundReportOverview({
 					page: Number(_page) || 1,
-					pageSize: Number(_pageSize) || 20,
+					pageSize: Number(_pageSize) || 10,
 					uuid: (_uuid as string) || '',
 					keyword: '',
 					status: STATUS_CONFIG.ACTIVE,
@@ -91,7 +91,7 @@ function TableContracfund({}: PropsTableContracFund) {
 				</DataWrapper>
 				<Pagination
 					currentPage={Number(_page) || 1}
-					pageSize={Number(_pageSize) || 20}
+					pageSize={Number(_pageSize) || 10}
 					total={listContractFundForOverView?.pagination?.totalCount}
 					dependencies={[_uuid, _pageSize]}
 				/>

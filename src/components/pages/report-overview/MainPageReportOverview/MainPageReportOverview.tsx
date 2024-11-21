@@ -19,6 +19,7 @@ import {Eye} from 'iconsax-react';
 import Pagination from '~/components/common/Pagination';
 import {PATH} from '~/constants/config';
 import overviewServices from '~/services/overviewServices';
+import Tippy from '@tippyjs/react';
 
 function MainPageReportOverview({}: PropsMainPageReportOverview) {
 	const router = useRouter();
@@ -32,7 +33,7 @@ function MainPageReportOverview({}: PropsMainPageReportOverview) {
 			httpRequest({
 				http: overviewServices.listOverview({
 					page: Number(_page) || 1,
-					pageSize: Number(_pageSize) || 20,
+					pageSize: Number(_pageSize) || 10,
 					keyword: (_keyword as string) || '',
 					status: STATUS_CONFIG.ACTIVE,
 					year: !!_year ? Number(_year) : null,
@@ -96,7 +97,11 @@ function MainPageReportOverview({}: PropsMainPageReportOverview) {
 							},
 							{
 								title: 'Tên công trình',
-								render: (data: IReportOverview) => <>{data?.project?.name || '---'}</>,
+								render: (data: IReportOverview) => (
+									<Tippy content={data?.project?.name}>
+										<p className={styles.name}>{data?.project?.name}</p>
+									</Tippy>
+								),
 							},
 							{
 								title: 'Số công việc thực hiện',
@@ -144,7 +149,7 @@ function MainPageReportOverview({}: PropsMainPageReportOverview) {
 				</DataWrapper>
 				<Pagination
 					currentPage={Number(_page) || 1}
-					pageSize={Number(_pageSize) || 20}
+					pageSize={Number(_pageSize) || 10}
 					total={listOverview?.data?.pagination?.totalCount}
 					dependencies={[_pageSize, _keyword, _year, _month]}
 				/>

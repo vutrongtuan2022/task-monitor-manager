@@ -63,7 +63,7 @@ function MainDisbursementProgress({}: PropsMainDisbursementProgress) {
 				httpRequest({
 					http: contractsServices.listContractsForProject({
 						page: Number(_page) || 1,
-						pageSize: Number(_pageSize) || 20,
+						pageSize: Number(_pageSize) || 10,
 						keyword: (_keyword as string) || '',
 						status: STATUS_CONFIG.ACTIVE,
 						projectUuid: (_uuid as string) || '',
@@ -394,7 +394,7 @@ function MainDisbursementProgress({}: PropsMainDisbursementProgress) {
 						</DataWrapper>
 						<Pagination
 							currentPage={Number(_page) || 1}
-							pageSize={Number(_pageSize) || 20}
+							pageSize={Number(_pageSize) || 10}
 							total={listContractForProject?.pagination?.totalCount || 0}
 							dependencies={[_uuid, _pageSize, _keyword, _contractorUuid, _contractorCat]}
 						/>

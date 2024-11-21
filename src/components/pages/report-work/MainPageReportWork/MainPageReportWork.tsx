@@ -27,6 +27,7 @@ import Popup from '~/components/common/Popup';
 import TextArea from '~/components/common/Form/components/TextArea';
 import Button from '~/components/common/Button';
 import Loading from '~/components/common/Loading';
+import Tippy from '@tippyjs/react';
 
 function MainPageReportWork({}: PropsMainPageReportWork) {
 	const router = useRouter();
@@ -48,7 +49,7 @@ function MainPageReportWork({}: PropsMainPageReportWork) {
 			httpRequest({
 				http: reportServices.listReportManager({
 					page: Number(_page) || 1,
-					pageSize: Number(_pageSize) || 20,
+					pageSize: Number(_pageSize) || 10,
 					keyword: (_keyword as string) || '',
 					status: STATUS_CONFIG.ACTIVE,
 					state: !!_state ? Number(_state) : null,
@@ -198,7 +199,11 @@ function MainPageReportWork({}: PropsMainPageReportWork) {
 							},
 							{
 								title: 'Tên công trình',
-								render: (data: IReportWork) => <>{data?.project?.name}</>,
+								render: (data: IReportWork) => (
+									<Tippy content={data?.project?.name}>
+										<p className={styles.name}>{data?.project?.name}</p>
+									</Tippy>
+								),
 							},
 							{
 								title: 'Người báo cáo',
@@ -325,7 +330,7 @@ function MainPageReportWork({}: PropsMainPageReportWork) {
 				</DataWrapper>
 				<Pagination
 					currentPage={Number(_page) || 1}
-					pageSize={Number(_pageSize) || 20}
+					pageSize={Number(_pageSize) || 10}
 					total={listReportWork?.data?.pagination?.totalCount}
 					dependencies={[_pageSize, _keyword, _year, _month, _state, _completeState]}
 				/>

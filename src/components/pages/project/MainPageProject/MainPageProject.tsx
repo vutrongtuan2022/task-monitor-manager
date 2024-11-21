@@ -156,7 +156,11 @@ function MainPageProject({}: PropsMainPageProject) {
 							},
 							{
 								title: 'Tên công trình',
-								render: (data: IProject) => <>{data?.name}</>,
+								render: (data: IProject) => (
+									<Tippy content={data?.name}>
+										<p className={styles.name}>{data?.name}</p>
+									</Tippy>
+								),
 							},
 							{
 								title: 'Quy trình áp dụng',

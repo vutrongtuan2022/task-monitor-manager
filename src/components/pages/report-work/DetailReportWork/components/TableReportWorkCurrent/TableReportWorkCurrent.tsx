@@ -27,7 +27,7 @@ function TableReportWorkCurrent({}: PropsTableReportWorkCurrent) {
 			httpRequest({
 				http: activityServices.listActyvityInReport({
 					page: Number(_page) || 1,
-					pageSize: Number(_pageSize) || 20,
+					pageSize: Number(_pageSize) || 10,
 					keyword: (_keyword as string) || '',
 					status: STATUS_CONFIG.ACTIVE,
 					state: !!_state ? Number(_state) : null,
@@ -91,7 +91,11 @@ function TableReportWorkCurrent({}: PropsTableReportWorkCurrent) {
 						},
 						{
 							title: 'Tên công trình',
-							render: (data: IReportWorkCurrent) => <>{data?.project?.name}</>,
+							render: (data: IReportWorkCurrent) => (
+								<Tippy content={data?.project?.name}>
+									<p className={styles.project_name}>{data?.project?.name}</p>
+								</Tippy>
+							),
 						},
 						{
 							title: 'Tên công việc',
@@ -204,7 +208,7 @@ function TableReportWorkCurrent({}: PropsTableReportWorkCurrent) {
 			</DataWrapper>
 			<Pagination
 				currentPage={Number(_page) || 1}
-				pageSize={Number(_pageSize) || 20}
+				pageSize={Number(_pageSize) || 10}
 				total={listReportLastMonth?.pagination?.totalCount}
 				dependencies={[_pageSize, _keyword, _state, _uuid]}
 			/>
