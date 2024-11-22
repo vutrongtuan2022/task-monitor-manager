@@ -193,22 +193,42 @@ function MainPageWorkUser({}: PropsMainPageWorkUser) {
 						column={[
 							{
 								title: 'STT',
-								render: (data: IWorkUser, index: number) => <>{index + 1}</>,
+								render: (data: IWorkUser, index: number) => (
+									<p
+										style={{
+											color: data?.type == TYPE_WORK.TASK ? '#2970FF' : data?.type == TYPE_WORK.SUB_TASK ? '' : '',
+										}}
+									>
+										{index + 1}
+									</p>
+								),
 							},
 							{
 								title: 'Tháng báo cáo',
 								fixedLeft: true,
 								render: (data: IWorkUser) => (
-									<>
+									<p
+										style={{
+											color: data?.type == TYPE_WORK.TASK ? '#2970FF' : data?.type == TYPE_WORK.SUB_TASK ? '' : '',
+										}}
+									>
 										Tháng <span>{data?.report?.month}</span> - <span>{data?.report?.year}</span>
-									</>
+									</p>
 								),
 							},
 							{
 								title: 'Tên công trình',
 								render: (data: IWorkUser) => (
 									<Tippy content={data?.report?.project?.name}>
-										<p className={styles.project_name}>{data?.report?.project?.name}</p>
+										<p
+											className={styles.project_name}
+											style={{
+												color:
+													data?.type == TYPE_WORK.TASK ? '#2970FF' : data?.type == TYPE_WORK.SUB_TASK ? '' : '',
+											}}
+										>
+											{data?.report?.project?.name}
+										</p>
 									</Tippy>
 								),
 							},
@@ -216,44 +236,66 @@ function MainPageWorkUser({}: PropsMainPageWorkUser) {
 								title: 'Tên công việc',
 								render: (data: IWorkUser) => (
 									<Tippy content={data?.activity?.name}>
-										<p className={styles.name}>{data?.activity?.name}</p>
+										<p
+											className={styles.name}
+											style={{
+												color:
+													data?.type == TYPE_WORK.TASK ? '#2970FF' : data?.type == TYPE_WORK.SUB_TASK ? '' : '',
+											}}
+										>
+											{data?.activity?.name}
+										</p>
 									</Tippy>
 								),
 							},
 							{
 								title: 'Giai đoạn thực hiện',
 								render: (data: IWorkUser) => (
-									<>
+									<p
+										style={{
+											color: data?.type == TYPE_WORK.TASK ? '#2970FF' : data?.type == TYPE_WORK.SUB_TASK ? '' : '',
+										}}
+									>
 										{data?.stage == -1 || (!data?.stage && '---')}
 										{data?.stage == 1 && 'Giai đoạn chuẩn bị đầu tư'}
 										{data?.stage == 2 && 'Giai đoạn thực hiện đầu tư'}
 										{data?.stage == 3 && 'Giai đoạn kết thúc đầu tư'}
-									</>
+									</p>
 								),
 							},
 							{
 								title: 'Megatype',
 								render: (data: IWorkUser) => (
 									<p>
-										<span style={{color: '#2970FF', fontWeight: 700}}>{data?.type == TYPE_WORK.TASK && 'Task'}</span>
-										<span style={{color: '#16C1F3', fontWeight: 600}}>
-											{data?.type == TYPE_WORK.SUB_TASK && 'Subtask'}
-										</span>
-										<span style={{fontWeight: 500}}>{data?.type == TYPE_WORK.SUB_SUB_TASK && 'Subsubtask'}</span>
+										<span style={{color: '#2970FF'}}>{data?.type == TYPE_WORK.TASK && 'Task'}</span>
+										<span>{data?.type == TYPE_WORK.SUB_TASK && 'Subtask'}</span>
+										<span>{data?.type == TYPE_WORK.SUB_SUB_TASK && 'Subsubtask'}</span>
 									</p>
 								),
 							},
 							{
 								title: 'Người báo cáo',
-								render: (data: IWorkUser) => <>{data?.report?.reporter?.fullname || '---'}</>,
+								render: (data: IWorkUser) => (
+									<p
+										style={{
+											color: data?.type == TYPE_WORK.TASK ? '#2970FF' : data?.type == TYPE_WORK.SUB_TASK ? '' : '',
+										}}
+									>
+										{data?.report?.reporter?.fullname || '---'}
+									</p>
+								),
 							},
 							{
 								title: 'Loại công việc',
 								render: (data: IWorkUser) => (
-									<>
+									<p
+										style={{
+											color: data?.type == TYPE_WORK.TASK ? '#2970FF' : data?.type == TYPE_WORK.SUB_TASK ? '' : '',
+										}}
+									>
 										{!data?.isInWorkflow && 'Phát sinh'}
 										{data?.isInWorkflow && 'Có kế hoạch'}
-									</>
+									</p>
 								),
 							},
 							{
@@ -262,7 +304,19 @@ function MainPageWorkUser({}: PropsMainPageWorkUser) {
 									<>
 										{(data?.issue && (
 											<Tippy content={data?.issue}>
-												<p className={styles.name}>{data?.issue || '---'}</p>
+												<p
+													className={styles.name}
+													style={{
+														color:
+															data?.type == TYPE_WORK.TASK
+																? '#2970FF'
+																: data?.type == TYPE_WORK.SUB_TASK
+																? ''
+																: '',
+													}}
+												>
+													{data?.issue || '---'}
+												</p>
 											</Tippy>
 										)) ||
 											'---'}
@@ -276,58 +330,83 @@ function MainPageWorkUser({}: PropsMainPageWorkUser) {
 							{
 								title: 'Trạng thái',
 								render: (data: IWorkUser) => (
-									<StateActive
-										stateActive={data?.activityState}
-										listState={[
-											{
-												state: STATE_REPORT_WORK.NOT_PROCESSED,
-												text: 'Chưa xử lý',
-												textColor: '#fff',
-												backgroundColor: '#F37277',
-											},
-											{
-												state: STATE_REPORT_WORK.PROCESSING,
-												text: 'Đang xử lý',
-												textColor: '#fff',
-												backgroundColor: '#16C1F3',
-											},
-											{
-												state: STATE_REPORT_WORK.COMPLETED,
-												text: 'Đã hoàn thành',
-												textColor: '#fff',
-												backgroundColor: '#06D7A0',
-											},
-										]}
-									/>
+									<div
+										style={{
+											color: data?.type == TYPE_WORK.TASK ? '#2970FF' : data?.type == TYPE_WORK.SUB_TASK ? '' : '',
+										}}
+									>
+										<StateActive
+											stateActive={data?.activityState}
+											listState={[
+												{
+													state: STATE_REPORT_WORK.NOT_PROCESSED,
+													text: 'Chưa xử lý',
+													textColor: '#fff',
+													backgroundColor: '#F37277',
+												},
+												{
+													state: STATE_REPORT_WORK.PROCESSING,
+													text: 'Đang xử lý',
+													textColor: '#fff',
+													backgroundColor: '#16C1F3',
+												},
+												{
+													state: STATE_REPORT_WORK.COMPLETED,
+													text: 'Đã hoàn thành',
+													textColor: '#fff',
+													backgroundColor: '#06D7A0',
+												},
+											]}
+										/>
+									</div>
 								),
 							},
 							{
 								title: 'Tình trạng',
 								render: (data: IWorkUser) => (
-									<StateActive
-										isBox={false}
-										stateActive={data?.deadlineState}
-										listState={[
-											{
-												state: STATE_COMPLETE_REPORT.NOT_DONE,
-												text: 'Chưa thực hiện',
-												textColor: '#FF852C',
-												backgroundColor: '#FF852C',
-											},
-											{
-												state: STATE_COMPLETE_REPORT.ON_SCHEDULE,
-												text: 'Đúng tiến độ',
-												textColor: '#005994',
-												backgroundColor: '#005994',
-											},
-											{
-												state: STATE_COMPLETE_REPORT.SLOW_PROGRESS,
-												text: 'Chậm tiến độ',
-												textColor: '#EE464C',
-												backgroundColor: '#EE464C',
-											},
-										]}
-									/>
+									<div
+										style={{
+											color: data?.type == TYPE_WORK.TASK ? '#2970FF' : data?.type == TYPE_WORK.SUB_TASK ? '' : '',
+										}}
+									>
+										<StateActive
+											isBox={false}
+											stateActive={data?.deadlineState}
+											listState={[
+												{
+													state: STATE_COMPLETE_REPORT.NOT_DONE,
+													text: 'Chưa thực hiện',
+													textColor: '#FF852C',
+													backgroundColor: '#FF852C',
+												},
+												{
+													state: STATE_COMPLETE_REPORT.ON_SCHEDULE,
+													text: 'Đúng tiến độ',
+													textColor: '#005994',
+													backgroundColor: '#005994',
+												},
+												{
+													state: STATE_COMPLETE_REPORT.SLOW_PROGRESS,
+													text: 'Chậm tiến độ',
+													textColor: '#EE464C',
+													backgroundColor: '#EE464C',
+												},
+											]}
+										/>
+									</div>
+								),
+							},
+							{
+								title: 'Số hóa',
+								render: (data: IWorkUser) => (
+									<p
+										style={{
+											color: data?.type == TYPE_WORK.TASK ? '#2970FF' : data?.type == TYPE_WORK.SUB_TASK ? '' : '',
+										}}
+									>
+										{data?.digitalizedState == 0 && 'Chưa số hóa'}
+										{data?.digitalizedState == 1 && 'Đã số hóa'}
+									</p>
 								),
 							},
 						]}

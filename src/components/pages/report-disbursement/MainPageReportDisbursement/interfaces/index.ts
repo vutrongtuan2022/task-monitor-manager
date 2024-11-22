@@ -7,6 +7,11 @@ export interface IReportDisbursement {
 		code: string;
 		name: string;
 		state: number;
+		leader: {
+			fullname: string;
+			code: string;
+			uuid: string;
+		};
 	};
 	creator: {
 		uuid: string;

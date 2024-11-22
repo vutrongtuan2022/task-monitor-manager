@@ -160,7 +160,7 @@ function DetailReportWork({}: PropsDetailReportWork) {
 									},
 									{
 										state: STATE_REPORT.IN_PROGRESS,
-										text: 'Đang thực hiện',
+										text: 'Chưa báo cáo',
 										textColor: '#fff',
 										backgroundColor: '#F69E51',
 									},
