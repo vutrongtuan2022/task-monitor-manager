@@ -33,7 +33,8 @@ export interface IContractFund {
 		};
 		uuid: string;
 	};
-	amount: number;
+	projectAmount: number;
+	reverseAmount: number;
 	releaseDate: string;
 	contractor: {
 		code: string;

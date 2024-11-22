@@ -113,7 +113,7 @@ function MainPageReportOverview({}: PropsMainPageReportOverview) {
 								),
 							},
 							{
-								title: 'Hợp đồng giải ngân',
+								title: 'Số hợp đồng giải ngân',
 								render: (data: IReportOverview) => <>{data?.fund?.totalContracts}</>,
 							},
 							{

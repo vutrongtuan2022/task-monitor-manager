@@ -28,6 +28,7 @@ import contractorcatServices from '~/services/contractorcatServices';
 import Search from '~/components/common/Search';
 import Tippy from '@tippyjs/react';
 import contractorServices from '~/services/contractorServices';
+import Link from 'next/link';
 
 function MainDisbursementProgress({}: PropsMainDisbursementProgress) {
 	const router = useRouter();
@@ -332,7 +333,13 @@ function MainDisbursementProgress({}: PropsMainDisbursementProgress) {
 									},
 									{
 										title: 'Số hợp đồng',
-										render: (data: IContractsForProject) => <>{data?.code || '---'}</>,
+										render: (data: IContractsForProject) => (
+											<Tippy content='Chi tiết hợp đồng'>
+												<Link href={`${PATH.ContractReportDisbursement}/${data?.uuid}`} className={styles.link}>
+													{data?.code || '---'}
+												</Link>
+											</Tippy>
+										),
 									},
 									{
 										title: 'Giá trị hợp đồng (VND)',

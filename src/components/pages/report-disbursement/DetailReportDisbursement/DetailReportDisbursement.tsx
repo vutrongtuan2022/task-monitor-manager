@@ -142,7 +142,7 @@ function DetailReportDisbursement({}: PropsDetailReportDisbursement) {
 								</p>
 							</div>
 							<div className={styles.item}>
-								<p>Ghi chú</p>
+								<p>Mô tả</p>
 								<p>{detailContractFund?.note || '---'}</p>
 							</div>
 							{detailContractFund?.state === STATE_REPORT_DISBURSEMENT.REJECTED && (
@@ -188,8 +188,12 @@ function DetailReportDisbursement({}: PropsDetailReportDisbursement) {
 										render: (data: IContractFund) => <>{data?.activity?.name}</>,
 									},
 									{
-										title: 'Số tiền giải ngân (VND)',
-										render: (data: IContractFund) => <>{convertCoin(data?.amount)}</>,
+										title: 'Vốn dự phòng (VND)',
+										render: (data: IContractFund) => <>{convertCoin(data?.reverseAmount)}</>,
+									},
+									{
+										title: 'Vốn dự án (VND)',
+										render: (data: IContractFund) => <>{convertCoin(data?.projectAmount)}</>,
 									},
 									{
 										title: 'Ngày giải ngân',
