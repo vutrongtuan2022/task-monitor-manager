@@ -68,12 +68,12 @@ function WorkReportOverview({}: PropsWorkReportOverview) {
 								{
 									title: 'Giai đoạn thực hiện',
 									render: (data: IWorkReportOverview) => (
-										<span style={{color: '#2970FF'}}>
+										<>
 											{!data?.stage && '---'}
 											{data?.stage == 1 && 'Giai đoạn chuẩn bị đầu tư'}
 											{data?.stage == 2 && 'Giai đoạn thực hiện đầu tư'}
 											{data?.stage == 3 && 'Giai đoạn kết thúc đầu tư xây dựng'}
-										</span>
+										</>
 									),
 								},
 								{

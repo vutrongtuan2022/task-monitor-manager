@@ -95,6 +95,10 @@ function DetailContractReportDisbursement({}: PropsDetailContractReportDisbursem
 								<Progress percent={detailContract?.progress!} width={80} />
 							</div>
 							<div className={styles.item}>
+								<p>Tên công trình</p>
+								<p>{detailContract?.projectDTO?.name || '---'}</p>
+							</div>
+							<div className={styles.item}>
 								<p>Tên công việc</p>
 								<p>{detailContract?.activityDTO?.name || '---'}</p>
 							</div>
@@ -145,6 +149,10 @@ function DetailContractReportDisbursement({}: PropsDetailContractReportDisbursem
 										'---'
 									)}
 								</p>
+							</div>
+							<div className={styles.item}>
+								<p>Người tạo hợp đồng</p>
+								<p>{detailContract?.creator?.fullname || '---'}</p>
 							</div>
 							<div className={styles.item}>
 								<p>Thời gian tạo</p>

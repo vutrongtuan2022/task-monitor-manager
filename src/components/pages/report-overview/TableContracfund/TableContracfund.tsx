@@ -72,6 +72,13 @@ function TableContracfund({}: PropsTableContracFund) {
 								title: 'Vốn dự án (VND)',
 								render: (data: IContractFund) => <>{convertCoin(data?.amount)}</>,
 							},
+							//đang trả về thiếu ngay gửi báo cáo
+							{
+								title: 'Ngày giải ngân',
+								render: (data: IContractFund) => (
+									<>{data?.releaseDate ? <Moment date={data?.releaseDate} format='DD/MM/YYYY' /> : '---'}</>
+								),
+							},
 							{
 								title: 'Ngày gửi báo cáo',
 								render: (data: IContractFund) => (
