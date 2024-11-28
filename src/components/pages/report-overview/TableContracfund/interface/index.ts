@@ -24,6 +24,7 @@ export interface IContractFund {
 		uuid: string;
 	};
 	releaseDate: string;
+	sendDate: string;
 	amount: number;
 	reverseAmount: number;
 	status: number;

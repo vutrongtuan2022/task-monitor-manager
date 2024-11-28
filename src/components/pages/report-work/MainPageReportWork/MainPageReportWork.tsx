@@ -206,8 +206,20 @@ function MainPageReportWork({}: PropsMainPageReportWork) {
 								),
 							},
 							{
+								title: 'Kế hoạch tháng',
+								render: (data: IReportWork) => (
+									<>
+										Tháng <span>{data?.month}</span> - <span>{data?.year}</span>
+									</>
+								),
+							},
+							{
 								title: 'Người báo cáo',
 								render: (data: IReportWork) => <>{data?.reporter?.fullname}</>,
+							},
+							{
+								title: 'Lãnh đạo phụ trách',
+								render: (data: IReportWork) => <>{data?.project?.leader?.fullname}</>,
 							},
 							{
 								title: 'Số công việc thực hiện',
@@ -218,14 +230,7 @@ function MainPageReportWork({}: PropsMainPageReportWork) {
 									</p>
 								),
 							},
-							{
-								title: 'Kế hoạch tháng',
-								render: (data: IReportWork) => (
-									<>
-										Tháng <span>{data?.month}</span> - <span>{data?.year}</span>
-									</>
-								),
-							},
+
 							{
 								title: 'Ngày gửi báo cáo',
 								render: (data: IReportWork) => (

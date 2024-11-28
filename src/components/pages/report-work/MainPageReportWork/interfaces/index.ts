@@ -6,6 +6,11 @@ export interface IReportWork {
 		name: string;
 		state: number;
 		uuid: string;
+		leader: {
+			fullname: string;
+			code: string;
+			uuid: string;
+		};
 	};
 	reporter: {
 		fullname: string;

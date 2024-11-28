@@ -81,7 +81,7 @@ function Header({isImport = false, isExport = false, title}: PropsHeader) {
 								})
 							}
 						>
-							<Image src={icons.iconDown} alt='icon down' width={20} height={20} />
+							<Image src={icons.exportExcel} alt='icon down' width={20} height={20} />
 							<p>Xuất file</p>
 						</div>
 					)}

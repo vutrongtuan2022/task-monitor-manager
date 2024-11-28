@@ -9,6 +9,7 @@ import avatar from '../../../public/static/images/avatar-default.png';
 import question from '../../../public/static/images/question.svg';
 import empty from '../../../public/static/images/icon-empty.svg';
 import success from '../../../public/static/images/success.svg';
+import exportExcel from '../../../public/static/images/export_excel.svg';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
@@ -23,4 +24,5 @@ export default {
 	question,
 	empty,
 	success,
+	exportExcel,
 };

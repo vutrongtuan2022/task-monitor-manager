@@ -14,6 +14,9 @@ import Moment from 'react-moment';
 import Pagination from '~/components/common/Pagination';
 import {useRouter} from 'next/router';
 import overviewServices from '~/services/overviewServices';
+import Tippy from '@tippyjs/react';
+import Link from 'next/link';
+import {PATH} from '~/constants/config';
 
 function TableContracfund({}: PropsTableContracFund) {
 	const router = useRouter();
@@ -58,7 +61,16 @@ function TableContracfund({}: PropsTableContracFund) {
 							{
 								title: 'Số hợp đồng',
 								fixedLeft: true,
-								render: (data: IContractFund) => <p className={styles.link}>{data?.activity?.contracts?.code}</p>,
+								render: (data: IContractFund) => (
+									<Tippy content='Chi tiết hợp đồng'>
+										<Link
+											href={`${PATH.ContractReportDisbursement}/${data?.activity?.contracts?.uuid}`}
+											className={styles.link}
+										>
+											{data?.activity?.contracts?.code}
+										</Link>
+									</Tippy>
+								),
 							},
 							{
 								title: 'Tên công việc',
@@ -72,7 +84,6 @@ function TableContracfund({}: PropsTableContracFund) {
 								title: 'Vốn dự án (VND)',
 								render: (data: IContractFund) => <>{convertCoin(data?.amount)}</>,
 							},
-							//đang trả về thiếu ngay gửi báo cáo
 							{
 								title: 'Ngày giải ngân',
 								render: (data: IContractFund) => (
@@ -82,7 +93,7 @@ function TableContracfund({}: PropsTableContracFund) {
 							{
 								title: 'Ngày gửi báo cáo',
 								render: (data: IContractFund) => (
-									<>{data?.releaseDate ? <Moment date={data?.releaseDate} format='DD/MM/YYYY' /> : '---'}</>
+									<>{data?.sendDate ? <Moment date={data?.sendDate} format='DD/MM/YYYY' /> : '---'}</>
 								),
 							},
 							{

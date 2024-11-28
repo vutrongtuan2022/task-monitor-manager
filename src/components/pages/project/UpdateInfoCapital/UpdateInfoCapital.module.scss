@@ -115,6 +115,10 @@ $font-size-input: 16px;
 		border-left: 1px solid #dae1ea;
 		padding-left: 12px;
 	}
+	textarea {
+		height: 46px;
+		max-height: 70px;
+	}
 }
 
 .btn_add {

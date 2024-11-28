@@ -34,6 +34,7 @@ function UpdateInfoCapital({}: PropsUpdateInfoCapital) {
 		annual: {
 			year: number | null;
 			budget: number | string;
+			annualNote: string;
 		}[];
 	}>({
 		expectBudget: 0,
@@ -44,6 +45,7 @@ function UpdateInfoCapital({}: PropsUpdateInfoCapital) {
 			{
 				year: new Date().getFullYear(),
 				budget: 0,
+				annualNote: '',
 			},
 		],
 	});
@@ -68,11 +70,13 @@ function UpdateInfoCapital({}: PropsUpdateInfoCapital) {
 									{
 										year: new Date().getFullYear(),
 										budget: 0,
+										annualNote: '',
 									},
 							  ]
 							: data?.annual?.map((v: any) => ({
 									year: v?.year,
 									budget: convertCoin(v?.budget),
+									annualNote: v?.annualNote || '',
 							  })),
 				});
 			}
@@ -95,6 +99,7 @@ function UpdateInfoCapital({}: PropsUpdateInfoCapital) {
 					annual: form?.annual?.map((v) => ({
 						year: v?.year!,
 						budget: price(v?.budget),
+						annualNote: v?.annualNote,
 					})),
 				}),
 			});
@@ -234,12 +239,15 @@ function UpdateInfoCapital({}: PropsUpdateInfoCapital) {
 								</GridColumn>
 								<div className={clsx(styles.mt)}>
 									<GridColumn col_2>
-										<p className={styles.label}>
-											Kế hoạch năm <span style={{color: 'red'}}>*</span>
-										</p>
-										<p className={styles.label}>
-											Kế hoạch vốn theo năm <span style={{color: 'red'}}>*</span>
-										</p>
+										<GridColumn col_2>
+											<p className={styles.label}>
+												Kế hoạch năm <span style={{color: 'red'}}>*</span>
+											</p>
+											<p className={styles.label}>
+												Kế hoạch vốn theo năm <span style={{color: 'red'}}>*</span>
+											</p>
+										</GridColumn>
+										<p className={styles.label}>Kế hoạch thực hiện trong năm</p>
 									</GridColumn>
 								</div>
 								<div>
@@ -257,6 +265,7 @@ function UpdateInfoCapital({}: PropsUpdateInfoCapital) {
 												{
 													year: null,
 													budget: 0,
+													annualNote: '',
 												},
 											],
 										}))
@@ -297,7 +306,7 @@ function ItemAnnualToYear({
 	setForm,
 }: {
 	index: number;
-	data: {year: number | null; budget: number | string};
+	data: {year: number | null; budget: number | string; annualNote: string};
 	form: any;
 	setForm: (any: any) => void;
 }) {
@@ -341,15 +350,15 @@ function ItemAnnualToYear({
 	return (
 		<div className={clsx(styles.item_annual_to_year)}>
 			<GridColumn col_2>
-				<Select isSearch={true} name='year' value={data.year} placeholder='Chọn'>
-					{years?.map((v: any) => (
-						<Option key={v} value={v} title={String(v)} onClick={() => handleChangeValue(index, 'year', v, false)} />
-					))}
-				</Select>
-				<div className={styles.grid}>
+				<GridColumn col_2>
+					<Select isSearch={true} name='year' value={data.year} placeholder='Chọn'>
+						{years?.map((v: any) => (
+							<Option key={v} value={v} title={String(v)} onClick={() => handleChangeValue(index, 'year', v, false)} />
+						))}
+					</Select>
 					<div className={styles.input_specification}>
 						<input
-							name='value'
+							name='budget'
 							value={data.budget}
 							type='text'
 							placeholder='Nhập thông số'
@@ -357,6 +366,17 @@ function ItemAnnualToYear({
 							onChange={(e) => handleChangeValue(index, 'budget', e.target.value, true)}
 						/>
 						<div className={styles.unit}>VNĐ</div>
+					</div>
+				</GridColumn>
+				<div className={styles.grid}>
+					<div className={clsx(styles.input_specification, styles.textarea)}>
+						<textarea
+							name='annualNote'
+							value={data.annualNote}
+							placeholder='Nhập mô tả'
+							className={styles.input}
+							onChange={(e) => handleChangeValue(index, 'annualNote', e.target.value)}
+						/>
 					</div>
 					{index != 0 && (
 						<div className={styles.delete} onClick={() => handleDelete(index)}>
