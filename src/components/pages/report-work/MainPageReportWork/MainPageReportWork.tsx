@@ -199,6 +199,7 @@ function MainPageReportWork({}: PropsMainPageReportWork) {
 							},
 							{
 								title: 'Tên công trình',
+								fixedLeft: true,
 								render: (data: IReportWork) => (
 									<Tippy content={data?.project?.name}>
 										<p className={styles.name}>{data?.project?.name}</p>

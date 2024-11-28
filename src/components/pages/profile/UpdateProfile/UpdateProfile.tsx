@@ -185,11 +185,7 @@ function UpdateProfile({onClose}: PropsUpdateProfile) {
 						isPhone
 						value={form.phone}
 						isRequired
-						label={
-							<span>
-								Số điện thoại <span style={{color: 'red'}}>*</span>
-							</span>
-						}
+						label={<span>Số điện thoại</span>}
 					/>
 
 					<Input
@@ -209,11 +205,7 @@ function UpdateProfile({onClose}: PropsUpdateProfile) {
 						<DatePicker
 							onClean={true}
 							icon={true}
-							label={
-								<span>
-									Ngày sinh <span style={{color: 'red'}}>*</span>
-								</span>
-							}
+							label={<span>Ngày sinh</span>}
 							placeholder='dd/mm/yyyy'
 							value={form?.birthday}
 							onSetValue={(birthday) =>

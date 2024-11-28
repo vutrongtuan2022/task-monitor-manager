@@ -71,11 +71,7 @@ function FormExportExcel({onClose}: PropsFormExportExcel) {
 					<div className={styles.mt}>
 						<SelectMany
 							placeholder='Tất cả công trình'
-							label={
-								<span>
-									Chọn công trình <span style={{color: 'red'}}>*</span>
-								</span>
-							}
+							label={<span>Chọn công trình</span>}
 							value={projects}
 							setValue={(prj) =>
 								setProjects(
