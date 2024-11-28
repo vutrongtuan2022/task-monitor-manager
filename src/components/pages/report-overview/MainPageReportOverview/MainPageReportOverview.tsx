@@ -105,16 +105,21 @@ function MainPageReportOverview({}: PropsMainPageReportOverview) {
 								render: (data: IReportOverview, index: number) => <>{index + 1}</>,
 							},
 							{
-								title: 'Báo cáo tháng',
-								render: (data: IReportOverview) => <>{`Tháng ${data?.month} - ${data?.year}`}</>,
-							},
-							{
 								title: 'Tên công trình',
+								fixedLeft: true,
 								render: (data: IReportOverview) => (
 									<Tippy content={data?.project?.name}>
 										<p className={styles.name}>{data?.project?.name}</p>
 									</Tippy>
 								),
+							},
+							{
+								title: 'Báo cáo tháng',
+								render: (data: IReportOverview) => <>{`Tháng ${data?.month} - ${data?.year}`}</>,
+							},
+							{
+								title: 'Người báo cáo',
+								render: (data: IReportOverview) => <>{data?.report?.reporter?.fullname}</>,
 							},
 							{
 								title: 'Số công việc thực hiện',
