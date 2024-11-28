@@ -20,13 +20,15 @@ import Pagination from '~/components/common/Pagination';
 import {PATH} from '~/constants/config';
 import overviewServices from '~/services/overviewServices';
 import Tippy from '@tippyjs/react';
+import Popup from '~/components/common/Popup';
+import FormExportExcel from '../FormExportExcel';
 
 function MainPageReportOverview({}: PropsMainPageReportOverview) {
 	const router = useRouter();
 	const years = generateYearsArray();
 	const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
-	const {_page, _pageSize, _keyword, _year, _month} = router.query;
+	const {_page, _pageSize, _keyword, _year, _month, _action} = router.query;
 
 	const listOverview = useQuery([QUERY_KEY.table_overview_report, _page, _pageSize, _keyword, _year, _month], {
 		queryFn: () =>
@@ -45,6 +47,17 @@ function MainPageReportOverview({}: PropsMainPageReportOverview) {
 			return data;
 		},
 	});
+
+	const handleCloseExport = () => {
+		const {_action, ...rest} = router.query;
+
+		router.replace({
+			pathname: router.pathname,
+			query: {
+				...rest,
+			},
+		});
+	};
 
 	return (
 		<div className={styles.container}>
@@ -154,6 +167,9 @@ function MainPageReportOverview({}: PropsMainPageReportOverview) {
 					dependencies={[_pageSize, _keyword, _year, _month]}
 				/>
 			</WrapperScrollbar>
+			<Popup open={_action == 'export'} onClose={handleCloseExport}>
+				<FormExportExcel onClose={handleCloseExport} />
+			</Popup>
 		</div>
 	);
 }

@@ -155,8 +155,8 @@ function WorkReportOverview({}: PropsWorkReportOverview) {
 									title: 'Số hóa',
 									render: (data: IWorkReportOverview) => (
 										<>
-											<p style={{color: '#EE464C'}}>{data?.digitalization == 0 && 'Chưa số hóa'}</p>
-											<p style={{color: '#2970FF'}}>{data?.digitalization == 1 && 'Đã số hóa'}</p>
+											<p>{data?.digitalization == 0 && 'Chưa số hóa'}</p>
+											<p>{data?.digitalization == 1 && 'Đã số hóa'}</p>
 										</>
 									),
 								},
