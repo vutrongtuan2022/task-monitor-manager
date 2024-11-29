@@ -55,52 +55,67 @@ function PlanReportOverview({}: PropsPlanReportOverview) {
 							column={[
 								{
 									title: 'STT',
-									render: (data: IPlanReportOverview, index: number) => <>{index + 1}</>,
+									render: (data: IPlanReportOverview, index: number) => (
+										<p style={{color: data?.megatype == 'Task' ? '#2970FF' : data?.megatype ? '' : ''}}>{index + 1}</p>
+									),
 								},
 								{
 									title: 'Tên công việc',
 									render: (data: IPlanReportOverview, index: number) => (
 										<Tippy content={data?.name || '---'}>
-											<p className={styles.name}>{data?.name || '---'}</p>
+											<p
+												className={styles.name}
+												style={{color: data?.megatype == 'Task' ? '#2970FF' : data?.megatype ? '' : ''}}
+											>
+												{data?.name || '---'}
+											</p>
 										</Tippy>
 									),
 								},
 								{
 									title: 'Giai đoạn thực hiện',
 									render: (data: IPlanReportOverview) => (
-										<>
+										<p style={{color: data?.megatype == 'Task' ? '#2970FF' : data?.megatype ? '' : ''}}>
 											{!data?.stage && '---'}
 											{data?.stage == 1 && 'Giai đoạn chuẩn bị đầu tư'}
 											{data?.stage == 2 && 'Giai đoạn thực hiện đầu tư'}
 											{data?.stage == 3 && 'Giai đoạn kết thúc đầu tư xây dựng'}
-										</>
+										</p>
 									),
 								},
 								{
 									title: 'Megatype',
-									render: (data: IPlanReportOverview) => <>{data?.megatype || '---'}</>,
+									render: (data: IPlanReportOverview) => (
+										<p style={{color: data?.megatype == 'Task' ? '#2970FF' : data?.megatype ? '' : ''}}>
+											{data?.megatype || '---'}
+										</p>
+									),
 								},
 								{
 									title: 'Số hóa',
 									render: (data: IPlanReportOverview) => (
-										<>
+										<span style={{color: data?.megatype == 'Task' ? '#2970FF' : data?.megatype ? '' : ''}}>
 											<p>{data?.digitalization == 0 && 'Chưa số hóa'}</p>
 											<p>{data?.digitalization == 1 && 'Đã số hóa'}</p>
-										</>
+										</span>
 									),
 								},
 								{
 									title: 'Loại công việc',
 									render: (data: IPlanReportOverview) => (
-										<>
+										<span style={{color: data?.megatype == 'Task' ? '#2970FF' : data?.megatype ? '' : ''}}>
 											{data?.isWorkFlow == 1 && 'Có kế hoạch'}
 											{data?.isWorkFlow == 0 && 'Phát sinh'}
-										</>
+										</span>
 									),
 								},
 								{
 									title: 'Người báo cáo',
-									render: (data: IPlanReportOverview) => <>{data?.reporter?.fullname || '---'}</>,
+									render: (data: IPlanReportOverview) => (
+										<p style={{color: data?.megatype == 'Task' ? '#2970FF' : data?.megatype ? '' : ''}}>
+											{data?.reporter?.fullname || '---'}
+										</p>
+									),
 								},
 								{
 									title: 'Trạng thái',

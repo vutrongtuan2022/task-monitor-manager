@@ -55,43 +55,58 @@ function WorkReportOverview({}: PropsWorkReportOverview) {
 							column={[
 								{
 									title: 'STT',
-									render: (data: IWorkReportOverview, index: number) => <>{index + 1}</>,
+									render: (data: IWorkReportOverview, index: number) => (
+										<p style={{color: data?.megatype == 'Task' ? '#2970FF' : data?.megatype ? '' : ''}}>{index + 1}</p>
+									),
 								},
 								{
 									title: 'Tên công việc',
 									render: (data: IWorkReportOverview, index: number) => (
 										<Tippy content={data?.name || '---'}>
-											<p className={styles.name}>{data?.name || '---'}</p>
+											<p
+												className={styles.name}
+												style={{color: data?.megatype == 'Task' ? '#2970FF' : data?.megatype ? '' : ''}}
+											>
+												{data?.name || '---'}
+											</p>
 										</Tippy>
 									),
 								},
 								{
 									title: 'Giai đoạn thực hiện',
 									render: (data: IWorkReportOverview) => (
-										<>
+										<span style={{color: data?.megatype == 'Task' ? '#2970FF' : data?.megatype ? '' : ''}}>
 											{!data?.stage && '---'}
 											{data?.stage == 1 && 'Giai đoạn chuẩn bị đầu tư'}
 											{data?.stage == 2 && 'Giai đoạn thực hiện đầu tư'}
 											{data?.stage == 3 && 'Giai đoạn kết thúc đầu tư xây dựng'}
-										</>
+										</span>
 									),
 								},
 								{
 									title: 'Megatype',
-									render: (data: IWorkReportOverview) => <>{data?.megatype || '---'}</>,
+									render: (data: IWorkReportOverview) => (
+										<p style={{color: data?.megatype == 'Task' ? '#2970FF' : data?.megatype ? '' : ''}}>
+											{data?.megatype || '---'}
+										</p>
+									),
 								},
 								{
 									title: 'Loại công việc',
 									render: (data: IWorkReportOverview) => (
-										<>
+										<span style={{color: data?.megatype == 'Task' ? '#2970FF' : data?.megatype ? '' : ''}}>
 											{data?.isWorkFlow == 1 && 'Có kế hoạch'}
 											{data?.isWorkFlow == 0 && 'Phát sinh'}
-										</>
+										</span>
 									),
 								},
 								{
 									title: 'Người báo cáo',
-									render: (data: IWorkReportOverview) => <>{data?.reporter?.fullname || '---'}</>,
+									render: (data: IWorkReportOverview) => (
+										<p style={{color: data?.megatype == 'Task' ? '#2970FF' : data?.megatype ? '' : ''}}>
+											{data?.reporter?.fullname || '---'}
+										</p>
+									),
 								},
 								{
 									title: 'Trạng thái',
@@ -154,10 +169,10 @@ function WorkReportOverview({}: PropsWorkReportOverview) {
 								{
 									title: 'Số hóa',
 									render: (data: IWorkReportOverview) => (
-										<>
+										<p style={{color: data?.megatype == 'Task' ? '#2970FF' : data?.megatype ? '' : ''}}>
 											<p>{data?.digitalization == 0 && 'Chưa số hóa'}</p>
 											<p>{data?.digitalization == 1 && 'Đã số hóa'}</p>
-										</>
+										</p>
 									),
 								},
 							]}
