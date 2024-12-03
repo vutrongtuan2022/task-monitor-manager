@@ -270,7 +270,13 @@ function MainDisbursementProgress({}: PropsMainDisbursementProgress) {
 								</div>
 							</div>
 							<div className={styles.progress}>
-								<p>Số tiền đã giải ngân (VND)</p>
+								<p>Số tiền giải ngân lũy kế trong năm (VNĐ)</p>
+								<div className={styles.progress_label}>
+									<span>{convertCoin(detailProgressContractFund?.totalAccumAmountThisYear!)}</span>
+								</div>
+							</div>
+							<div className={styles.progress}>
+								<p>Số tiền giải ngân lũy kế đến hiện tại (VND)</p>
 								<div className={styles.progress_label}>
 									<Progress
 										percent={
@@ -351,7 +357,7 @@ function MainDisbursementProgress({}: PropsMainDisbursementProgress) {
 											data?.startDate ? <Moment date={data?.startDate} format='DD/MM/YYYY' /> : '---',
 									},
 									{
-										title: 'Số ngày',
+										title: 'Thời gian THHĐ',
 										render: (data: IContractsForProject) => <>{data?.totalDayAdvantage}</>,
 									},
 									{

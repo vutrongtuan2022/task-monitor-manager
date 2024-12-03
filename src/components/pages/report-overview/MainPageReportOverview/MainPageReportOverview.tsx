@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {IReportOverview, PropsMainPageReportOverview} from './interfaces';
 import styles from './MainPageReportOverview.module.scss';
 import {useRouter} from 'next/router';
@@ -22,12 +22,15 @@ import overviewServices from '~/services/overviewServices';
 import Tippy from '@tippyjs/react';
 import Popup from '~/components/common/Popup';
 import FormExportExcel from '../FormExportExcel';
+import Button from '~/components/common/Button';
+import Image from 'next/image';
+import icons from '~/constants/images/icons';
 
 function MainPageReportOverview({}: PropsMainPageReportOverview) {
 	const router = useRouter();
 	const years = generateYearsArray();
 	const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-
+	const [isExportPopupOpen, setExportPopupOpen] = useState(false);
 	const {_page, _pageSize, _keyword, _year, _month, _action} = router.query;
 
 	const listOverview = useQuery([QUERY_KEY.table_overview_report, _page, _pageSize, _keyword, _year, _month], {
@@ -49,14 +52,11 @@ function MainPageReportOverview({}: PropsMainPageReportOverview) {
 	});
 
 	const handleCloseExport = () => {
-		const {_action, ...rest} = router.query;
+		setExportPopupOpen(false);
+	};
 
-		router.replace({
-			pathname: router.pathname,
-			query: {
-				...rest,
-			},
-		});
+	const handleOpenExport = () => {
+		setExportPopupOpen(true);
 	};
 
 	return (
@@ -88,6 +88,12 @@ function MainPageReportOverview({}: PropsMainPageReportOverview) {
 							}))}
 						/>
 					</div>
+				</div>
+				<div className={styles.btn}>
+					<Button rounded_8 w_fit p_8_16 green bold onClick={handleOpenExport}>
+						<Image src={icons.exportExcel} alt='icon down' width={20} height={20} />
+						Xuất excel
+					</Button>
 				</div>
 			</div>
 			<WrapperScrollbar>
@@ -172,7 +178,7 @@ function MainPageReportOverview({}: PropsMainPageReportOverview) {
 					dependencies={[_pageSize, _keyword, _year, _month]}
 				/>
 			</WrapperScrollbar>
-			<Popup open={_action == 'export'} onClose={handleCloseExport}>
+			<Popup open={isExportPopupOpen} onClose={handleCloseExport}>
 				<FormExportExcel onClose={handleCloseExport} />
 			</Popup>
 		</div>

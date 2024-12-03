@@ -4,6 +4,7 @@ export interface IDetailProgressContractFund {
 	totalContract: number;
 	countRelease: number;
 	totalContractAmount: number;
+	totalAccumAmountThisYear: number;
 	categoryProjectDTO: {
 		code: string;
 		name: string;
