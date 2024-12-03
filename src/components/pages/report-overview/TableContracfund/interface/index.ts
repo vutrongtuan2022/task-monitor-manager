@@ -29,4 +29,5 @@ export interface IContractFund {
 	reverseAmount: number;
 	status: number;
 	uuid: string;
+	note: string;
 }

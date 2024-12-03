@@ -104,6 +104,10 @@ function TableContracfund({}: PropsTableContracFund) {
 								title: 'Tên nhà thầu',
 								render: (data: IContractFund) => <>{data?.contractor?.name}</>,
 							},
+							{
+								title: 'Mô tả',
+								render: (data: IContractFund) => <>{data?.note || '---'}</>,
+							},
 						]}
 					/>
 				</DataWrapper>

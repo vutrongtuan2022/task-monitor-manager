@@ -83,6 +83,12 @@ function DetailContractReportDisbursement({}: PropsDetailContractReportDisbursem
 								<p>{detailContract?.code || '---'}</p>
 							</div>
 							<div className={styles.item}>
+								<p>Lũy kế giải ngân trong năm</p>
+								<p>
+									<span>{convertCoin(detailContract?.accumAmountThisYear!)}</span>
+								</p>
+							</div>
+							<div className={styles.item}>
 								<p>Lũy kế giải ngân hiện tại</p>
 								<p>
 									<span style={{color: '#EE464C'}}>{convertCoin(detailContract?.accumAmount!)}</span> /{' '}
@@ -239,6 +245,10 @@ function DetailContractReportDisbursement({}: PropsDetailContractReportDisbursem
 												]}
 											/>
 										),
+									},
+									{
+										title: 'Mô tả',
+										render: (data: IContractDetailFund) => <p>{data?.note || '---'}</p>,
 									},
 								]}
 							/>

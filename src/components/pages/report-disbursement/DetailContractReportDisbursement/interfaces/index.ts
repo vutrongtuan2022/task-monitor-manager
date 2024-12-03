@@ -70,6 +70,7 @@ export interface IDetailContract {
 		state: number;
 		uuid: string;
 	};
+	accumAmountThisYear: number;
 	totalDayAdvantage: number;
 	amount: number;
 	accumAmount: number;
@@ -95,6 +96,7 @@ export interface IContractDetailFund {
 		code: string;
 		uuid: string;
 	};
+	note: string;
 	created: string;
 	state: number;
 }

@@ -55,6 +55,7 @@ export interface IContractFund {
 		isDefault: number;
 		uuid: string;
 	};
+	note: string;
 	code: string;
 	status: number;
 	uuid: string;
