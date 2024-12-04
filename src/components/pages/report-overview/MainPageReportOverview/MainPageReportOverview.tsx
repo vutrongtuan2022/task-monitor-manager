@@ -138,7 +138,7 @@ function MainPageReportOverview({}: PropsMainPageReportOverview) {
 							},
 							{
 								title: 'Số hợp đồng giải ngân',
-								render: (data: IReportOverview) => <>{data?.fund?.totalContracts}</>,
+								render: (data: IReportOverview) => <>{data?.fund?.totalContracts || 0}</>,
 							},
 							{
 								title: 'Số tiền giải ngân (VND)',

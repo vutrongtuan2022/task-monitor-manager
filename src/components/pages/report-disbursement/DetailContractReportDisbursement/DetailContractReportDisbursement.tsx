@@ -20,6 +20,7 @@ import Table from '~/components/common/Table';
 import Pagination from '~/components/common/Pagination';
 import StateActive from '~/components/common/StateActive';
 import contractsServices from '~/services/contractsServices';
+import Tippy from '@tippyjs/react';
 
 function DetailContractReportDisbursement({}: PropsDetailContractReportDisbursement) {
 	const router = useRouter();
@@ -248,7 +249,16 @@ function DetailContractReportDisbursement({}: PropsDetailContractReportDisbursem
 									},
 									{
 										title: 'Mô tả',
-										render: (data: IContractDetailFund) => <p>{data?.note || '---'}</p>,
+										render: (data: IContractDetailFund) => (
+											<>
+												{(data?.note && (
+													<Tippy content={data?.note}>
+														<p className={styles.name}>{data?.note || '---'}</p>
+													</Tippy>
+												)) ||
+													'---'}
+											</>
+										),
 									},
 								]}
 							/>
