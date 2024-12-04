@@ -270,9 +270,9 @@ function MainDisbursementProgress({}: PropsMainDisbursementProgress) {
 								</div>
 							</div>
 							<div className={styles.progress}>
-								<p>Số tiền giải ngân lũy kế trong năm (VNĐ)</p>
+								<p>Số tiền giải ngân lũy kế trong năm (VND)</p>
 								<div className={styles.progress_label}>
-									<span>{convertCoin(detailProgressContractFund?.totalAccumAmountThisYear!)}</span>
+									<span>{convertCoin(detailProgressContractFund?.totalAccumAmountThisYear! || 0)}</span>
 								</div>
 							</div>
 							<div className={styles.progress}>

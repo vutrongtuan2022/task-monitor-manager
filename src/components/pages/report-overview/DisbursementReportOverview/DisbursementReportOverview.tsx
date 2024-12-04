@@ -52,7 +52,7 @@ function DisbursementReportOverview({}: PropsDisbursementReportOverview) {
 					</div>
 					<div className={styles.item}>
 						<p>Số hợp đồng giải ngân</p>
-						<p>{disbursementReportOverview?.totalContracts || '---'}</p>
+						<p>{disbursementReportOverview?.totalContracts || 0}</p>
 					</div>
 					<div className={styles.item}>
 						<p>Tổng số tiền đã giải ngân (VND)</p>
