@@ -46,6 +46,9 @@ export enum QUERY_KEY {
 	detail_report_disbursement,
 	detail_contract,
 	detail_progress_contract_fund_project,
+
+	count_unseen_noti,
+	list_notify,
 }
 
 export enum TYPE_DATE {
@@ -155,4 +158,17 @@ export enum TYPE_WORK {
 export enum SORT_TYPE {
 	DECREASE = 1,
 	INCREASE,
+}
+
+export enum STATE_NOTIFY {
+	NOT_READ,
+	READ,
+}
+
+export enum TYPE_NOTIFY {
+	PROJECT = 1,
+	REPORT,
+	CONTRACT,
+	OVERVIEW,
+	CONTRACT_FUND,
 }

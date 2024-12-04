@@ -1,3 +1,5 @@
+import 'moment/locale/vi';
+
 import 'react-toastify/dist/ReactToastify.css';
 import 'tippy.js/dist/tippy.css';
 import '~/styles/_globals.scss';

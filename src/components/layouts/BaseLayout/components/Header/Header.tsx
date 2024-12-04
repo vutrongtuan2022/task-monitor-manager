@@ -6,7 +6,7 @@ import {TContextBaseLayout} from '../../interfaces';
 import styles from './Header.module.scss';
 import ImageFill from '~/components/common/ImageFill';
 import icons from '~/constants/images/icons';
-import {use, useContext, useEffect, useState} from 'react';
+import { useContext, useEffect, useState} from 'react';
 import Image from 'next/image';
 import {useRouter} from 'next/router';
 import clsx from 'clsx';
@@ -14,6 +14,11 @@ import MenuTab from '../MenuTab';
 import BoxMenuProfile from '../BoxMenuProfile';
 import {useSelector} from 'react-redux';
 import {RootState} from '~/redux/store';
+import { useQuery } from '@tanstack/react-query';
+import { QUERY_KEY } from '~/constants/config/enum';
+import { httpRequest } from '~/services';
+import notifyServices from '~/services/notifyServices';
+import BoxNoti from '../BoxNoti';
 
 function Header({isImport = false, isExport = false, title}: PropsHeader) {
 	const router = useRouter();
@@ -23,6 +28,7 @@ function Header({isImport = false, isExport = false, title}: PropsHeader) {
 
 	const [open, setOpen] = useState<boolean>(false);
 	const [openProfile, setOpenProfile] = useState<boolean>(false);
+	const [openNoti, setOpenNoti] = useState<boolean>(false);
 
 	useEffect(() => {
 		if (open) {
@@ -37,6 +43,16 @@ function Header({isImport = false, isExport = false, title}: PropsHeader) {
 			setOpen(false);
 		}
 	}, [router]);
+
+	const {data: countUnSeenNoti} = useQuery<{count: number}>([QUERY_KEY.count_unseen_noti], {
+		queryFn: () =>
+			httpRequest({
+				http: notifyServices.countUnseenNotify({}),
+			}),
+		select(data) {
+			return data;
+		},
+	});
 
 	return (
 		<div className={clsx(styles.container, {[styles.isAction]: isImport || isExport})}>
@@ -88,12 +104,23 @@ function Header({isImport = false, isExport = false, title}: PropsHeader) {
 				</div>
 			</div>
 			<div className={styles.right}>
-				<div className={styles.box_noti}>
-					<Image src={icons.bell} alt='icon bell' width={24} height={24} />
-					<div className={styles.box_count}>
-						<div className={styles.count}></div>
+			<TippyHeadless
+					maxWidth={'100%'}
+					interactive
+					visible={openNoti}
+					onClickOutside={() => setOpenNoti(false)}
+					placement='bottom-end'
+					render={(attrs: any) => <BoxNoti countUnSeenNoti={countUnSeenNoti?.count || 0} onClose={() => setOpenNoti(false)} />}
+				>
+					<div className={styles.box_noti} onClick={() => setOpenNoti(!openNoti)}>
+						<Image src={icons.bell} alt='icon bell' width={24} height={24} />
+						{countUnSeenNoti?.count! > 0 && (
+							<div className={styles.box_count}>
+								<div className={styles.count}></div>
+							</div>
+						)}
 					</div>
-				</div>
+				</TippyHeadless>
 
 				<TippyHeadless
 					maxWidth={'100%'}
