@@ -146,7 +146,7 @@ function MainPageReportDisbursement({}: PropsMainPageReportDisbursement) {
 			<div className={styles.head}>
 				<div className={styles.main_search}>
 					<div className={styles.search}>
-						<Search keyName='_keyword' placeholder='Tìm kiếm theo tên công trình, ID' />
+						<Search keyName='_keyword' placeholder='Tìm kiếm theo tên công trình' />
 					</div>
 					<div className={styles.filter}>
 						<FilterCustom

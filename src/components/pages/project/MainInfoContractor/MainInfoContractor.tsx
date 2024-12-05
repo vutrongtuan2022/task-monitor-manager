@@ -258,9 +258,6 @@ function MainInfoContractor({}: PropsMainInfoContractor) {
 					<div className={styles.main_table}>
 						<div className={styles.head_filt}>
 							<div className={styles.main_search}>
-								<div className={styles.search}>
-									<Search keyName='_keyword' placeholder='Tìm kiếm theo tên nhà thầu,nhóm nhà thầu' />
-								</div>
 								<div className={styles.filter}>
 									<FilterCustom
 										isSearch

@@ -214,6 +214,19 @@ function DetailContractReportDisbursement({}: PropsDetailContractReportDisbursem
 										),
 									},
 									{
+										title: 'Mô tả',
+										render: (data: IContractDetailFund) => (
+											<>
+												{(data?.note && (
+													<Tippy content={data?.note}>
+														<p className={styles.name}>{data?.note || '---'}</p>
+													</Tippy>
+												)) ||
+													'---'}
+											</>
+										),
+									},
+									{
 										title: 'Trạng thái',
 										render: (data: IContractDetailFund) => (
 											<StateActive
@@ -245,19 +258,6 @@ function DetailContractReportDisbursement({}: PropsDetailContractReportDisbursem
 													},
 												]}
 											/>
-										),
-									},
-									{
-										title: 'Mô tả',
-										render: (data: IContractDetailFund) => (
-											<>
-												{(data?.note && (
-													<Tippy content={data?.note}>
-														<p className={styles.name}>{data?.note || '---'}</p>
-													</Tippy>
-												)) ||
-													'---'}
-											</>
 										),
 									},
 								]}
