@@ -255,7 +255,7 @@ function DetailReportWork({}: PropsDetailReportWork) {
 								{
 									pathname: PATH.ProjectCreate,
 									query: 'report',
-									title: 'Báo cáo hiện tại',
+									title: 'Kế hoạch tháng hiện tại',
 								},
 							]}
 							listKeyRemove={['_page', '_pageSize', '_keyword', '_state']}
