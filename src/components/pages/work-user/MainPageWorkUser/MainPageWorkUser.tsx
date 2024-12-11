@@ -94,7 +94,7 @@ function MainPageWorkUser({}: PropsMainPageWorkUser) {
 			<div className={styles.head}>
 				<div className={styles.main_search}>
 					<div className={styles.search}>
-						<Search keyName='_keyword' placeholder='Tìm kiếm theo tên công việc, dự án' />
+						<Search keyName='_keyword' placeholder='Tìm kiếm theo tên công việc' />
 					</div>
 					<div className={styles.filter}>
 						<FilterCustom
