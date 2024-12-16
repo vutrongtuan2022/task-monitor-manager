@@ -204,7 +204,7 @@ function MainPageReportDisbursement({}: PropsMainPageReportDisbursement) {
 								},
 								{
 									id: STATE_REPORT_DISBURSEMENT.REPORTED,
-									name: 'Đã báo cáo',
+									name: 'Chưa xử lý',
 								},
 								{
 									id: STATE_REPORT_DISBURSEMENT.APPROVED,
@@ -212,7 +212,7 @@ function MainPageReportDisbursement({}: PropsMainPageReportDisbursement) {
 								},
 								{
 									id: STATE_REPORT_DISBURSEMENT.REJECTED,
-									name: 'Bị từ chối',
+									name: 'Đã từ chối',
 								},
 							]}
 						/>
@@ -285,13 +285,13 @@ function MainPageReportDisbursement({}: PropsMainPageReportDisbursement) {
 										listState={[
 											{
 												state: STATE_REPORT_DISBURSEMENT.REJECTED,
-												text: 'Bị từ chối',
+												text: 'Đã từ chối',
 												textColor: '#FFFFFF',
 												backgroundColor: '#F37277',
 											},
 											{
 												state: STATE_REPORT_DISBURSEMENT.REPORTED,
-												text: 'Đã báo cáo',
+												text: 'Chưa xử lý',
 												textColor: '#FFFFFF',
 												backgroundColor: '#4BC9F0',
 											},

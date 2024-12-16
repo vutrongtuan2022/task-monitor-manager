@@ -89,7 +89,7 @@ function DetailReportDisbursement({}: PropsDetailReportDisbursement) {
 									},
 									{
 										state: STATE_REPORT_DISBURSEMENT.REPORTED,
-										text: 'Đã báo cáo',
+										text: 'Chưa xử lý',
 										textColor: '#FFFFFF',
 										backgroundColor: '#4BC9F0',
 									},
@@ -141,10 +141,10 @@ function DetailReportDisbursement({}: PropsDetailReportDisbursement) {
 									)}
 								</p>
 							</div>
-							<div className={styles.item}>
+							{/* <div className={styles.item}>
 								<p>Mô tả</p>
 								<p>{detailContractFund?.note || '---'}</p>
-							</div>
+							</div> */}
 							{detailContractFund?.state === STATE_REPORT_DISBURSEMENT.REJECTED && (
 								<div className={styles.item}>
 									<p>Lý do từ chối báo cáo giải ngân</p>
