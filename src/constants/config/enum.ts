@@ -15,6 +15,7 @@ export enum QUERY_KEY {
 	table_contract_fund_detail,
 	table_contract_for_project,
 	table_contract_fund_for_overview,
+	table_contract_by_activity,
 
 	dropdown_branches,
 	dropdown_task_cat,
@@ -46,6 +47,7 @@ export enum QUERY_KEY {
 	detail_report_disbursement,
 	detail_contract,
 	detail_progress_contract_fund_project,
+	detail_activity_contract,
 
 	count_unseen_noti,
 	list_notify,
@@ -163,6 +165,12 @@ export enum SORT_TYPE {
 export enum STATE_NOTIFY {
 	NOT_READ,
 	READ,
+}
+
+export enum STATE_CONTRACT_WORK {
+	EXPIRED, //HẾT HẠN
+	PROCESSING, //ĐANG THỰC HIỆN
+	END, //HỦY
 }
 
 export enum TYPE_NOTIFY {

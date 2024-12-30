@@ -28,6 +28,9 @@ import {generateYearsArray} from '~/common/funcs/selectDate';
 import Tippy from '@tippyjs/react';
 import userServices from '~/services/userServices';
 import projectServices from '~/services/projectServices';
+import IconCustom from '~/components/common/IconCustom';
+import { Eye } from 'iconsax-react';
+import { PATH } from '~/constants/config';
 
 function MainPageWorkUser({}: PropsMainPageWorkUser) {
 	const router = useRouter();
@@ -407,6 +410,20 @@ function MainPageWorkUser({}: PropsMainPageWorkUser) {
 										{data?.digitalizedState == 0 && 'Chưa số hóa'}
 										{data?.digitalizedState == 1 && 'Đã số hóa'}
 									</p>
+								),
+							},
+							{
+								title: 'Hành động',
+								fixedRight: true,
+								render: (data: IWorkUser) => (
+									<div style={{display: 'flex', alignItems: 'center', gap: '4px'}}>
+										<IconCustom
+											color='#005994'
+											icon={<Eye fontSize={20} fontWeight={600} />}
+											tooltip='Xem chi tiết'
+											href={`${PATH.WorkUser}/${data?.activity?.uuid}`}
+										/>
+									</div>
 								),
 							},
 						]}

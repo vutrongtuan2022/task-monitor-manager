@@ -41,5 +41,19 @@ const contractsServices = {
 			cancelToken: tokenAxios,
 		});
 	},
+	listContractsByActivity: (
+		data: {
+			uuid: string;
+			pageSize: number;
+			page: number;
+			keyword: string;
+			status: number;
+		},
+		tokenAxios?: any
+	) => {
+		return axiosClient.post(`/Contracts/get-page-list-contracts-by-activity`, data, {
+			cancelToken: tokenAxios,
+		});
+	},
 };
 export default contractsServices;

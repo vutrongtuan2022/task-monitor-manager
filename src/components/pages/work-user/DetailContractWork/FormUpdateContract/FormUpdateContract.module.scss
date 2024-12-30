@@ -1,0 +1,75 @@
+@import '../../../../../styles/variables';
+
+.container {
+	position: relative;
+	width: 1200px;
+	height: 100vh;
+	background: #fff;
+
+	display: flex;
+	flex-direction: column;
+}
+
+.title {
+	color: #2f3d50;
+	font-size: 24px;
+	font-weight: 600;
+	padding: 24px;
+}
+
+.form {
+	flex: 1;
+	overflow: auto;
+	background: #f4f5f6;
+	border-radius: 16px;
+	padding: 24px 0;
+}
+
+.head {
+	border-left: 4px solid #005994;
+	padding: 0 20px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+
+	& > h4 {
+		color: #202939;
+		font-size: 20px;
+		font-weight: 600;
+	}
+}
+
+.main_form {
+	padding: 16px 24px;
+}
+
+.group_button {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 10px;
+	padding: 24px;
+}
+
+.close {
+	cursor: pointer;
+	user-select: none;
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	transition: 0.3s;
+
+	&:active {
+		transform: scale(0.9);
+	}
+}
+
+.col_2 {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 20px;
+}
+
+.mt {
+	margin-top: 20px;
+}
