@@ -99,6 +99,16 @@ const activityServices = {
 			cancelToken: tokenAxios,
 		});
 	},
+	getDetailActivityContract: (
+		data: {
+			uuid: string;
+		},
+		tokenAxios?: any
+	) => {
+		return axiosClient.post(`/Activity/get-detail-activity-and-contract`, data, {
+			cancelToken: tokenAxios,
+		});
+	},
 };
 
 export default activityServices;
