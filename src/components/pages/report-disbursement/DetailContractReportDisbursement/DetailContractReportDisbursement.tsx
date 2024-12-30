@@ -7,7 +7,7 @@ import {PATH} from '~/constants/config';
 import GridColumn from '~/components/layouts/GridColumn';
 import {useRouter} from 'next/router';
 import {useQuery} from '@tanstack/react-query';
-import {QUERY_KEY, STATE_REPORT_DISBURSEMENT, STATUS_CONFIG} from '~/constants/config/enum';
+import {QUERY_KEY,STATE_CONTRACT_WORK, STATE_REPORT_DISBURSEMENT, STATUS_CONFIG} from '~/constants/config/enum';
 import {httpRequest} from '~/services';
 import {convertCoin} from '~/common/funcs/convertCoin';
 import Progress from '~/components/common/Progress';
@@ -76,6 +76,33 @@ function DetailContractReportDisbursement({}: PropsDetailContractReportDisbursem
 				<div className={styles.basic_info}>
 					<div className={styles.head}>
 						<h4>Thông tin cơ bản</h4>
+						<div className={styles.state}>
+							<p>Trạng thái hợp đồng:</p>
+							<StateActive
+								stateActive={detailContract?.state!}
+								listState={[
+									{
+										state: STATE_CONTRACT_WORK.EXPIRED,
+										text: 'Hết hạn',
+										textColor: '#fff',
+										backgroundColor: '#16C1F3',
+									},
+									{
+										state: STATE_CONTRACT_WORK.PROCESSING,
+										text: 'Đang thực hiện',
+										textColor: '#fff',
+
+										backgroundColor: '#06D7A0',
+									},
+									{
+										state: STATE_CONTRACT_WORK.END,
+										text: 'Đã hủy',
+										textColor: '#fff',
+										backgroundColor: '#F37277',
+									},
+								]}
+							/>
+						</div>
 					</div>
 					<div className={styles.progress_group}>
 						<GridColumn col_3>

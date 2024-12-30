@@ -17,7 +17,7 @@ import {convertCoin} from '~/common/funcs/convertCoin';
 import Breadcrumb from '~/components/common/Breadcrumb';
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import {httpRequest} from '~/services';
-import {QUERY_KEY, STATE_PROJECT, STATUS_CONFIG} from '~/constants/config/enum';
+import {QUERY_KEY, STATE_CONTRACT_WORK, STATE_PROJECT, STATUS_CONFIG} from '~/constants/config/enum';
 import Dialog from '~/components/common/Dialog';
 import icons from '~/constants/images/icons';
 import Moment from 'react-moment';
@@ -29,6 +29,7 @@ import Search from '~/components/common/Search';
 import Tippy from '@tippyjs/react';
 import contractorServices from '~/services/contractorServices';
 import Link from 'next/link';
+import StateActive from '~/components/common/StateActive';
 
 function MainDisbursementProgress({}: PropsMainDisbursementProgress) {
 	const router = useRouter();
@@ -400,6 +401,35 @@ function MainDisbursementProgress({}: PropsMainDisbursementProgress) {
 											<Tippy content={data?.activityName || '---'}>
 												<p className={styles.name}>{data?.activityName || ''}</p>
 											</Tippy>
+										),
+									},
+									{
+										title: 'Trạng thái',
+										render: (data: IContractsForProject) => (
+											<StateActive
+												stateActive={data?.state}
+												listState={[
+													{
+														state: STATE_CONTRACT_WORK.EXPIRED,
+														text: 'Hết hạn',
+														textColor: '#fff',
+														backgroundColor: '#16C1F3',
+													},
+													{
+														state: STATE_CONTRACT_WORK.PROCESSING,
+														text: 'Đang thực hiện',
+														textColor: '#fff',
+
+														backgroundColor: '#06D7A0',
+													},
+													{
+														state: STATE_CONTRACT_WORK.END,
+														text: 'Đã hủy',
+														textColor: '#fff',
+														backgroundColor: '#F37277',
+													},
+												]}
+											/>
 										),
 									},
 								]}

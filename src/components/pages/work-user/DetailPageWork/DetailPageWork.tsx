@@ -179,6 +179,7 @@ function DetailPageWork({}: PropsDetailPageWork) {
 									},
 									{
 										title: 'Trạng thái',
+										fixedRight: true,
 										render: (data: IContractByActivity) => (
 											<StateActive
 												stateActive={data?.state}
