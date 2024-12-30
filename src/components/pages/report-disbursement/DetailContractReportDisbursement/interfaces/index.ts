@@ -82,6 +82,7 @@ export interface IDetailContract {
 	code: string;
 	status: number;
 	uuid: string;
+	state: number;
 }
 
 export interface IContractDetailFund {

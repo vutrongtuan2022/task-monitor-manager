@@ -44,4 +44,5 @@ export interface IContractsForProject {
 	activityName: string;
 	status: number;
 	uuid: string;
+	state: number;
 }
