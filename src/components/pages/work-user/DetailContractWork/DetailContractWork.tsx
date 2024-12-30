@@ -4,7 +4,6 @@ import {IContractDetailFund, IDetailContract, PropsDetailContractWork} from './i
 import styles from './DetailContractWork.module.scss';
 import Breadcrumb from '~/components/common/Breadcrumb';
 import {PATH} from '~/constants/config';
-import Button from '~/components/common/Button';
 import GridColumn from '~/components/layouts/GridColumn';
 import {useRouter} from 'next/router';
 import {useQuery} from '@tanstack/react-query';
@@ -21,14 +20,12 @@ import Noti from '~/components/common/DataWrapper/components/Noti';
 import Table from '~/components/common/Table';
 import Pagination from '~/components/common/Pagination';
 import StateActive from '~/components/common/StateActive';
-import PositionContainer from '~/components/common/PositionContainer';
-import FormUpdateContract from './FormUpdateContract';
 import Tippy from '@tippyjs/react';
 
 function DetailContractWork({}: PropsDetailContractWork) {
 	const router = useRouter();
 
-	const {_uuid, _page, _pageSize, _action, _uuidWork} = router.query;
+	const {_uuid, _page, _pageSize, _uuidWork} = router.query;
 
 	const {data: detailContract} = useQuery<IDetailContract>([QUERY_KEY.detail_contract], {
 		queryFn: () =>
@@ -76,29 +73,7 @@ function DetailContractWork({}: PropsDetailContractWork) {
 						path: '',
 						title: 'Chi tiết hợp đồng',
 					},
-				]}
-				action={
-					<div className={styles.group_button}>
-						{detailContract?.state === STATE_CONTRACT_WORK.PROCESSING && (
-							<Button
-								p_14_24
-								rounded_8
-								primaryLinear
-								onClick={() => {
-									router.replace({
-										pathname: router.pathname,
-										query: {
-											...router.query,
-											_action: 'update',
-										},
-									});
-								}}
-							>
-								Chỉnh sửa
-							</Button>
-						)}
-					</div>
-				}
+				]}				
 			/>
 
 			<div className={styles.main}>
@@ -326,33 +301,6 @@ function DetailContractWork({}: PropsDetailContractWork) {
 					</WrapperScrollbar>
 				</div>
 			</div>
-
-			<PositionContainer
-				open={_action == 'update'}
-				onClose={() => {
-					const {_action, ...rest} = router.query;
-
-					router.replace({
-						pathname: router.pathname,
-						query: {
-							...rest,
-						},
-					});
-				}}
-			>
-				<FormUpdateContract
-					onClose={() => {
-						const {_action, ...rest} = router.query;
-
-						router.replace({
-							pathname: router.pathname,
-							query: {
-								...rest,
-							},
-						});
-					}}
-				/>
-			</PositionContainer>
 		</div>
 	);
 }
