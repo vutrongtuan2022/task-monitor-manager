@@ -274,7 +274,7 @@ function MainWorkReport({}: PropsMainWorkReport) {
 				</div>
 				<div className={clsx(styles.basic_info, styles.mt)}>
 					<div className={styles.head}>
-						<h4>Tiến độ công việc</h4>
+						<h4>Danh sách công việc</h4>
 					</div>
 					<div className={styles.main_table}>
 						<div className={styles.head_filt}>
