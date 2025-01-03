@@ -417,12 +417,14 @@ function MainPageWorkUser({}: PropsMainPageWorkUser) {
 								fixedRight: true,
 								render: (data: IWorkUser) => (
 									<div style={{display: 'flex', alignItems: 'center', gap: '4px'}}>
-										<IconCustom
+										{data?.type == TYPE_WORK.TASK && (
+											<IconCustom
 											color='#005994'
 											icon={<Eye fontSize={20} fontWeight={600} />}
 											tooltip='Xem chi tiết'
 											href={`${PATH.WorkUser}/${data?.activity?.uuid}`}
 										/>
+										)}
 									</div>
 								),
 							},
