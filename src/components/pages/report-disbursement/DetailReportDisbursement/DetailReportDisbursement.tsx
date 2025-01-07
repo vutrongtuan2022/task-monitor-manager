@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import {IDetailContractFund, IContractFund, PropsDetailReportDisbursement} from './interfaces';
 import styles from './DetailReportDisbursement.module.scss';
@@ -8,7 +8,7 @@ import StateActive from '~/components/common/StateActive';
 import {QUERY_KEY, STATE_REPORT_DISBURSEMENT, STATUS_CONFIG} from '~/constants/config/enum';
 import Breadcrumb from '~/components/common/Breadcrumb';
 import {PATH} from '~/constants/config';
-import {useQuery} from '@tanstack/react-query';
+import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import {useRouter} from 'next/router';
 import {httpRequest} from '~/services';
 import {convertCoin} from '~/common/funcs/convertCoin';
@@ -21,12 +21,23 @@ import DataWrapper from '~/components/common/DataWrapper';
 import Noti from '~/components/common/DataWrapper/components/Noti';
 import Link from 'next/link';
 import contractsFundServices from '~/services/contractsFundServices';
+import Button from '~/components/common/Button';
+import Dialog from '~/components/common/Dialog';
+import icons from '~/constants/images/icons';
+import Form from '~/components/common/Form';
+import Popup from '~/components/common/Popup';
+import TextArea from '~/components/common/Form/components/TextArea';
 
 function DetailReportDisbursement({}: PropsDetailReportDisbursement) {
 	const router = useRouter();
+	const queryClient = useQueryClient();
 
 	const {_uuid, _page, _pageSize} = router.query;
-
+	const [openConfirm, setOpenConfirm] = useState<boolean>(false);
+	const [openCancel, setOpenCancel] = useState<boolean>(false);
+	const [form, setForm] = useState<{feedback: string}>({
+		feedback: '',
+	});
 	const {data: detailContractFund} = useQuery<IDetailContractFund>([QUERY_KEY.detail_report_disbursement, _uuid], {
 		queryFn: () =>
 			httpRequest({
@@ -57,6 +68,48 @@ function DetailReportDisbursement({}: PropsDetailReportDisbursement) {
 		enabled: !!_uuid,
 	});
 
+	const funcConfirm = useMutation({
+		mutationFn: () => {
+			return httpRequest({
+				showMessageFailed: true,
+				showMessageSuccess: true,
+				msgSuccess: 'Duyệt báo cáo thành công!',
+				http: contractsFundServices.approveContractFund({
+					uuid: _uuid as string,
+					isApproved: 1,
+					reason: '',
+				}),
+			});
+		},
+		onSuccess(data) {
+			if (data) {
+				setOpenConfirm(false);
+				queryClient.invalidateQueries([QUERY_KEY.detail_report_disbursement]);
+			}
+		},
+	});
+
+	const funcCancel = useMutation({
+		mutationFn: () => {
+			return httpRequest({
+				showMessageFailed: true,
+				showMessageSuccess: true,
+				msgSuccess: 'Từ chối báo cáo thành công!',
+				http: contractsFundServices.approveContractFund({
+					uuid: _uuid as string,
+					isApproved: 0,
+					reason: form.feedback,
+				}),
+			});
+		},
+		onSuccess(data) {
+			if (data) {
+				setOpenCancel(false);
+				queryClient.invalidateQueries([QUERY_KEY.detail_report_disbursement]);
+			}
+		},
+	});
+
 	return (
 		<div className={styles.container}>
 			<Breadcrumb
@@ -70,6 +123,31 @@ function DetailReportDisbursement({}: PropsDetailReportDisbursement) {
 						title: 'Chi tiết báo cáo',
 					},
 				]}
+				action={
+					<div className={styles.group_btn}>
+						{detailContractFund?.state == STATE_REPORT_DISBURSEMENT.REPORTED && (
+							<>
+								<Button p_14_24 rounded_8 green onClick={() => setOpenConfirm(true)}>
+									Duyệt báo cáo
+								</Button>
+								<Button p_14_24 rounded_8 error onClick={() => setOpenCancel(true)}>
+									Từ chối báo cáo
+								</Button>
+							</>
+						)}
+						<Button
+							p_14_24
+							rounded_8
+							light-red
+							onClick={(e) => {
+								e.preventDefault();
+								window.history.back();
+							}}
+						>
+							Quay lại
+						</Button>
+					</div>
+				}
 			/>
 
 			<div className={styles.main}>
@@ -232,6 +310,40 @@ function DetailReportDisbursement({}: PropsDetailReportDisbursement) {
 							dependencies={[_pageSize, _uuid]}
 						/>
 					</WrapperScrollbar>
+					<Dialog
+						type='primary'
+						open={openConfirm}
+						icon={icons.success}
+						onClose={() => setOpenConfirm(false)}
+						title={'Duyệt báo cáo'}
+						note={'Bạn có chắc chắn muốn duyệt báo cáo này không?'}
+						onSubmit={funcConfirm.mutate}
+					/>
+
+					<Form form={form} setForm={setForm}>
+						<Popup open={openCancel} onClose={() => setOpenCancel(false)}>
+							<div className={styles.main_popup}>
+								<div className={styles.head_popup}>
+									<h4>Xác nhận từ chối duyệt báo cáo</h4>
+								</div>
+								<div className={styles.form_popup}>
+									<TextArea name='feedback' placeholder='Nhập lý do từ chối' label='Lý do từ chối' />
+									<div className={styles.group_button}>
+										<div>
+											<Button p_12_20 grey rounded_6 onClick={() => setOpenCancel(false)}>
+												Hủy bỏ
+											</Button>
+										</div>
+										<div className={styles.btn}>
+											<Button disable={!form.feedback} p_12_20 error rounded_6 onClick={funcCancel.mutate}>
+												Xác nhận
+											</Button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</Popup>
+					</Form>
 				</div>
 			</div>
 		</div>
