@@ -149,6 +149,7 @@ function MainPageReportWork({}: PropsMainPageReportWork) {
 									id: STATE_REPORT.REPORTED,
 									name: 'Đã duyệt',
 								},
+								{id: STATE_REPORT.PLANNING, name: 'Lên kế hoạch'},
 								{
 									id: STATE_REPORT.PENDING_APPROVAL,
 									name: 'Chưa xử lý',
@@ -257,10 +258,16 @@ function MainPageReportWork({}: PropsMainPageReportWork) {
 												backgroundColor: '#06D7A0',
 											},
 											{
+												state: STATE_REPORT.PLANNING,
+												text: 'Lên kế hoạch',
+												textColor: '#fff',
+												backgroundColor: '#5B70B3',
+											},
+											{
 												state: STATE_REPORT.PENDING_APPROVAL,
 												text: 'Chưa xử lý',
 												textColor: '#fff',
-												backgroundColor: '#5B70B3',
+												backgroundColor: '#4BC9F0',
 											},
 											{
 												state: STATE_REPORT.IN_PROGRESS,
