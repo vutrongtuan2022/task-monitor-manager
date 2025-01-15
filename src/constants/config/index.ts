@@ -41,6 +41,7 @@ export enum PATH {
 
 	WorkUser = '/work-user',
 	ContractWork = '/work-user/contract',
+	AppendicesWork = '/work-user/appendices',
 
 	User = '/user',
 
