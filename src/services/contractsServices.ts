@@ -55,5 +55,19 @@ const contractsServices = {
 			cancelToken: tokenAxios,
 		});
 	},
+	listContractsByAddium: (
+		data: {
+			pageSize: number;
+			page: number;
+			keyword: string;
+			status: number;
+			uuid: string;
+		},
+		tokenAxios?: any
+	) => {
+		return axiosClient.post(`/Contracts/get-page-list-contracts-addium-by-activity`, data, {
+			cancelToken: tokenAxios,
+		});
+	},
 };
 export default contractsServices;

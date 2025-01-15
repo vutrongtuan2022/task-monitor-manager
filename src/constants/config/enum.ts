@@ -16,6 +16,7 @@ export enum QUERY_KEY {
 	table_contract_for_project,
 	table_contract_fund_for_overview,
 	table_contract_by_activity,
+	table_contract_by_appendices,
 
 	dropdown_branches,
 	dropdown_task_cat,

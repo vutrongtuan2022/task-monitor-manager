@@ -21,13 +21,14 @@ import {useQuery} from '@tanstack/react-query';
 import {httpRequest} from '~/services';
 import activityServices from '~/services/activityServices';
 import contractsServices from '~/services/contractsServices';
+import TabNavLink from '~/components/common/TabNavLink';
+import TableContractHistory from './components/TableContractHistory';
+import TableContractAppendices from './components/TableContractAppendices';
 
 function DetailPageWork({}: PropsDetailPageWork) {
 	const router = useRouter();
 
-	const {_page, _pageSize, _uuid} = router.query;
-
-
+	const {_page, _pageSize, _uuid, _type} = router.query;
 
 	const {data: detailActivityContract} = useQuery<IDetailActivityContract>([QUERY_KEY.detail_activity_contract, _uuid], {
 		queryFn: () =>
@@ -72,7 +73,6 @@ function DetailPageWork({}: PropsDetailPageWork) {
 						title: 'Chi tiết công việc',
 					},
 				]}
-				
 			/>
 			<div className={styles.main}>
 				<div className={styles.basic_info}>
@@ -93,6 +93,31 @@ function DetailPageWork({}: PropsDetailPageWork) {
 					</div>
 				</div>
 				<div className={clsx(styles.basic_info, styles.mt)}>
+					<div className={styles.main_tab}>
+						<TabNavLink
+							query='_type'
+							listHref={[
+								{
+									pathname: PATH.ProjectCreate,
+									query: null,
+									title: 'Lịch sử hợp đồng chính',
+								},
+								{
+									pathname: PATH.ProjectCreate,
+									query: 'appendices',
+									title: 'Danh sách phụ lục hợp đồng',
+								},
+							]}
+							listKeyRemove={['_page', '_pageSize', '_keyword', '_state']}
+						/>
+					</div>
+					<div className={styles.line}></div>
+					<div className={styles.main_table}>
+						{!_type && <TableContractHistory />}
+						{_type == 'appendices' && <TableContractAppendices />}
+					</div>
+				</div>
+				{/* <div className={clsx(styles.basic_info, styles.mt)}>
 					<div className={styles.head}>
 						<h4>Lịch sử hợp đồng công việc</h4>
 					</div>
@@ -217,7 +242,7 @@ function DetailPageWork({}: PropsDetailPageWork) {
 							dependencies={[_pageSize, _uuid]}
 						/>
 					</WrapperScrollbar>
-				</div>
+				</div> */}
 			</div>
 		</div>
 	);
