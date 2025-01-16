@@ -117,6 +117,10 @@ function DetailAppendices({}: PropsDetailAppendices) {
 								<p>{detailContract?.code || '---'}</p>
 							</div>
 							<div className={styles.item}>
+								<p>Thuộc hợp đồng</p>
+								<p>{detailContract?.parent?.code || '---'}</p>
+							</div>
+							<div className={styles.item}>
 								<p>Lũy kế giải ngân trong năm</p>
 								<p>{convertCoin(detailContract?.accumAmountThisYear!)}</p>
 							</div>

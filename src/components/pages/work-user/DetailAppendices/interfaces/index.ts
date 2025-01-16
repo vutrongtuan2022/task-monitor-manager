@@ -65,6 +65,12 @@ export interface IDetailContract {
 		code: string;
 		uuid: string;
 	};
+	parent: {
+		code: string;
+		state: number;
+		status: number;
+		uuid: string;
+	};
 	projectDTO: {
 		code: string;
 		name: string;
