@@ -70,6 +70,10 @@ function TableContractAppendices() {
 								),
 							},
 							{
+								title: 'Thuộc hợp đồng',
+								render: (data: IContractByAppendices) => <>{data?.parent?.code}</>,
+							},
+							{
 								title: 'Giá trị hợp đồng (VND)',
 								render: (data: IContractByAppendices) => <>{convertCoin(data?.amount)}</>,
 							},

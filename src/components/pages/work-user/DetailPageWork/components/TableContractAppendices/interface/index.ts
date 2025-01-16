@@ -26,10 +26,16 @@ export interface IContractByAppendices {
 		endDate: string;
 		type: number;
 	};
+	parent: {
+		uuid: string;
+		code: string;
+		state: number;
+		status: number;
+	};
 	user: {
 		fullname: string;
-		code:string;
-		uuid:string;
+		code: string;
+		uuid: string;
 	};
 	activityName: string;
 	state: number;
