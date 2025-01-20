@@ -82,7 +82,7 @@ const projectContractorServices = {
 	addContractorProject: (
 		data: {
 			projectUuid: string;
-			contractorUuids: string[];
+			contractorCatLinkUuids: string[];
 		},
 		tokenAxios?: any
 	) => {
