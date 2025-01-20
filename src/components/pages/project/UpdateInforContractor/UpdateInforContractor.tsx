@@ -28,8 +28,8 @@ function UpdateInforContractor({}: PropsUpdateInforContractor) {
 
 	const [listContractor, setListContractor] = useState<
 		{
-			idGroupContractor: number | null;
-			uuidContractor: string;
+			uuidGroupContractor: string;
+			contractorLinkUuid: string;
 		}[]
 	>([]);
 
@@ -45,15 +45,15 @@ function UpdateInforContractor({}: PropsUpdateInforContractor) {
 				if (data?.length == 0) {
 					setListContractor([
 						{
-							idGroupContractor: null,
-							uuidContractor: '',
+							uuidGroupContractor: '',
+							contractorLinkUuid: '',
 						},
 					]);
 				} else
 					setListContractor(
 						data?.map((v: any) => ({
-							idGroupContractor: v?.contractorCategory?.id || null,
-							uuidContractor: v?.contractorUuid,
+							uuidGroupContractor: v?.contractorCategory?.uuid || null,
+							contractorLinkUuid: v?.contractorLinkUuid,
 						}))
 					);
 			}
@@ -69,7 +69,7 @@ function UpdateInforContractor({}: PropsUpdateInforContractor) {
 				msgSuccess: 'Cập nhật nhà thầu thành công!',
 				http: projectContractorServices.addContractorProject({
 					projectUuid: _uuid as string,
-					contractorUuids: listContractor?.map((v) => v.uuidContractor),
+					contractorCatLinkUuids: listContractor?.map((v) => v.contractorLinkUuid),
 				}),
 			});
 		},
@@ -81,13 +81,13 @@ function UpdateInforContractor({}: PropsUpdateInforContractor) {
 	});
 
 	const updateContractorProject = () => {
-		if (listContractor?.some((v) => !v?.uuidContractor)) {
+		if (listContractor?.some((v) => !v?.contractorLinkUuid)) {
 			return toastWarn({msg: 'Chọn đầy đủ nhà thầu!'});
 		}
 
 		// if (
 		// 	listContractor.some((item, index) => {
-		// 		return listContractor.findIndex((otherItem) => otherItem.idGroupContractor === item.idGroupContractor) !== index;
+		// 		return listContractor.findIndex((otherItem) => otherItem.uuidGroupContractor === item.uuidGroupContractor) !== index;
 		// 	})
 		// ) {
 		// 	return toastWarn({msg: 'Trùng nhóm nhà thầu!'});
@@ -176,8 +176,8 @@ function UpdateInforContractor({}: PropsUpdateInforContractor) {
 									setListContractor((prev) => [
 										...prev,
 										{
-											idGroupContractor: null,
-											uuidContractor: '',
+											uuidGroupContractor: '',
+											contractorLinkUuid: '',
 										},
 									])
 								}
@@ -205,12 +205,12 @@ function ItemContractorProject({
 }: {
 	index: number;
 	data: {
-		idGroupContractor: number | null;
-		uuidContractor: string;
+		uuidGroupContractor: string;
+		contractorLinkUuid: string;
 	};
 	listContractor: {
-		idGroupContractor: number | null;
-		uuidContractor: string;
+		uuidGroupContractor: string;
+		contractorLinkUuid: string;
 	}[];
 	setListContractor: (any: any) => void;
 }) {
@@ -227,20 +227,20 @@ function ItemContractorProject({
 		},
 	});
 
-	const {data: dropdownContractor} = useQuery([`${QUERY_KEY.dropdown_contractor}_${data?.idGroupContractor}`], {
+	const {data: dropdownContractor} = useQuery([`${QUERY_KEY.dropdown_contractor}_${data?.uuidGroupContractor}`], {
 		queryFn: () =>
 			httpRequest({
 				http: contractorServices.categoryContractor({
 					keyword: '',
 					status: STATUS_CONFIG.ACTIVE,
-					type: data?.idGroupContractor!,
+					type: data?.uuidGroupContractor!,
 				}),
 			}),
 
 		select(data) {
 			return data;
 		},
-		enabled: !!data?.idGroupContractor,
+		enabled: !!data?.uuidGroupContractor,
 	});
 
 	const handleChangeValue = (index: number, name: string, value: any) => {
@@ -263,24 +263,24 @@ function ItemContractorProject({
 	return (
 		<div className={clsx(styles.item_contractor_project)}>
 			<GridColumn col_2>
-				<Select isSearch={true} name='idGroupContractor' value={data?.idGroupContractor} placeholder='Chọn'>
+				<Select isSearch={true} name='uuidGroupContractor' value={data?.uuidGroupContractor} placeholder='Chọn'>
 					{dropdownGroupContractor?.map((v: any) => (
 						<Option
 							key={v.uuid}
-							value={v.id}
+							value={v.uuid}
 							title={v?.name}
-							onClick={() => handleChangeValue(index, 'idGroupContractor', v?.id)}
+							onClick={() => handleChangeValue(index, 'uuidGroupContractor', v?.uuid)}
 						/>
 					))}
 				</Select>
 				<div className={styles.grid}>
-					<Select isSearch={true} name='uuidContractor' value={data?.uuidContractor} placeholder='Chọn'>
+					<Select isSearch={true} name='contractorLinkUuid' value={data?.contractorLinkUuid} placeholder='Chọn'>
 						{dropdownContractor?.map((v: any) => (
 							<Option
-								key={v.uuid}
-								value={v.uuid}
+								key={v.contractorLinkUuid}
+								value={v.contractorLinkUuid}
 								title={v?.name}
-								onClick={() => handleChangeValue(index, 'uuidContractor', v?.uuid)}
+								onClick={() => handleChangeValue(index, 'contractorLinkUuid', v?.contractorLinkUuid)}
 							/>
 						))}
 					</Select>
