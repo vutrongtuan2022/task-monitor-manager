@@ -27,7 +27,7 @@ function FormUpdateContractor({onClose}: PropsFormUpdateContractor) {
 	const {_projectContractorUuid} = router.query;
 
 	const [form, setForm] = useState<IFormUpdateContractor>({
-		type: null,
+		type: '',
 		contractorUuid: '',
 		contractAmount: 0,
 		contractEndDate: '',
@@ -115,7 +115,7 @@ function FormUpdateContractor({onClose}: PropsFormUpdateContractor) {
 			if (data) {
 				onClose();
 				setForm({
-					type: null,
+					type: '',
 					contractorUuid: '',
 					contractAmount: 0,
 					contractEndDate: '',
