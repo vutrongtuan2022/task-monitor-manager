@@ -85,13 +85,13 @@ function UpdateInforContractor({}: PropsUpdateInforContractor) {
 			return toastWarn({msg: 'Chọn đầy đủ nhà thầu!'});
 		}
 
-		if (
-			listContractor.some((item, index) => {
-				return listContractor.findIndex((otherItem) => otherItem.idGroupContractor === item.idGroupContractor) !== index;
-			})
-		) {
-			return toastWarn({msg: 'Trùng nhóm nhà thầu!'});
-		}
+		// if (
+		// 	listContractor.some((item, index) => {
+		// 		return listContractor.findIndex((otherItem) => otherItem.idGroupContractor === item.idGroupContractor) !== index;
+		// 	})
+		// ) {
+		// 	return toastWarn({msg: 'Trùng nhóm nhà thầu!'});
+		// }
 
 		return funcUpdateContractorProject.mutate();
 	};
