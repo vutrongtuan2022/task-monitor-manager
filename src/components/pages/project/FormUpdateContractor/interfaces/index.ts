@@ -3,7 +3,7 @@ export interface PropsFormUpdateContractor {
 }
 
 export interface IFormUpdateContractor {
-	type: number | null;
+	type: string;
 	contractorUuid: string;
 	contractAmount: number | string;
 	contractEndDate: string;
