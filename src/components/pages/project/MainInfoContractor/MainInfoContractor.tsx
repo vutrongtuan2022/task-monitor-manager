@@ -26,6 +26,7 @@ import projectContractorServices from '~/services/projectContractorServices';
 import contractorcatServices from '~/services/contractorcatServices';
 import contractorServices from '~/services/contractorServices';
 import FilterCustom from '~/components/common/FilterCustom';
+import Tippy from '@tippyjs/react';
 
 function MainInfoContractor({}: PropsMainInfoContractor) {
 	const router = useRouter();
@@ -292,7 +293,27 @@ function MainInfoContractor({}: PropsMainInfoContractor) {
 									},
 									{
 										title: 'Nhóm nhà thầu',
-										render: (data: IContractorProject) => <>{data?.contractor?.contractorCat?.name || '---'}</>,
+										render: (data: IContractorProject) => (
+											<>
+												{data?.contractor?.contractorCat?.[0]?.name}
+												{data?.contractor?.contractorCat?.length! > 1 && (
+													<Tippy
+														content={
+															<ol style={{paddingLeft: '16px'}}>
+																{[...data?.contractor?.contractorCat!]?.slice(1)?.map((v, i) => (
+																	<li key={i}>{v?.name}</li>
+																))}
+															</ol>
+														}
+													>
+														<span className={styles.link_contractor}>
+															{' '}
+															và {data?.contractor?.contractorCat?.length! - 1} nhóm khác
+														</span>
+													</Tippy>
+												)}
+											</>
+										),
 									},
 									{
 										title: 'Tên nhà thầu',

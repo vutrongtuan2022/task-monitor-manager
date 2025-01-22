@@ -10,7 +10,8 @@ export interface IContractorProject {
 			name: string;
 			isDefault: number;
 			uuid: string;
-		};
+		}[];
+		contractorLinkUuid: string;
 		uuid: string;
 	};
 	totalContract: number;
