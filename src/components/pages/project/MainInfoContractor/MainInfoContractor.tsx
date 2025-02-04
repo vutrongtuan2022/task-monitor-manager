@@ -64,7 +64,7 @@ function MainInfoContractor({}: PropsMainInfoContractor) {
 						status: STATUS_CONFIG.ACTIVE,
 						projectUuid: (_uuid as string) || '',
 						contractorUuid: (_contractorUuid as string) || '',
-						contractorCat: Number(_contractorCat) || null,
+						contractorCat: (_contractorCat as string) || '',
 					}),
 				}),
 			select(data) {
