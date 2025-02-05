@@ -70,7 +70,7 @@ function MainDisbursementProgress({}: PropsMainDisbursementProgress) {
 						status: STATUS_CONFIG.ACTIVE,
 						projectUuid: (_uuid as string) || '',
 						contractorUuid: (_contractorUuid as string) || '',
-						contractorCat: Number(_contractorCat) || null,
+						contractorCat: (_contractorCat as string) || '',
 					}),
 				}),
 			select(data) {
@@ -312,7 +312,7 @@ function MainDisbursementProgress({}: PropsMainDisbursementProgress) {
 										name='Nhóm nhà thầu'
 										query='_contractorCat'
 										listFilter={listGroupContractor?.map((v: any) => ({
-											id: v?.id,
+											id: v?.uuid,
 											name: v?.name,
 										}))}
 									/>
@@ -363,11 +363,36 @@ function MainDisbursementProgress({}: PropsMainDisbursementProgress) {
 									},
 									{
 										title: 'Nhóm nhà thầu',
-										render: (data: IContractsForProject) => <>{data?.contractor?.contractorCat?.name || '---'}</>,
+										render: (data: IContractsForProject) => (
+											<>
+												{data?.contractor?.contractorCat?.[0]?.name}
+												{data?.contractor?.contractorCat?.length! > 1 && (
+													<Tippy
+														content={
+															<ol style={{paddingLeft: '16px'}}>
+																{[...data?.contractor?.contractorCat!]?.slice(1)?.map((v, i) => (
+																	<li key={i}>{v?.name}</li>
+																))}
+															</ol>
+														}
+													>
+														<span className={styles.link_contractor}>
+															{' '}
+															và {data?.contractor?.contractorCat?.length! - 1} nhóm khác
+														</span>
+													</Tippy>
+												)}
+											</>
+										),
 									},
 									{
 										title: 'Tên nhà thầu',
-										render: (data: IContractsForProject) => <>{data?.contractor?.name || '---'}</>,
+										render: (data: IContractsForProject) => (
+											<Tippy content={data?.contractor?.name || '---'}>
+												<p className={styles.name}>{data?.contractor?.name || ''}</p>
+											</Tippy>
+										),
+										//<>{data?.contractor?.name || '---'}</>,
 									},
 									{
 										title: 'Giá trị BLTHHĐ (VND)',

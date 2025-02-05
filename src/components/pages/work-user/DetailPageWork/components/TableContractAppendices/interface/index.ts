@@ -13,7 +13,7 @@ export interface IContractByAppendices {
 			name: string;
 			isDefault: number;
 			uuid: string;
-		};
+		}[];
 		uuid: string;
 	};
 	advanceGuarantee: {

@@ -57,7 +57,7 @@ export interface IDetailContract {
 			name: string;
 			isDefault: number;
 			uuid: string;
-		};
+		}[];
 		uuid: string;
 	};
 	creator: {
