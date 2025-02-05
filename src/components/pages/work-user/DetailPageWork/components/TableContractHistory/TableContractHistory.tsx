@@ -85,7 +85,24 @@ function TableContractHistory() {
 							},
 							{
 								title: 'Nhóm nhà  thầu',
-								render: (data: IContractByActivity) => <>{data?.contractor?.contractorCat?.name}</>,
+								render: (data: IContractByActivity) => (
+									<>
+										{data?.contractor?.contractorCat?.[0]?.name}
+										{data?.contractor?.contractorCat?.length! > 1 && (
+											<Tippy
+												content={
+													<ul>
+														{data?.contractor?.contractorCat?.map((item, index) => (
+															<li key={index}>{item?.name}</li>
+														))}
+													</ul>
+												}
+											>
+												<span className={styles.more}>...</span>
+											</Tippy>
+										)}
+									</>
+								),
 							},
 							{
 								title: 'Tên nhà thầu',

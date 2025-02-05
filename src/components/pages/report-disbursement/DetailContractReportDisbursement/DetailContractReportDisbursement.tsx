@@ -7,7 +7,7 @@ import {PATH} from '~/constants/config';
 import GridColumn from '~/components/layouts/GridColumn';
 import {useRouter} from 'next/router';
 import {useQuery} from '@tanstack/react-query';
-import {QUERY_KEY,STATE_CONTRACT_WORK, STATE_REPORT_DISBURSEMENT, STATUS_CONFIG} from '~/constants/config/enum';
+import {QUERY_KEY, STATE_CONTRACT_WORK, STATE_REPORT_DISBURSEMENT, STATUS_CONFIG} from '~/constants/config/enum';
 import {httpRequest} from '~/services';
 import {convertCoin} from '~/common/funcs/convertCoin';
 import Progress from '~/components/common/Progress';
@@ -138,7 +138,25 @@ function DetailContractReportDisbursement({}: PropsDetailContractReportDisbursem
 							</div>
 							<div className={styles.item}>
 								<p>Thuộc nhóm nhà thầu</p>
-								<p>{detailContract?.contractorDTO?.contractorCat?.name || '---'}</p>
+								<p>
+									{detailContract?.contractorDTO?.contractorCat?.[0]?.name}
+									{detailContract?.contractorDTO?.contractorCat?.length! > 1 && (
+										<Tippy
+											content={
+												<ol style={{paddingLeft: '16px'}}>
+													{[...detailContract?.contractorDTO?.contractorCat!]?.slice(1)?.map((v, i) => (
+														<li key={i}>{v?.name}</li>
+													))}
+												</ol>
+											}
+										>
+											<span className={styles.link_contractor}>
+												{' '}
+												và {detailContract?.contractorDTO?.contractorCat?.length! - 1} nhóm khác
+											</span>
+										</Tippy>
+									)}
+								</p>
 							</div>
 							<div className={styles.item}>
 								<p>Tên nhà thầu</p>

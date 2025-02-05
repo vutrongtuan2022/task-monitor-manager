@@ -265,7 +265,7 @@ function MainInfoContractor({}: PropsMainInfoContractor) {
 										name='Nhóm nhà thầu'
 										query='_contractorCat'
 										listFilter={listGroupContractor?.map((v: any) => ({
-											id: v?.id,
+											id: v?.uuid,
 											name: v?.name,
 										}))}
 									/>
