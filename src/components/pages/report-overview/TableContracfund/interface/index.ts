@@ -10,7 +10,7 @@ export interface IContractFund {
 			name: string;
 			isDefault: number;
 			uuid: string;
-		};
+		}[];
 		uuid: string;
 	};
 	activity: {
