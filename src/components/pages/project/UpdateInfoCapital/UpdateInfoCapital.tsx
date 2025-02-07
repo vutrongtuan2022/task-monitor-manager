@@ -221,17 +221,12 @@ function UpdateInfoCapital({}: PropsUpdateInfoCapital) {
 									/>
 									<div>
 										<Input
-											label={
-												<span>
-													Vốn dự phòng được duyệt <span style={{color: 'red'}}>*</span>
-												</span>
-											}
+											label={<span>Vốn dự phòng được duyệt</span>}
 											unit='VNĐ'
 											type='text'
 											placeholder='Nhập vốn dự phòng được duyệt  '
 											name='reserveBudget'
 											value={form?.reserveBudget}
-											isRequired={true}
 											blur={true}
 											isMoney={true}
 										/>
@@ -247,7 +242,7 @@ function UpdateInfoCapital({}: PropsUpdateInfoCapital) {
 												Kế hoạch vốn theo năm <span style={{color: 'red'}}>*</span>
 											</p>
 										</GridColumn>
-										<p className={styles.label}>Kế hoạch thực hiện trong năm</p>
+										<p className={styles.label}>Mục tiêu thực hiện trong nămKế hoạch thực hiện trong năm</p>
 									</GridColumn>
 								</div>
 								<div>

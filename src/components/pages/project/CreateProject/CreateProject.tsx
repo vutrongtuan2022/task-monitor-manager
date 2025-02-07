@@ -472,17 +472,12 @@ function CreateProject({}: PropsCreateProject) {
 									unit='VND'
 								/>
 								<Input
-									label={
-										<span>
-											Vốn dự phòng được duyệt <span style={{color: 'red'}}>*</span>
-										</span>
-									}
+									label={<span>Vốn dự phòng được duyệt</span>}
 									type='text'
 									placeholder='Nhập vốn dự phòng được duyệt '
 									isMoney
 									name='reserveBudget'
 									value={form?.reserveBudget}
-									isRequired={true}
 									blur={true}
 									unit='VND'
 								/>
