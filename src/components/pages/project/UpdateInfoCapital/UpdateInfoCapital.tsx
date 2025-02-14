@@ -242,7 +242,7 @@ function UpdateInfoCapital({}: PropsUpdateInfoCapital) {
 												Kế hoạch vốn theo năm <span style={{color: 'red'}}>*</span>
 											</p>
 										</GridColumn>
-										<p className={styles.label}>Mục tiêu thực hiện trong nămKế hoạch thực hiện trong năm</p>
+										<p className={styles.label}>Mục tiêu thực hiện trong năm</p>
 									</GridColumn>
 								</div>
 								<div>
