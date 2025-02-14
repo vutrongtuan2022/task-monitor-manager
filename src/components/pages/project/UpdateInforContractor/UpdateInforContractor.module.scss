@@ -80,6 +80,51 @@ $font-size-input: 16px;
 	flex: 1;
 }
 
+.input_specification {
+	height: 44px;
+	flex: 1;
+	position: relative;
+
+	.input {
+		width: 100%;
+		border-radius: $border-radius;
+		border: 1px solid $border-input;
+		background-color: $bg-input;
+		padding: $padding-input;
+		padding-right: 80px;
+		font-size: $font-size-input;
+		font-weight: 500;
+		z-index: 1;
+
+		&:focus {
+			border: 1px solid $color-focus !important;
+			background-color: $bg-focus-input !important;
+		}
+
+		&::placeholder {
+			font-weight: 500;
+			color: $color-placeholder;
+		}
+	}
+
+	.unit {
+		position: absolute;
+		top: 50%;
+		right: -10px;
+		transform: translate(-50%, -50%);
+		color: #171832;
+		font-size: 16px;
+		font-weight: 500;
+		z-index: 10;
+		border-left: 1px solid #dae1ea;
+		padding-left: 12px;
+	}
+	textarea {
+		height: 46px;
+		max-height: 70px;
+	}
+}
+
 .btn_add {
 	width: fit-content;
 	display: flex;
