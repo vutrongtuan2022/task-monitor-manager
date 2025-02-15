@@ -60,15 +60,15 @@ export interface IDetailContract {
 		}[];
 		uuid: string;
 	};
-	creator: {
-		fullname: string;
-		code: string;
-		uuid: string;
-	};
 	parent: {
 		code: string;
 		state: number;
 		status: number;
+		uuid: string;
+	};
+	creator: {
+		fullname: string;
+		code: string;
 		uuid: string;
 	};
 	projectDTO: {
@@ -78,6 +78,8 @@ export interface IDetailContract {
 		uuid: string;
 	};
 	totalDayAdvantage: number;
+	totalContractor: number;
+	totalContractorCat: number;
 	amount: number;
 	accumAmount: number;
 	progress: number;

@@ -1,12 +1,11 @@
-import React, {useState} from 'react';
+import React from 'react';
 import styles from './DetailPageWork.module.scss';
-import {IContractByActivity, IDetailActivityContract, PropsDetailPageWork} from './interface';
+import {IDetailActivityContract, PropsDetailPageWork} from './interface';
 import Breadcrumb from '~/components/common/Breadcrumb';
 import {PATH} from '~/constants/config';
-import {QUERY_KEY, STATE_CONTRACT_WORK, STATUS_CONFIG} from '~/constants/config/enum';
+import {QUERY_KEY, STATUS_CONFIG} from '~/constants/config/enum';
 import GridColumn from '~/components/layouts/GridColumn';
 import {clsx} from 'clsx';
-
 import {useRouter} from 'next/router';
 import {useQuery} from '@tanstack/react-query';
 import {httpRequest} from '~/services';
@@ -25,23 +24,6 @@ function DetailPageWork({}: PropsDetailPageWork) {
 		queryFn: () =>
 			httpRequest({
 				http: activityServices.getDetailActivityContract({
-					uuid: _uuid as string,
-				}),
-			}),
-		select(data) {
-			return data;
-		},
-		enabled: !!_uuid,
-	});
-
-	const {data: listContractByActivity} = useQuery([QUERY_KEY.table_contract_by_activity, _page, _pageSize, _uuid], {
-		queryFn: () =>
-			httpRequest({
-				http: contractsServices.listContractsByActivity({
-					page: Number(_page) || 1,
-					pageSize: Number(_pageSize) || 10,
-					keyword: '',
-					status: STATUS_CONFIG.ACTIVE,
 					uuid: _uuid as string,
 				}),
 			}),
@@ -79,6 +61,13 @@ function DetailPageWork({}: PropsDetailPageWork) {
 							<div className={styles.item}>
 								<p>Tên công việc</p>
 								<p>{detailActivityContract?.name || '---'}</p>
+							</div>
+							<div className={styles.item}>
+								<p>Chi nhánh</p>
+								<p>
+									<span style={{color: '#2970FF'}}>{detailActivityContract?.project?.branch?.code || '---'}</span> -
+									<span style={{marginLeft: '4px'}}>{detailActivityContract?.project?.branch?.name || '---'}</span>
+								</p>
 							</div>
 						</GridColumn>
 					</div>

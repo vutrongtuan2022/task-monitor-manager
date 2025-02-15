@@ -30,4 +30,6 @@ export interface IContractFund {
 	status: number;
 	uuid: string;
 	note: string;
+	totalContractor: number;
+	totalContractorCat: number;
 }

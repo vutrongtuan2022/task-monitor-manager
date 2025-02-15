@@ -97,32 +97,14 @@ function TableContracfund({}: PropsTableContracFund) {
 								),
 							},
 							{
-								title: 'Thuộc nhóm',
+								title: 'Số nhóm nhà thầu',
 								render: (data: IContractFund) => (
-									<>
-										{data?.contractor?.contractorCat?.[0]?.name}
-										{data?.contractor?.contractorCat?.length! > 1 && (
-											<Tippy
-												content={
-													<ol style={{paddingLeft: '16px'}}>
-														{[...data?.contractor?.contractorCat!]?.slice(1)?.map((v, i) => (
-															<li key={i}>{v?.name}</li>
-														))}
-													</ol>
-												}
-											>
-												<span className={styles.link_contractor}>
-													{' '}
-													và {data?.contractor?.contractorCat?.length! - 1} nhóm khác
-												</span>
-											</Tippy>
-										)}
-									</>
+									<span style={{color: '#2970FF'}}>{data?.totalContractorCat || '---'}</span>
 								),
 							},
 							{
-								title: 'Tên nhà thầu',
-								render: (data: IContractFund) => <>{data?.contractor?.name}</>,
+								title: 'Số nhà thầu',
+								render: (data: IContractFund) => <span style={{color: '#2970FF'}}>{data?.totalContractor || '---'}</span>,
 							},
 							{
 								title: 'Mô tả',

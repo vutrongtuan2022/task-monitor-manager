@@ -137,30 +137,12 @@ function DetailContractReportDisbursement({}: PropsDetailContractReportDisbursem
 								<p>{detailContract?.activityDTO?.name || '---'}</p>
 							</div>
 							<div className={styles.item}>
-								<p>Thuộc nhóm nhà thầu</p>
-								<p>
-									{detailContract?.contractorDTO?.contractorCat?.[0]?.name}
-									{detailContract?.contractorDTO?.contractorCat?.length! > 1 && (
-										<Tippy
-											content={
-												<ol style={{paddingLeft: '16px'}}>
-													{[...detailContract?.contractorDTO?.contractorCat!]?.slice(1)?.map((v, i) => (
-														<li key={i}>{v?.name}</li>
-													))}
-												</ol>
-											}
-										>
-											<span className={styles.link_contractor}>
-												{' '}
-												và {detailContract?.contractorDTO?.contractorCat?.length! - 1} nhóm khác
-											</span>
-										</Tippy>
-									)}
-								</p>
+								<p>Số nhóm nhà thầu</p>
+								<p>{detailContract?.totalContractorCat}</p>
 							</div>
 							<div className={styles.item}>
-								<p>Tên nhà thầu</p>
-								<p>{detailContract?.contractorDTO?.name || '---'}</p>
+								<p>Số nhà thầu</p>
+								<p>{detailContract?.totalContractor}</p>
 							</div>
 							<div className={styles.item}>
 								<p>Ngày ký hợp đồng</p>

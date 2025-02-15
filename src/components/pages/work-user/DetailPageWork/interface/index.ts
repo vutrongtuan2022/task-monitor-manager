@@ -11,6 +11,11 @@ export interface IDetailActivityContract {
 			code: string;
 			uuid: string;
 		};
+		branch: {
+			code: string;
+			name: string;
+			uuid: string;
+		};
 		uuid: string;
 	};
 	contracts: {code: string; state: number; status: number; uuid: string};
@@ -46,8 +51,8 @@ export interface IContractByActivity {
 	};
 	user: {
 		fullname: string;
-		code:string;
-		uuid:string;
+		code: string;
+		uuid: string;
 	};
 	activityName: string;
 	state: number;

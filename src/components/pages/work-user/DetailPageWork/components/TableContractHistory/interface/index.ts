@@ -4,6 +4,8 @@ export interface IContractByActivity {
 	startDate: string;
 	endDate: string;
 	totalDayAdvantage: number;
+	totalContractor: number;
+	totalContractorCat: number;
 	contractor: {
 		code: string;
 		name: string;

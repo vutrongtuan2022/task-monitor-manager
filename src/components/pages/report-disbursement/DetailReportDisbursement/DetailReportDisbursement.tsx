@@ -198,6 +198,13 @@ function DetailReportDisbursement({}: PropsDetailReportDisbursement) {
 								<p>{`Tháng ${detailContractFund?.releasedMonth} - ${detailContractFund?.releasedYear}`}</p>
 							</div>
 							<div className={styles.item}>
+								<p>Chi nhánh</p>
+								<p>
+									<span style={{color: '#2970FF'}}>{detailContractFund?.project?.branch?.code || '---'}</span> -
+									<span style={{marginLeft: '4px'}}>{detailContractFund?.project?.branch?.name || '---'}</span>
+								</p>
+							</div>
+							<div className={styles.item}>
 								<p>Số hợp đồng giải ngân</p>
 								<p>{detailContractFund?.contractCount || '---'}</p>
 							</div>
@@ -280,12 +287,16 @@ function DetailReportDisbursement({}: PropsDetailReportDisbursement) {
 										),
 									},
 									{
-										title: 'Thuộc nhóm',
-										render: (data: IContractFund) => <>{data?.contractorGroup?.name}</>,
+										title: 'Số nhóm nhà thầu',
+										render: (data: IContractFund) => (
+											<span style={{color: '#2970FF'}}>{data?.totalContractorCat || '---'}</span>
+										),
 									},
 									{
-										title: 'Tên nhà thầu',
-										render: (data: IContractFund) => <>{data?.contractor?.name}</>,
+										title: 'Số nhà thầu',
+										render: (data: IContractFund) => (
+											<span style={{color: '#2970FF'}}>{data?.totalContractor || '---'}</span>
+										),
 									},
 									{
 										title: 'Mô tả',

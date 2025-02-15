@@ -6,6 +6,11 @@ export interface IDetailContractFund {
 		name: string;
 		state: number;
 		uuid: string;
+		branch: {
+			code: string;
+			name: string;
+			uuid: string;
+		};
 	};
 	creator: {
 		fullname: string;
@@ -59,4 +64,6 @@ export interface IContractFund {
 	code: string;
 	status: number;
 	uuid: string;
+	totalContractor: number;
+	totalContractorCat: number;
 }

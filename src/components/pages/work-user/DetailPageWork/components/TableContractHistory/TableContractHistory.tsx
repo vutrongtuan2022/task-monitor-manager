@@ -84,31 +84,17 @@ function TableContractHistory() {
 								render: (data: IContractByActivity) => <>{data?.totalDayAdvantage}</>,
 							},
 							{
-								title: 'Nhóm nhà  thầu',
+								title: 'Số nhóm nhà thầu',
 								render: (data: IContractByActivity) => (
-									<>
-										{data?.contractor?.contractorCat?.[0]?.name}
-										{data?.contractor?.contractorCat?.length! > 1 && (
-											<Tippy
-												content={
-													<ul>
-														{data?.contractor?.contractorCat?.map((item, index) => (
-															<li key={index}>{item?.name}</li>
-														))}
-													</ul>
-												}
-											>
-												<span className={styles.more}>...</span>
-											</Tippy>
-										)}
-									</>
+									<span style={{color: '#2970FF'}}>{data?.totalContractorCat || '---'}</span>
 								),
 							},
 							{
-								title: 'Tên nhà thầu',
-								render: (data: IContractByActivity) => <>{data?.contractor?.name}</>,
+								title: 'Số nhà thầu',
+								render: (data: IContractByActivity) => (
+									<span style={{color: '#2970FF'}}>{data?.totalContractor || '---'}</span>
+								),
 							},
-
 							{
 								title: 'Giá trị BLTHHĐ (VND) ',
 								render: (data: IContractByActivity) => <>{convertCoin(data?.contractExecution?.amount)}</>,
