@@ -302,7 +302,10 @@ function DetailReportDisbursement({}: PropsDetailReportDisbursement) {
 															</ol>
 														}
 													>
-														<span className={styles.link_contractor}>{data?.totalContractorCat || '---'}</span>
+														<span className={styles.link_contractor}>
+															{[...new Set(data?.contractorInfos?.map((v) => v.contractorCatName))]?.length ||
+																'---'}
+														</span>
 													</Tippy>
 												)}
 											</>
@@ -324,7 +327,10 @@ function DetailReportDisbursement({}: PropsDetailReportDisbursement) {
 															</ol>
 														}
 													>
-														<span className={styles.link_contractor}>{data?.totalContractor || '---'}</span>
+														<span className={styles.link_contractor}>
+															{[...new Set(data?.contractorInfos?.map((v) => v.contractorName))]?.length ||
+																'---'}
+														</span>
 													</Tippy>
 												)}
 											</>

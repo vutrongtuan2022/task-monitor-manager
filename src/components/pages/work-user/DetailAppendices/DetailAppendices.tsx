@@ -138,7 +138,10 @@ function DetailAppendices({}: PropsDetailAppendices) {
 												</ol>
 											}
 										>
-											<span className={styles.link_contractor}>{detailContract?.totalContractorCat || '---'}</span>
+											<span className={styles.link_contractor}>
+												{[...new Set(detailContract?.contractorInfos?.map((v) => v.contractorCatName))]?.length ||
+													'---'}
+											</span>
 										</Tippy>
 									)}
 								</p>
@@ -158,7 +161,10 @@ function DetailAppendices({}: PropsDetailAppendices) {
 												</ol>
 											}
 										>
-											<span className={styles.link_contractor}>{detailContract?.totalContractor || '---'}</span>
+											<span className={styles.link_contractor}>
+												{[...new Set(detailContract?.contractorInfos?.map((v) => v.contractorName))]?.length ||
+													'---'}
+											</span>
 										</Tippy>
 									)}
 								</p>
