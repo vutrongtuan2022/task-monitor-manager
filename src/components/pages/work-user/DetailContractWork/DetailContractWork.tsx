@@ -1,24 +1,19 @@
 import React from 'react';
 
-import {IContractDetailFund, IDetailContract, PropsDetailContractWork} from './interfaces';
+import {IDetailContract, PropsDetailContractWork} from './interfaces';
 import styles from './DetailContractWork.module.scss';
 import Breadcrumb from '~/components/common/Breadcrumb';
 import {PATH} from '~/constants/config';
 import GridColumn from '~/components/layouts/GridColumn';
 import {useRouter} from 'next/router';
 import {useQuery} from '@tanstack/react-query';
-import {QUERY_KEY, STATE_CONTRACT_WORK, STATE_REPORT_DISBURSEMENT, STATUS_CONFIG} from '~/constants/config/enum';
+import {QUERY_KEY, STATE_CONTRACT_WORK, STATUS_CONFIG} from '~/constants/config/enum';
 import {httpRequest} from '~/services';
 import contractsServices from '~/services/contractsServices';
 import {convertCoin} from '~/common/funcs/convertCoin';
 import Progress from '~/components/common/Progress';
 import Moment from 'react-moment';
 import clsx from 'clsx';
-import WrapperScrollbar from '~/components/layouts/WrapperScrollbar';
-import DataWrapper from '~/components/common/DataWrapper';
-import Noti from '~/components/common/DataWrapper/components/Noti';
-import Table from '~/components/common/Table';
-import Pagination from '~/components/common/Pagination';
 import StateActive from '~/components/common/StateActive';
 import Tippy from '@tippyjs/react';
 import TabNavLink from '~/components/common/TabNavLink';
@@ -168,9 +163,11 @@ function DetailContractWork({}: PropsDetailContractWork) {
 										<Tippy
 											content={
 												<ol style={{paddingLeft: '16px'}}>
-													{...detailContract?.contractorInfos?.map((v, i) => (
-														<li key={i}>{v?.contractorName}</li>
-													))}
+													{[...new Set(detailContract?.contractorInfos?.map((v) => v.contractorName))].map(
+														(catName, i) => (
+															<li key={i}>{catName}</li>
+														)
+													)}
 												</ol>
 											}
 										>
@@ -255,109 +252,6 @@ function DetailContractWork({}: PropsDetailContractWork) {
 						{_type == 'contractor' && <TableContractors />}
 					</div>
 				</div>
-				{/* <div className={clsx(styles.basic_info, styles.mt)}>
-					<div className={styles.head}>
-						<h4>Danh sách giải ngân</h4>
-					</div>
-					<WrapperScrollbar>
-						<DataWrapper
-							data={listContractFund?.items || []}
-							loading={listContractFund?.isLoading}
-							noti={<Noti title='Danh sách giải ngân trống!' des='Hiện tại chưa có thông tin giải ngân nào!' />}
-						>
-							<Table
-								fixedHeader={true}
-								data={listContractFund?.items || []}
-								column={[
-									{
-										title: 'STT',
-										render: (data: IContractDetailFund, index: number) => <>{index + 1}</>,
-									},
-
-									{
-										title: 'Thời gian giải ngân',
-										render: (data: IContractDetailFund) => (
-											<>{`Tháng ${data?.releasedMonth} - ${data?.releasedYear}`}</>
-										),
-									},
-									{
-										title: 'Vốn dự phòng (VND)',
-										render: (data: IContractDetailFund) => <>{convertCoin(data?.reverseAmount) || '---'}</>,
-									},
-									{
-										title: 'Vốn dự án (VND)',
-										render: (data: IContractDetailFund) => <>{convertCoin(data?.projectAmount) || '---'}</>,
-									},
-									{
-										title: 'Ngày giải ngân',
-										render: (data: IContractDetailFund) => (
-											<p>{data?.releasedDate ? <Moment date={data?.releasedDate} format='DD/MM/YYYY' /> : '---'}</p>
-										),
-									},
-									{
-										title: 'Thời gian tạo',
-										render: (data: IContractDetailFund) => (
-											<p>{data?.created ? <Moment date={data?.created} format='DD/MM/YYYY' /> : '---'}</p>
-										),
-									},
-									{
-										title: 'Mô tả',
-										render: (data: IContractDetailFund) => (
-											<>
-												{(data?.note && (
-													<Tippy content={data?.note}>
-														<p className={styles.name}>{data?.note || '---'}</p>
-													</Tippy>
-												)) ||
-													'---'}
-											</>
-										),
-									},
-									{
-										title: 'Trạng thái',
-										render: (data: IContractDetailFund) => (
-											<StateActive
-												stateActive={data?.state}
-												listState={[
-													{
-														state: STATE_REPORT_DISBURSEMENT.REJECTED,
-														text: 'Bị từ chối',
-														textColor: '#FFFFFF',
-														backgroundColor: '#F37277',
-													},
-													{
-														state: STATE_REPORT_DISBURSEMENT.REPORTED,
-														text: 'Đã báo cáo',
-														textColor: '#FFFFFF',
-														backgroundColor: '#4BC9F0',
-													},
-													{
-														state: STATE_REPORT_DISBURSEMENT.APPROVED,
-														text: 'Đã duyệt',
-														textColor: '#FFFFFF',
-														backgroundColor: '#06D7A0',
-													},
-													{
-														state: STATE_REPORT_DISBURSEMENT.NOT_REPORT,
-														text: 'Chưa báo cáo',
-														textColor: '#FFFFFF',
-														backgroundColor: '#FF852C',
-													},
-												]}
-											/>
-										),
-									},
-								]}
-							/>
-						</DataWrapper>
-						<Pagination
-							currentPage={Number(_page) || 1}
-							pageSize={Number(_pageSize) || 10}
-							total={listContractFund?.pagination?.totalCount}
-							dependencies={[_pageSize, _uuid]}
-						/>
-					</WrapperScrollbar>
-				</div> */}
 			</div>
 		</div>
 	);
