@@ -112,7 +112,7 @@ function TableContracfund({}: PropsTableContracFund) {
 													</ol>
 												}
 											>
-												<span style={{color: '#2970FF'}}>{data?.totalContractorCat || '---'}</span>
+												<span className={styles.link_contractor}>{data?.totalContractorCat || '---'}</span>
 											</Tippy>
 										)}
 									</>
@@ -134,7 +134,7 @@ function TableContracfund({}: PropsTableContracFund) {
 													</ol>
 												}
 											>
-												<span style={{color: '#2970FF'}}>{data?.totalContractor || '---'}</span>
+												<span className={styles.link_contractor}>{data?.totalContractor || '---'}</span>
 											</Tippy>
 										)}
 									</>
