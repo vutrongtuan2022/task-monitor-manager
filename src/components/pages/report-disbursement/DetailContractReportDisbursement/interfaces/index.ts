@@ -29,6 +29,11 @@ export interface IDetailContract {
 		};
 		uuid: string;
 	};
+	contractorInfos: {
+		contractorName: string;
+		contractorCatName: string;
+		createDate: string;
+	}[];
 	contractorDTO: {
 		qh: {
 			code: string;

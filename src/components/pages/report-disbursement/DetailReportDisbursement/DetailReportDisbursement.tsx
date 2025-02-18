@@ -200,7 +200,7 @@ function DetailReportDisbursement({}: PropsDetailReportDisbursement) {
 							<div className={styles.item}>
 								<p>Chi nhánh</p>
 								<p>
-									<span style={{color: '#2970FF'}}>{detailContractFund?.project?.branch?.code || '---'}</span> -
+									<span>{detailContractFund?.project?.branch?.code || '---'}</span> -
 									<span style={{marginLeft: '4px'}}>{detailContractFund?.project?.branch?.name || '---'}</span>
 								</p>
 							</div>
@@ -289,13 +289,45 @@ function DetailReportDisbursement({}: PropsDetailReportDisbursement) {
 									{
 										title: 'Số nhóm nhà thầu',
 										render: (data: IContractFund) => (
-											<span style={{color: '#2970FF'}}>{data?.totalContractorCat || '---'}</span>
+											<>
+												{data?.contractorInfos?.length && (
+													<Tippy
+														content={
+															<ol style={{paddingLeft: '16px'}}>
+																{[...new Set(data?.contractorInfos?.map((v) => v.contractorCatName))].map(
+																	(catName, i) => (
+																		<li key={i}>{catName}</li>
+																	)
+																)}
+															</ol>
+														}
+													>
+														<span style={{color: '#2970FF'}}>{data?.totalContractorCat || '---'}</span>
+													</Tippy>
+												)}
+											</>
 										),
 									},
 									{
 										title: 'Số nhà thầu',
 										render: (data: IContractFund) => (
-											<span style={{color: '#2970FF'}}>{data?.totalContractor || '---'}</span>
+											<>
+												{data?.contractorInfos?.length && (
+													<Tippy
+														content={
+															<ol style={{paddingLeft: '16px'}}>
+																{[...new Set(data?.contractorInfos?.map((v) => v.contractorName))].map(
+																	(catName, i) => (
+																		<li key={i}>{catName}</li>
+																	)
+																)}
+															</ol>
+														}
+													>
+														<span style={{color: '#2970FF'}}>{data?.totalContractor || '---'}</span>
+													</Tippy>
+												)}
+											</>
 										),
 									},
 									{

@@ -23,6 +23,11 @@ export interface IContractFund {
 		};
 		uuid: string;
 	};
+	contractorInfos: {
+		contractorName: string;
+		contractorCatName: string;
+		createDate: string;
+	}[];
 	releaseDate: string;
 	sendDate: string;
 	amount: number;

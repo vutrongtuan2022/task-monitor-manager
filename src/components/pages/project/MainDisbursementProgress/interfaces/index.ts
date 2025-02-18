@@ -33,6 +33,11 @@ export interface IContractsForProject {
 		}[];
 		uuid: string;
 	};
+	contractorInfos: {
+		contractorName: string;
+		contractorCatName: string;
+		createDate: string;
+	}[];
 	advanceGuarantee: {
 		amount: number;
 		endDate: string;

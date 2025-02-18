@@ -99,12 +99,46 @@ function TableContracfund({}: PropsTableContracFund) {
 							{
 								title: 'Số nhóm nhà thầu',
 								render: (data: IContractFund) => (
-									<span style={{color: '#2970FF'}}>{data?.totalContractorCat || '---'}</span>
+									<>
+										{data?.contractorInfos?.length && (
+											<Tippy
+												content={
+													<ol style={{paddingLeft: '16px'}}>
+														{[...new Set(data?.contractorInfos?.map((v) => v.contractorCatName))].map(
+															(catName, i) => (
+																<li key={i}>{catName}</li>
+															)
+														)}
+													</ol>
+												}
+											>
+												<span style={{color: '#2970FF'}}>{data?.totalContractorCat || '---'}</span>
+											</Tippy>
+										)}
+									</>
 								),
 							},
 							{
 								title: 'Số nhà thầu',
-								render: (data: IContractFund) => <span style={{color: '#2970FF'}}>{data?.totalContractor || '---'}</span>,
+								render: (data: IContractFund) => (
+									<>
+										{data?.contractorInfos?.length && (
+											<Tippy
+												content={
+													<ol style={{paddingLeft: '16px'}}>
+														{[...new Set(data?.contractorInfos?.map((v) => v.contractorName))].map(
+															(catName, i) => (
+																<li key={i}>{catName}</li>
+															)
+														)}
+													</ol>
+												}
+											>
+												<span style={{color: '#2970FF'}}>{data?.totalContractor || '---'}</span>
+											</Tippy>
+										)}
+									</>
+								),
 							},
 							{
 								title: 'Mô tả',

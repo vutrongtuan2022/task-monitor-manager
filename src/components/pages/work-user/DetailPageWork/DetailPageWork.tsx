@@ -65,7 +65,7 @@ function DetailPageWork({}: PropsDetailPageWork) {
 							<div className={styles.item}>
 								<p>Chi nhánh</p>
 								<p>
-									<span style={{color: '#2970FF'}}>{detailActivityContract?.project?.branch?.code || '---'}</span> -
+									<span>{detailActivityContract?.project?.branch?.code || '---'}</span> -
 									<span style={{marginLeft: '4px'}}>{detailActivityContract?.project?.branch?.name || '---'}</span>
 								</p>
 							</div>
