@@ -89,11 +89,43 @@ function TableContractAppendices() {
 							},
 							{
 								title: 'Số nhóm nhà thầu',
-								render: (data: IContractByAppendices) => <span style={{color: '#2970FF'}}>{data?.totalContractorCat}</span>,
+								render: (data: IContractByAppendices) => (
+									<>
+										{data?.contractorInfos?.length && (
+											<Tippy
+												content={
+													<ol style={{paddingLeft: '16px'}}>
+														{[...new Set(data?.contractorInfos?.map((v) => v.contractorCatName))].map(
+															(catName, i) => (
+																<li key={i}>{catName}</li>
+															)
+														)}
+													</ol>
+												}
+											>
+												<span style={{color: '#2970FF'}}>{data?.totalContractorCat || '---'}</span>
+											</Tippy>
+										)}
+									</>
+								),
 							},
 							{
 								title: 'Số nhà thầu',
-								render: (data: IContractByAppendices) => <span style={{color: '#2970FF'}}>{data?.totalContractor}</span>,
+								render: (data: IContractByAppendices) => (
+									<>
+										{data?.contractorInfos?.length && (
+											<Tippy
+												content={
+													<ol style={{paddingLeft: '16px'}}>
+														{...data?.contractorInfos?.map((v, i) => <li key={i}>{v?.contractorName}</li>)}
+													</ol>
+												}
+											>
+												<span style={{color: '#2970FF'}}>{data?.totalContractor || '---'}</span>
+											</Tippy>
+										)}
+									</>
+								),
 							},
 							{
 								title: 'Giá trị BLTHHĐ (VND) ',

@@ -71,6 +71,11 @@ export interface IDetailContract {
 		state: number;
 		uuid: string;
 	};
+	contractorInfos: {
+		contractorName: string;
+		contractorCatName: string;
+		createDate: string;
+	}[];
 	totalDayAdvantage: number;
 	totalContractor: number;
 	totalContractorCat: number;

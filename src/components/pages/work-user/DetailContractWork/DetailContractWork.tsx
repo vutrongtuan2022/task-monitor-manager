@@ -21,11 +21,14 @@ import Table from '~/components/common/Table';
 import Pagination from '~/components/common/Pagination';
 import StateActive from '~/components/common/StateActive';
 import Tippy from '@tippyjs/react';
+import TabNavLink from '~/components/common/TabNavLink';
+import TableContractFund from './components/TableContractFund';
+import TableContractors from './components/TableContractors';
 
 function DetailContractWork({}: PropsDetailContractWork) {
 	const router = useRouter();
 
-	const {_uuid, _page, _pageSize, _uuidWork} = router.query;
+	const {_uuid, _page, _pageSize, _uuidWork, _type} = router.query;
 
 	const {data: detailContract} = useQuery<IDetailContract>([QUERY_KEY.detail_contract], {
 		queryFn: () =>
@@ -141,29 +144,40 @@ function DetailContractWork({}: PropsDetailContractWork) {
 							<div className={styles.item}>
 								<p>Số nhóm nhà thầu</p>
 								<p>
-									{detailContract?.totalContractorCat}
-									{/* {detailContract?.contractorDTO?.contractorCat?.[0]?.name}
-									{detailContract?.contractorDTO?.contractorCat?.length! > 1 && (
+									{detailContract?.contractorInfos?.length && (
 										<Tippy
 											content={
 												<ol style={{paddingLeft: '16px'}}>
-													{[...detailContract?.contractorDTO?.contractorCat!]?.slice(1)?.map((v, i) => (
-														<li key={i}>{v?.name}</li>
-													))}
+													{[...new Set(detailContract?.contractorInfos?.map((v) => v.contractorCatName))].map(
+														(catName, i) => (
+															<li key={i}>{catName}</li>
+														)
+													)}
 												</ol>
 											}
 										>
-											<span className={styles.link_contractor}>
-												{' '}
-												và {detailContract?.contractorDTO?.contractorCat?.length! - 1} nhóm khác
-											</span>
+											<span className={styles.link_contractor}>{detailContract?.totalContractorCat || '---'}</span>
 										</Tippy>
-									)} */}
+									)}
 								</p>
 							</div>
 							<div className={styles.item}>
 								<p>Số nhà thầu</p>
-								<p>{detailContract?.totalContractor}</p>
+								<p>
+									{detailContract?.contractorInfos?.length && (
+										<Tippy
+											content={
+												<ol style={{paddingLeft: '16px'}}>
+													{...detailContract?.contractorInfos?.map((v, i) => (
+														<li key={i}>{v?.contractorName}</li>
+													))}
+												</ol>
+											}
+										>
+											<span className={styles.link_contractor}>{detailContract?.totalContractor || '---'}</span>
+										</Tippy>
+									)}
+								</p>
 							</div>
 							<div className={styles.item}>
 								<p>Ngày ký hợp đồng</p>
@@ -217,6 +231,31 @@ function DetailContractWork({}: PropsDetailContractWork) {
 					</div>
 				</div>
 				<div className={clsx(styles.basic_info, styles.mt)}>
+					<div className={styles.main_tab}>
+						<TabNavLink
+							query='_type'
+							listHref={[
+								{
+									pathname: PATH.ProjectCreate,
+									query: null,
+									title: 'Danh sách giải ngân',
+								},
+								{
+									pathname: PATH.ProjectCreate,
+									query: 'contractor',
+									title: 'Danh sách nhà thầu',
+								},
+							]}
+							listKeyRemove={['_page', '_pageSize', '_keyword', '_state']}
+						/>
+					</div>
+					<div className={styles.line}></div>
+					<div className={styles.main_table}>
+						{!_type && <TableContractFund />}
+						{_type == 'contractor' && <TableContractors />}
+					</div>
+				</div>
+				{/* <div className={clsx(styles.basic_info, styles.mt)}>
 					<div className={styles.head}>
 						<h4>Danh sách giải ngân</h4>
 					</div>
@@ -318,7 +357,7 @@ function DetailContractWork({}: PropsDetailContractWork) {
 							dependencies={[_pageSize, _uuid]}
 						/>
 					</WrapperScrollbar>
-				</div>
+				</div> */}
 			</div>
 		</div>
 	);

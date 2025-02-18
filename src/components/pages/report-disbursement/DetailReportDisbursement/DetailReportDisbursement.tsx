@@ -200,7 +200,7 @@ function DetailReportDisbursement({}: PropsDetailReportDisbursement) {
 							<div className={styles.item}>
 								<p>Chi nhánh</p>
 								<p>
-									<span style={{color: '#2970FF'}}>{detailContractFund?.project?.branch?.code || '---'}</span> -
+									<span>{detailContractFund?.project?.branch?.code || '---'}</span> -
 									<span style={{marginLeft: '4px'}}>{detailContractFund?.project?.branch?.name || '---'}</span>
 								</p>
 							</div>

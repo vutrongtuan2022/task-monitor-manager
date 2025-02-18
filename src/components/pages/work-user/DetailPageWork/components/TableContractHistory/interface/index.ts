@@ -6,18 +6,6 @@ export interface IContractByActivity {
 	totalDayAdvantage: number;
 	totalContractor: number;
 	totalContractorCat: number;
-	contractor: {
-		code: string;
-		name: string;
-		contractorCat: {
-			id: number;
-			code: string;
-			name: string;
-			isDefault: number;
-			uuid: string;
-		}[];
-		uuid: string;
-	};
 	advanceGuarantee: {
 		amount: number;
 		endDate: string;
@@ -28,6 +16,12 @@ export interface IContractByActivity {
 		endDate: string;
 		type: number;
 	};
+	contractorInfos: {
+		contractorName: string;
+		contractorCatName: string;
+		createDate: string;
+	}[];
+	parent: any;
 	user: {
 		fullname: string;
 		code: string;

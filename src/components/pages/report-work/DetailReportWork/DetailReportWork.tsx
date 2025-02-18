@@ -216,7 +216,7 @@ function DetailReportWork({}: PropsDetailReportWork) {
 							<div className={styles.item}>
 								<p>Chi nhánh</p>
 								<p>
-									<span style={{color: '#2970FF'}}>{detailReportWork?.project?.branch?.code || '---'}</span> -
+									<span>{detailReportWork?.project?.branch?.code || '---'}</span> -
 									<span style={{marginLeft: '4px'}}>{detailReportWork?.project?.branch?.name || '---'}</span>
 								</p>
 							</div>

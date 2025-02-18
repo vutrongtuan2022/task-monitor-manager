@@ -43,4 +43,9 @@ export interface IContractByAppendices {
 	state: number;
 	status: number;
 	uuid: string;
+	contractorInfos: {
+		contractorName: string;
+		contractorCatName: string;
+		createDate: string;
+	}[];
 }
