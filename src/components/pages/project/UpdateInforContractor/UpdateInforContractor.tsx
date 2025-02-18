@@ -21,6 +21,26 @@ import contractorcatServices from '~/services/contractorcatServices';
 import contractorServices from '~/services/contractorServices';
 import Popup from '~/components/common/Popup';
 
+function hasDuplicateContractor(
+	data: {
+		uuidGroupContractor: string;
+		contractorLinkUuid: string;
+		note: string;
+	}[]
+) {
+	const seen = new Set();
+
+	for (const item of data) {
+		const key = `${item.uuidGroupContractor}-${item.contractorLinkUuid}`;
+		if (seen.has(key)) {
+			return true;
+		}
+		seen.add(key);
+	}
+
+	return false;
+}
+
 function UpdateInforContractor({}: PropsUpdateInforContractor) {
 	const router = useRouter();
 	const queryClient = useQueryClient();
@@ -88,8 +108,14 @@ function UpdateInforContractor({}: PropsUpdateInforContractor) {
 	});
 
 	const updateContractorProject = () => {
-		if (listContractor?.some((v) => !v?.contractorLinkUuid)) {
-			return toastWarn({msg: 'Chọn đầy đủ nhà thầu!'});
+		if (listContractor?.length == 0) {
+			return toastWarn({msg: 'Vui lòng thêm nhà thầu!'});
+		}
+		if (listContractor?.some((v) => !v?.contractorLinkUuid || !v?.uuidGroupContractor || !v?.note)) {
+			return toastWarn({msg: 'Vui lòng chọn đầy đủ thông tin nhà thầu!'});
+		}
+		if (hasDuplicateContractor(listContractor)) {
+			return toastWarn({msg: 'Tên nhà thầu, nhóm nhà thầu trùng nhau!'});
 		}
 
 		return funcUpdateContractorProject.mutate();
