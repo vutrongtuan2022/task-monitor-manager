@@ -88,6 +88,7 @@ function Select(props: PropsSelector) {
 							<div className={clsx(styles.main)} onClick={() => setShow(false)}>
 								{props.children}
 							</div>
+							{props?.action}
 						</div>
 					)}
 				>

@@ -9,7 +9,6 @@ import Button from '~/components/common/Button';
 import DataWrapper from '~/components/common/DataWrapper';
 import Pagination from '~/components/common/Pagination';
 import Table from '~/components/common/Table';
-import Search from '~/components/common/Search';
 import clsx from 'clsx';
 import icons from '~/constants/images/icons';
 import Breadcrumb from '~/components/common/Breadcrumb';
@@ -19,10 +18,8 @@ import {QUERY_KEY, STATE_PROJECT, STATUS_CONFIG} from '~/constants/config/enum';
 import {IDetailInfoProject} from '../MainInfoProject/interfaces';
 import Dialog from '~/components/common/Dialog';
 import {convertCoin} from '~/common/funcs/convertCoin';
-import Moment from 'react-moment';
 import Loading from '~/components/common/Loading';
 import projectServices from '~/services/projectServices';
-import projectContractorServices from '~/services/projectContractorServices';
 import contractorcatServices from '~/services/contractorcatServices';
 import contractorServices from '~/services/contractorServices';
 import FilterCustom from '~/components/common/FilterCustom';
@@ -317,7 +314,11 @@ function MainInfoContractor({}: PropsMainInfoContractor) {
 									},
 									{
 										title: 'Tên nhà thầu',
-										render: (data: IContractorProject) => <>{data?.contractor?.name || ''}</>,
+										render: (data: IContractorProject) => <>{data?.contractor?.name || '---'}</>,
+									},
+									{
+										title: 'Ghi chú',
+										render: (data: IContractorProject) => <>{data?.note || '---'}</>,
 									},
 									{
 										title: 'Số lượng hợp đồng',

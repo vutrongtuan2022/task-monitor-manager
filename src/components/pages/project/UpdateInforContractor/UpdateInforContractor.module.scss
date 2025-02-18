@@ -76,11 +76,7 @@ $font-size-input: 16px;
 	margin-top: 20px;
 }
 
-.select {
-	flex: 1;
-}
-
-.input_specification {
+.box_input {
 	height: 44px;
 	flex: 1;
 	position: relative;
@@ -123,6 +119,10 @@ $font-size-input: 16px;
 		height: 46px;
 		max-height: 70px;
 	}
+}
+
+.select {
+	flex: 1;
 }
 
 .btn_add {
@@ -177,4 +177,11 @@ $font-size-input: 16px;
 	&:active {
 		transform: scale(0.9);
 	}
+}
+
+.main_popup {
+	width: 540px;
+	border-radius: 36px;
+	background: #fff;
+	box-shadow: 0px 3px 46px 0px rgba(175, 190, 211, 0.2);
 }

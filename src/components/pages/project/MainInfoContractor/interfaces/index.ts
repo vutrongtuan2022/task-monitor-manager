@@ -18,4 +18,5 @@ export interface IContractorProject {
 	amount: number;
 	status: number;
 	uuid: string;
+	note: string;
 }

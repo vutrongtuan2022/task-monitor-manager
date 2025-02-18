@@ -1,7 +1,7 @@
 .main {
 	position: fixed;
 	width: max-content;
-	z-index: 100;
+	z-index: 10001;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
@@ -28,7 +28,7 @@
 	left: 0;
 	background-color: var(--dark);
 	animation: show linear 0.2s forwards;
-	z-index: 100;
+	z-index: 10000;
 }
 
 @keyframes show {

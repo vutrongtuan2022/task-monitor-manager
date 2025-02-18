@@ -19,6 +19,7 @@ import projectContractorServices from '~/services/projectContractorServices';
 import {toastWarn} from '~/common/funcs/toast';
 import contractorcatServices from '~/services/contractorcatServices';
 import contractorServices from '~/services/contractorServices';
+import Popup from '~/components/common/Popup';
 
 function UpdateInforContractor({}: PropsUpdateInforContractor) {
 	const router = useRouter();
@@ -30,6 +31,7 @@ function UpdateInforContractor({}: PropsUpdateInforContractor) {
 		{
 			uuidGroupContractor: string;
 			contractorLinkUuid: string;
+			note: string;
 		}[]
 	>([]);
 
@@ -47,6 +49,7 @@ function UpdateInforContractor({}: PropsUpdateInforContractor) {
 						{
 							uuidGroupContractor: '',
 							contractorLinkUuid: '',
+							note: '',
 						},
 					]);
 				} else
@@ -54,6 +57,7 @@ function UpdateInforContractor({}: PropsUpdateInforContractor) {
 						data?.map((v: any) => ({
 							uuidGroupContractor: v?.contractorCategory?.uuid || null,
 							contractorLinkUuid: v?.contractorLinkUuid,
+							note: v?.note,
 						}))
 					);
 			}
@@ -69,7 +73,10 @@ function UpdateInforContractor({}: PropsUpdateInforContractor) {
 				msgSuccess: 'Cập nhật nhà thầu thành công!',
 				http: projectContractorServices.addContractorProject({
 					projectUuid: _uuid as string,
-					contractorCatLinkUuids: listContractor?.map((v) => v.contractorLinkUuid),
+					credels: listContractor?.map((v) => ({
+						contractorCatLinkUuids: v.contractorLinkUuid,
+						note: v?.note,
+					})),
 				}),
 			});
 		},
@@ -84,14 +91,6 @@ function UpdateInforContractor({}: PropsUpdateInforContractor) {
 		if (listContractor?.some((v) => !v?.contractorLinkUuid)) {
 			return toastWarn({msg: 'Chọn đầy đủ nhà thầu!'});
 		}
-
-		// if (
-		// 	listContractor.some((item, index) => {
-		// 		return listContractor.findIndex((otherItem) => otherItem.uuidGroupContractor === item.uuidGroupContractor) !== index;
-		// 	})
-		// ) {
-		// 	return toastWarn({msg: 'Trùng nhóm nhà thầu!'});
-		// }
 
 		return funcUpdateContractorProject.mutate();
 	};
@@ -151,12 +150,15 @@ function UpdateInforContractor({}: PropsUpdateInforContractor) {
 							<h4>Quản lý nhà thầu</h4>
 						</div>
 						<div className={styles.form}>
-							<GridColumn col_2>
+							<GridColumn col_3>
 								<p className={styles.label}>
 									Nhóm nhà thầu <span style={{color: 'red'}}>*</span>
 								</p>
 								<p className={styles.label}>
 									Nhà thầu <span style={{color: 'red'}}>*</span>
+								</p>
+								<p className={styles.label}>
+									Ghi chú <span style={{color: 'red'}}>*</span>
 								</p>
 							</GridColumn>
 							<div>
@@ -178,6 +180,7 @@ function UpdateInforContractor({}: PropsUpdateInforContractor) {
 										{
 											uuidGroupContractor: '',
 											contractorLinkUuid: '',
+											note: '',
 										},
 									])
 								}
@@ -207,13 +210,17 @@ function ItemContractorProject({
 	data: {
 		uuidGroupContractor: string;
 		contractorLinkUuid: string;
+		note: string;
 	};
 	listContractor: {
 		uuidGroupContractor: string;
 		contractorLinkUuid: string;
+		note: string;
 	}[];
 	setListContractor: (any: any) => void;
 }) {
+	const [uuidGroupContractor, setUuidGroupContractor] = useState<string>('');
+
 	const {data: dropdownGroupContractor} = useQuery([QUERY_KEY.detail_group_contractor], {
 		queryFn: () =>
 			httpRequest({
@@ -262,28 +269,49 @@ function ItemContractorProject({
 
 	return (
 		<div className={clsx(styles.item_contractor_project)}>
-			<GridColumn col_2>
+			<GridColumn col_3>
 				<Select isSearch={true} name='uuidGroupContractor' value={data?.uuidGroupContractor} placeholder='Chọn'>
 					{dropdownGroupContractor?.map((v: any) => (
 						<Option
-							key={v.uuid}
+							key={v?.uuid}
 							value={v.uuid}
 							title={v?.name}
 							onClick={() => handleChangeValue(index, 'uuidGroupContractor', v?.uuid)}
 						/>
 					))}
 				</Select>
-				<div className={styles.grid}>
-					<Select isSearch={true} name='contractorLinkUuid' value={data?.contractorLinkUuid} placeholder='Chọn'>
+				<div>
+					<Select
+						isSearch={true}
+						name='contractorLinkUuid'
+						value={data?.contractorLinkUuid}
+						placeholder='Chọn'
+						// action={
+						// 	<Button border-dashed rounded_8 onClick={() => setUuidGroupContractor(data?.uuidGroupContractor)}>
+						// 		Thêm nhà thầu mới
+						// 	</Button>
+						// }
+					>
 						{dropdownContractor?.map((v: any) => (
 							<Option
-								key={v.contractorLinkUuid}
+								key={v?.uuid}
 								value={v.contractorLinkUuid}
 								title={v?.name}
 								onClick={() => handleChangeValue(index, 'contractorLinkUuid', v?.contractorLinkUuid)}
 							/>
 						))}
 					</Select>
+				</div>
+				<div className={styles.grid}>
+					<div className={styles.box_input}>
+						<input
+							placeholder='Nhập ghi chú'
+							className={styles.input}
+							name={`note_${index}`}
+							value={data?.note}
+							onChange={(e) => handleChangeValue(index, 'note', e?.target?.value)}
+						/>
+					</div>
 					{index >= 1 && (
 						<div className={styles.delete} onClick={handleDelete}>
 							<Trash size={22} color='#fff' />
@@ -291,6 +319,10 @@ function ItemContractorProject({
 					)}
 				</div>
 			</GridColumn>
+
+			<Popup open={!!uuidGroupContractor} onClose={() => setUuidGroupContractor('')}>
+				<div className={styles.main_popup}>a</div>
+			</Popup>
 		</div>
 	);
 }
