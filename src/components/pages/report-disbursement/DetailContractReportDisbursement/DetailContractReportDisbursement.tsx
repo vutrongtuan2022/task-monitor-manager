@@ -138,11 +138,43 @@ function DetailContractReportDisbursement({}: PropsDetailContractReportDisbursem
 							</div>
 							<div className={styles.item}>
 								<p>Số nhóm nhà thầu</p>
-								<p>{detailContract?.totalContractorCat}</p>
+								<p>
+									{detailContract?.contractorInfos?.length && (
+										<Tippy
+											content={
+												<ol style={{paddingLeft: '16px'}}>
+													{[...new Set(detailContract?.contractorInfos?.map((v) => v.contractorCatName))].map(
+														(catName, i) => (
+															<li key={i}>{catName}</li>
+														)
+													)}
+												</ol>
+											}
+										>
+											<span className={styles.link_contractor}>{detailContract?.totalContractorCat || '---'}</span>
+										</Tippy>
+									)}
+								</p>
 							</div>
 							<div className={styles.item}>
 								<p>Số nhà thầu</p>
-								<p>{detailContract?.totalContractor}</p>
+								<p>
+									{detailContract?.contractorInfos?.length && (
+										<Tippy
+											content={
+												<ol style={{paddingLeft: '16px'}}>
+													{[...new Set(detailContract?.contractorInfos?.map((v) => v.contractorName))].map(
+														(catName, i) => (
+															<li key={i}>{catName}</li>
+														)
+													)}
+												</ol>
+											}
+										>
+											<span className={styles.link_contractor}>{detailContract?.totalContractor || '---'}</span>
+										</Tippy>
+									)}
+								</p>
 							</div>
 							<div className={styles.item}>
 								<p>Ngày ký hợp đồng</p>

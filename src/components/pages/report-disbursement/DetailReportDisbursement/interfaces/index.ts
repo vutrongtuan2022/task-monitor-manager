@@ -41,6 +41,11 @@ export interface IContractFund {
 	projectAmount: number;
 	reverseAmount: number;
 	releaseDate: string;
+	contractorInfos: {
+		contractorName: string;
+		contractorCatName: string;
+		createDate: string;
+	}[];
 	contractor: {
 		code: string;
 		name: string;
