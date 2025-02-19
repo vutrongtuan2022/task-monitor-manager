@@ -243,8 +243,16 @@ function MainPageReportDisbursement({}: PropsMainPageReportDisbursement) {
 								),
 							},
 							{
-								title: 'Báo cáo tháng',
-								render: (data: IReportDisbursement) => <>{`Tháng ${data?.releasedMonth} - ${data?.releasedYear}`}</>,
+								title: 'Thời gian báo cáo',
+								render: (data: IReportDisbursement) => (
+									<>
+										{data?.releasedMonth && data?.releasedYear
+											? `Tháng ${data?.releasedMonth} - ${data?.releasedYear}`
+											: !data?.releasedMonth && data?.releasedYear
+											? `Năm ${data?.releasedYear}`
+											: '---'}
+									</>
+								),
 							},
 							{
 								title: 'Người báo cáo',

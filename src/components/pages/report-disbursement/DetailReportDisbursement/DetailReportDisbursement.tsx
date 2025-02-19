@@ -194,8 +194,14 @@ function DetailReportDisbursement({}: PropsDetailReportDisbursement) {
 								<p>{detailContractFund?.project?.name || '---'}</p>
 							</div>
 							<div className={styles.item}>
-								<p>Báo cáo tháng</p>
-								<p>{`Tháng ${detailContractFund?.releasedMonth} - ${detailContractFund?.releasedYear}`}</p>
+								<p>Thời gian báo cáo</p>
+								<p>
+									{detailContractFund?.releasedMonth && detailContractFund?.releasedYear
+										? `Tháng ${detailContractFund?.releasedMonth} - ${detailContractFund?.releasedYear}`
+										: !detailContractFund?.releasedMonth && detailContractFund?.releasedYear
+										? `Năm ${detailContractFund?.releasedYear}`
+										: '---'}
+								</p>
 							</div>
 							<div className={styles.item}>
 								<p>Chi nhánh</p>
