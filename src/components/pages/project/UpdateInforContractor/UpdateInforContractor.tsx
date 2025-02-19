@@ -282,6 +282,7 @@ function ItemContractorProject({
 		newData[index] = {
 			...newData[index],
 			[name]: value,
+			...(name === 'uuidGroupContractor' ? {contractorLinkUuid: ''} : {}),
 		};
 
 		setListContractor(newData);
