@@ -349,43 +349,60 @@ function MainWorkReport({}: PropsMainWorkReport) {
 								column={[
 									{
 										title: 'STT',
-										render: (data: IActivitiProject, index: number) => <>{index + 1}</>,
+										render: (data: IActivitiProject, index: number) => (
+											<p style={{color: data?.megatype == 'Task' ? '#2970FF' : data?.megatype ? '' : ''}}>
+												{index + 1}
+											</p>
+										),
 									},
 									{
 										title: 'Tên công việc',
 										render: (data: IActivitiProject) => (
 											<Tippy content={data?.name || '---'}>
-												<p className={styles.name}>{data?.name || ''}</p>
+												<p
+													className={styles.name}
+													style={{color: data?.megatype == 'Task' ? '#2970FF' : data?.megatype ? '' : ''}}
+												>
+													{data?.name || ''}
+												</p>
 											</Tippy>
 										),
 									},
 									{
 										title: 'Giai đoạn thực hiện',
 										render: (data: IActivitiProject) => (
-											<>
+											<p style={{color: data?.megatype == 'Task' ? '#2970FF' : data?.megatype ? '' : ''}}>
 												{!data?.stage && '---'}
 												{data?.stage == 1 && 'Giai đoạn chuẩn bị đầu tư'}
 												{data?.stage == 2 && 'Giai đoạn thực hiện đầu tư'}
 												{data?.stage == 3 && 'Giai đoạn kết thúc đầu tư'}
-											</>
+											</p>
 										),
 									},
 									{
 										title: 'Megatype',
-										render: (data: IActivitiProject) => <>{data?.megatype || '---'}</>,
+										render: (data: IActivitiProject) => (
+											<p style={{color: data?.megatype == 'Task' ? '#2970FF' : data?.megatype ? '' : ''}}>
+												{data?.megatype || '---'}
+											</p>
+										),
 									},
 									{
 										title: 'Loại công việc',
 										render: (data: IActivitiProject) => (
-											<>
+											<p style={{color: data?.megatype == 'Task' ? '#2970FF' : data?.megatype ? '' : ''}}>
 												{data?.activityType == TYPE_OF_WORK.ARISE && 'Phát sinh'}
 												{data?.activityType == TYPE_OF_WORK.HAVE_PLAN && 'Có kế hoạch'}
-											</>
+											</p>
 										),
 									},
 									{
 										title: 'Người báo cáo',
-										render: (data: IActivitiProject) => <>{data?.reporter?.fullname || '---'}</>,
+										render: (data: IActivitiProject) => (
+											<p style={{color: data?.megatype == 'Task' ? '#2970FF' : data?.megatype ? '' : ''}}>
+												{data?.reporter?.fullname || '---'}
+											</p>
+										),
 									},
 									{
 										title: 'Trạng thái',
@@ -447,10 +464,10 @@ function MainWorkReport({}: PropsMainWorkReport) {
 									{
 										title: 'Số hóa',
 										render: (data: IActivitiProject) => (
-											<>
+											<p style={{color: data?.megatype == 'Task' ? '#2970FF' : data?.megatype ? '' : ''}}>
 												{data?.digitalization == 0 && 'Chưa số hóa'}
 												{data?.digitalization == 1 && 'Đã số hóa'}
-											</>
+											</p>
 										),
 									},
 								]}
