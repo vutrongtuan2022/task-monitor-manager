@@ -349,6 +349,10 @@ function MainDisbursementProgress({}: PropsMainDisbursementProgress) {
 										),
 									},
 									{
+										title: 'Thuộc hợp đồng',
+										render: (data: IContractsForProject) => <b>{data?.parent?.code || '---'}</b>,
+									},
+									{
 										title: 'Giá trị hợp đồng (VND)',
 										render: (data: IContractsForProject) => <>{convertCoin(data?.amount)}</>,
 									},
