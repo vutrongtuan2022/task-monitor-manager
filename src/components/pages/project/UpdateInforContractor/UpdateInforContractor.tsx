@@ -184,7 +184,7 @@ function UpdateInforContractor({}: PropsUpdateInforContractor) {
 									Nhà thầu <span style={{color: 'red'}}>*</span>
 								</p>
 								<p className={styles.label}>
-									Ghi chú <span style={{color: 'red'}}>*</span>
+									Mô tả <span style={{color: 'red'}}>*</span>
 								</p>
 							</GridColumn>
 							<div>
@@ -332,7 +332,7 @@ function ItemContractorProject({
 				<div className={styles.grid}>
 					<div className={styles.box_input}>
 						<input
-							placeholder='Nhập ghi chú'
+							placeholder='Nhập mô tả'
 							className={styles.input}
 							name={`note_${index}`}
 							value={data?.note}

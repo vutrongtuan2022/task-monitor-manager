@@ -317,7 +317,7 @@ function MainInfoContractor({}: PropsMainInfoContractor) {
 										render: (data: IContractorProject) => <>{data?.contractor?.name || '---'}</>,
 									},
 									{
-										title: 'Ghi chú',
+										title: 'Mô tả',
 										render: (data: IContractorProject) => <>{data?.note || '---'}</>,
 									},
 									{
