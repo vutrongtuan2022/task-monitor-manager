@@ -170,6 +170,10 @@ input:-internal-autofill-selected {
 	}
 }
 
+.Toastify__toast-container {
+	z-index: 9999999 !important;
+}
+
 .toastify-custom {
 	color: var(--dark);
 	text-align: center;
