@@ -184,7 +184,7 @@ function UpdateInforContractor({}: PropsUpdateInforContractor) {
 									Nhà thầu <span style={{color: 'red'}}>*</span>
 								</p>
 								<p className={styles.label}>
-									Mô tả <span style={{color: 'red'}}>*</span>
+									Mô tả công việc <span style={{color: 'red'}}>*</span>
 								</p>
 							</GridColumn>
 							<div>
