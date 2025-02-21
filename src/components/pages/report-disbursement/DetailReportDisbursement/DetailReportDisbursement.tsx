@@ -268,7 +268,7 @@ function DetailReportDisbursement({}: PropsDetailReportDisbursement) {
 										fixedLeft: true,
 										render: (data: IContractFund) => (
 											<Tippy content='Chi tiết hợp đồng'>
-												<Link href={`${PATH.ContractReportDisbursement}/${data?.uuid}`} className={styles.link}>
+												<Link href={`${PATH.ContractReportDisbursement}/${data?.uuid}?_uuidContract=${_uuid}`} className={styles.link}>
 													{data?.code}
 												</Link>
 											</Tippy>

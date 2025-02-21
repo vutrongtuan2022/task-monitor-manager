@@ -1,34 +1,55 @@
 import React from 'react';
 
-import {IDetailContract, PropsDetailAppendices} from './interfaces';
-import styles from './DetailAddenum.module.scss';
+import {IContractDetailFund, IDetailContract, PropsDetailContractProject} from './interfaces';
+import styles from './DetailContractProject.module.scss';
 import Breadcrumb from '~/components/common/Breadcrumb';
 import {PATH} from '~/constants/config';
+import Button from '~/components/common/Button';
 import GridColumn from '~/components/layouts/GridColumn';
 import {useRouter} from 'next/router';
 import {useQuery} from '@tanstack/react-query';
-import {QUERY_KEY, STATE_CONTRACT_WORK} from '~/constants/config/enum';
+import {QUERY_KEY, STATE_CONTRACT_WORK, STATE_REPORT_DISBURSEMENT, STATUS_CONFIG} from '~/constants/config/enum';
 import {httpRequest} from '~/services';
 import contractsServices from '~/services/contractsServices';
 import {convertCoin} from '~/common/funcs/convertCoin';
 import Progress from '~/components/common/Progress';
 import Moment from 'react-moment';
 import clsx from 'clsx';
+import WrapperScrollbar from '~/components/layouts/WrapperScrollbar';
+import DataWrapper from '~/components/common/DataWrapper';
+import Noti from '~/components/common/DataWrapper/components/Noti';
+import Table from '~/components/common/Table';
+import Pagination from '~/components/common/Pagination';
 import StateActive from '~/components/common/StateActive';
+import PositionContainer from '~/components/common/PositionContainer';
 import Tippy from '@tippyjs/react';
-import TabNavLink from '~/components/common/TabNavLink';
-import TableContractFund from './components/TableContractFund';
-import TableContractors from './components/TableContractors';
 
-function DetailAppendices({}: PropsDetailAppendices) {
+function DetailContractProject({}: PropsDetailContractProject) {
 	const router = useRouter();
 
-	const {_uuid, _uuidWork, _type} = router.query;
+	const {_uuid, _page, _pageSize} = router.query;
 
-	const {data: detailContract} = useQuery<IDetailContract>([QUERY_KEY.detail_contract], {
+	const {data: detailContract} = useQuery<IDetailContract>([QUERY_KEY.detail_contract, _uuid], {
 		queryFn: () =>
 			httpRequest({
 				http: contractsServices.detailContracts({
+					uuid: _uuid as string,
+				}),
+			}),
+		select(data) {
+			return data;
+		},
+		enabled: !!_uuid,
+	});
+
+	const {data: listContractFund} = useQuery([QUERY_KEY.table_contract_fund_detail, _page, _pageSize, _uuid], {
+		queryFn: () =>
+			httpRequest({
+				http: contractsServices.contractsReportFundpaged({
+					page: Number(_page) || 1,
+					pageSize: Number(_pageSize) || 10,
+					keyword: '',
+					status: STATUS_CONFIG.ACTIVE,
 					uuid: _uuid as string,
 				}),
 			}),
@@ -43,16 +64,16 @@ function DetailAppendices({}: PropsDetailAppendices) {
 			<Breadcrumb
 				listUrls={[
 					{
-						path: PATH.WorkUser,
-						title: 'Danh sách công việc cần làm',
+						title: 'Danh sách dự án',
+						path: `${PATH.Project}`,
 					},
 					{
-						path: `${PATH.WorkUser}/${_uuidWork}?_type=appendices`,
-						title: 'Chi tiết công việc',
+						path: `${PATH.ProjectDisbursementProgress}?_uuid=${detailContract?.projectDTO?.uuid}`,
+						title: 'Quản lý hợp đồng',
 					},
 					{
 						path: '',
-						title: 'Chi tiết phụ lục hợp đồng',
+						title: 'Chi tiết hợp đồng',
 					},
 				]}
 			/>
@@ -92,12 +113,8 @@ function DetailAppendices({}: PropsDetailAppendices) {
 					<div className={styles.progress_group}>
 						<GridColumn col_3>
 							<div className={styles.item}>
-								<p>Số phụ lục hợp đồng</p>
+								<p>Số hợp đồng</p>
 								<p>{detailContract?.code || '---'}</p>
-							</div>
-							<div className={styles.item}>
-								<p>Thuộc hợp đồng</p>
-								<p>{detailContract?.parent?.code || '---'}</p>
 							</div>
 							<div className={styles.item}>
 								<p>Lũy kế giải ngân trong năm</p>
@@ -170,15 +187,15 @@ function DetailAppendices({}: PropsDetailAppendices) {
 								</p>
 							</div>
 							<div className={styles.item}>
-								<p>Ngày ký phụ lục hợp đồng</p>
+								<p>Ngày ký hợp đồng</p>
 								<p>{detailContract?.startDate ? <Moment date={detailContract?.startDate} format='DD/MM/YYYY' /> : '---'}</p>
 							</div>
 							<div className={styles.item}>
-								<p>Giá trị phụ lục hợp đồng</p>
+								<p>Giá trị hợp đồng</p>
 								<p>{convertCoin(detailContract?.amount!) || '---'}</p>
 							</div>
 							<div className={styles.item}>
-								<p>Thời gian gia hạn hợp đồng (ngày)</p>
+								<p>Thời gian THHĐ (ngày)</p>
 								<p>{detailContract?.totalDayAdvantage}</p>
 							</div>
 							<div className={styles.item}>
@@ -221,33 +238,117 @@ function DetailAppendices({}: PropsDetailAppendices) {
 					</div>
 				</div>
 				<div className={clsx(styles.basic_info, styles.mt)}>
-					<div className={styles.main_tab}>
-						<TabNavLink
-							query='_type'
-							listHref={[
-								{
-									pathname: PATH.ProjectCreate,
-									query: null,
-									title: 'Danh sách giải ngân',
-								},
-								{
-									pathname: PATH.ProjectCreate,
-									query: 'contractor',
-									title: 'Danh sách nhà thầu',
-								},
-							]}
-							listKeyRemove={['_page', '_pageSize', '_keyword', '_state']}
+					<div className={styles.head}>
+						<h4>Danh sách giải ngân</h4>
+					</div>
+					<WrapperScrollbar>
+						<DataWrapper
+							data={listContractFund?.items || []}
+							loading={listContractFund?.isLoading}
+							noti={<Noti title='Danh sách giải ngân trống!' des='Hiện tại chưa có thông tin giải ngân nào!' />}
+						>
+							<Table
+								fixedHeader={true}
+								data={listContractFund?.items || []}
+								column={[
+									{
+										title: 'STT',
+										render: (data: IContractDetailFund, index: number) => <>{index + 1}</>,
+									},
+
+									{
+										title: 'Báo cáo tháng',
+										render: (data: IContractDetailFund) => (
+											<>
+												{data?.releasedMonth && data?.releasedYear
+													? `Tháng ${data?.releasedMonth} - ${data?.releasedYear}`
+													: !data?.releasedMonth && data?.releasedYear
+													? `Năm ${data?.releasedYear}`
+													: '---'}
+											</>
+										),
+									},
+									{
+										title: 'Sử dụng vốn dự phòng (VND)',
+										render: (data: IContractDetailFund) => <>{convertCoin(data?.reverseAmount) || '---'}</>,
+									},
+									{
+										title: 'Sử dụng vốn dự án (VND)',
+										render: (data: IContractDetailFund) => <>{convertCoin(data?.projectAmount) || '---'}</>,
+									},
+									{
+										title: 'Ngày giải ngân',
+										render: (data: IContractDetailFund) => (
+											<p>{data?.releasedDate ? <Moment date={data?.releasedDate} format='DD/MM/YYYY' /> : '---'}</p>
+										),
+									},
+									{
+										title: 'Thời gian tạo',
+										render: (data: IContractDetailFund) => (
+											<p>{data?.created ? <Moment date={data?.created} format='DD/MM/YYYY' /> : '---'}</p>
+										),
+									},
+									{
+										title: 'Mô tả',
+										render: (data: IContractDetailFund) => (
+											<>
+												{(data?.note && (
+													<Tippy content={data?.note}>
+														<p className={styles.name}>{data?.note || '---'}</p>
+													</Tippy>
+												)) ||
+													'---'}
+											</>
+										),
+									},
+									{
+										title: 'Trạng thái',
+										render: (data: IContractDetailFund) => (
+											<StateActive
+												stateActive={data?.state}
+												listState={[
+													{
+														state: STATE_REPORT_DISBURSEMENT.REJECTED,
+														text: 'Bị từ chối',
+														textColor: '#FFFFFF',
+														backgroundColor: '#F37277',
+													},
+													{
+														state: STATE_REPORT_DISBURSEMENT.REPORTED,
+														text: 'Đã báo cáo',
+														textColor: '#FFFFFF',
+														backgroundColor: '#4BC9F0',
+													},
+													{
+														state: STATE_REPORT_DISBURSEMENT.APPROVED,
+														text: 'Đã duyệt',
+														textColor: '#FFFFFF',
+														backgroundColor: '#06D7A0',
+													},
+													{
+														state: STATE_REPORT_DISBURSEMENT.NOT_REPORT,
+														text: 'Chưa báo cáo',
+														textColor: '#FFFFFF',
+														backgroundColor: '#FF852C',
+													},
+												]}
+											/>
+										),
+									},
+								]}
+							/>
+						</DataWrapper>
+						<Pagination
+							currentPage={Number(_page) || 1}
+							pageSize={Number(_pageSize) || 10}
+							total={listContractFund?.pagination?.totalCount}
+							dependencies={[_pageSize, _uuid]}
 						/>
-					</div>
-					<div className={styles.line}></div>
-					<div className={styles.main_table}>
-						{!_type && <TableContractFund />}
-						{_type == 'contractor' && <TableContractors />}
-					</div>
+					</WrapperScrollbar>
 				</div>
 			</div>
 		</div>
 	);
 }
 
-export default DetailAppendices;
+export default DetailContractProject;

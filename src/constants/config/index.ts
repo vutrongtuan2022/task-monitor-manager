@@ -32,6 +32,7 @@ export enum PATH {
 	UpdateInfoProject = '/project/update/infor-project',
 	UpdateInfoCapital = '/project/update/info-capital',
 	UpdateInfoContractor = '/project/update/infor-contractor',
+	ProjectContract = '/project/contract',
 
 	ReportWork = '/report-work',
 

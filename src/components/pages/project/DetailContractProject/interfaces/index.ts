@@ -1,4 +1,4 @@
-export interface PropsDetailContractWork {}
+export interface PropsDetailContractProject {}
 
 export interface IDetailContract {
 	accumAmountThisYear: number;
@@ -77,8 +77,6 @@ export interface IDetailContract {
 		createDate: string;
 	}[];
 	totalDayAdvantage: number;
-	totalContractor: number;
-	totalContractorCat: number;
 	amount: number;
 	accumAmount: number;
 	progress: number;
@@ -90,12 +88,8 @@ export interface IDetailContract {
 	status: number;
 	uuid: string;
 	state: number;
-	parent: {
-		code: string;
-		state: number;
-		status: number;
-		uuid: string;
-	};
+	totalContractor: number;
+	totalContractorCat: number;
 }
 
 export interface IContractDetailFund {
