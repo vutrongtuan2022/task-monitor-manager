@@ -59,7 +59,7 @@ function TableContractAppendices() {
 								render: (data: IContractByAppendices, index: number) => <>{index + 1}</>,
 							},
 							{
-								title: 'Số hợp đồng',
+								title: 'Số phụ lục hợp đồng',
 								fixedLeft: true,
 								render: (data: IContractByAppendices) => (
 									<Tippy content='Chi tiết hợp đồng'>
@@ -74,17 +74,17 @@ function TableContractAppendices() {
 								render: (data: IContractByAppendices) => <>{data?.parent?.code}</>,
 							},
 							{
-								title: 'Giá trị hợp đồng (VND)',
+								title: 'Giá trị phụ lục hợp đồng (VND)',
 								render: (data: IContractByAppendices) => <>{convertCoin(data?.amount)}</>,
 							},
 							{
-								title: 'Ngày ký hợp đồng',
+								title: 'Ngày ký phụ lục hợp đồng',
 								render: (data: IContractByAppendices) => (
 									<>{data?.startDate ? <Moment date={data?.startDate} format='DD/MM/YYYY' /> : '---'}</>
 								),
 							},
 							{
-								title: 'Ngày THHĐ',
+								title: 'Thời gian gia hạn hợp đồng (ngày)',
 								render: (data: IContractByAppendices) => <>{data?.totalDayAdvantage}</>,
 							},
 							{

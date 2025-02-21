@@ -92,7 +92,7 @@ function DetailAppendices({}: PropsDetailAppendices) {
 					<div className={styles.progress_group}>
 						<GridColumn col_3>
 							<div className={styles.item}>
-								<p>Số hợp đồng</p>
+								<p>Số phụ lục hợp đồng</p>
 								<p>{detailContract?.code || '---'}</p>
 							</div>
 							<div className={styles.item}>
@@ -170,15 +170,15 @@ function DetailAppendices({}: PropsDetailAppendices) {
 								</p>
 							</div>
 							<div className={styles.item}>
-								<p>Ngày ký hợp đồng</p>
+								<p>Ngày ký phụ lục hợp đồng</p>
 								<p>{detailContract?.startDate ? <Moment date={detailContract?.startDate} format='DD/MM/YYYY' /> : '---'}</p>
 							</div>
 							<div className={styles.item}>
-								<p>Giá trị hợp đồng</p>
+								<p>Giá trị phụ lục hợp đồng</p>
 								<p>{convertCoin(detailContract?.amount!) || '---'}</p>
 							</div>
 							<div className={styles.item}>
-								<p>Thời gian THHĐ</p>
+								<p>Thời gian gia hạn hợp đồng (ngày)</p>
 								<p>{detailContract?.totalDayAdvantage}</p>
 							</div>
 							<div className={styles.item}>

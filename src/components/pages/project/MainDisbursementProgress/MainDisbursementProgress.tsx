@@ -362,7 +362,7 @@ function MainDisbursementProgress({}: PropsMainDisbursementProgress) {
 											data?.startDate ? <Moment date={data?.startDate} format='DD/MM/YYYY' /> : '---',
 									},
 									{
-										title: 'Thời gian THHĐ',
+										title: 'Thời gian THHĐ (ngày)',
 										render: (data: IContractsForProject) => <>{data?.totalDayAdvantage}</>,
 									},
 									{

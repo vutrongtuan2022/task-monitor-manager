@@ -77,11 +77,11 @@ function TableContracfund({}: PropsTableContracFund) {
 								render: (data: IContractFund) => <>{data?.activity?.name}</>,
 							},
 							{
-								title: 'Vốn dự phòng (VND)',
+								title: 'Sử dụng vốn dự phòng (VND)',
 								render: (data: IContractFund) => <>{convertCoin(data?.reverseAmount)}</>,
 							},
 							{
-								title: 'Vốn dự án (VND)',
+								title: 'Sử dụng vốn dự án (VND)',
 								render: (data: IContractFund) => <>{convertCoin(data?.amount)}</>,
 							},
 							{
