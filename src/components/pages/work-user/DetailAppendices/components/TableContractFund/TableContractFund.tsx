@@ -61,15 +61,21 @@ function TableContractFund() {
 							{
 								title: 'Báo cáo tháng',
 								render: (data: PropsTableContractFund) => (
-									<span style={{color: '#2970FF'}}>{`Tháng ${data?.releasedMonth} - ${data?.releasedYear}`}</span>
+									<>
+										{data?.releasedMonth && data?.releasedYear
+											? `Tháng ${data?.releasedMonth} - ${data?.releasedYear}`
+											: !data?.releasedMonth && data?.releasedYear
+											? `Năm ${data?.releasedYear}`
+											: '---'}
+									</>
 								),
 							},
 							{
-								title: 'Vốn dự phòng (VND)',
+								title: 'Sử dụng vốn dự phòng (VND)',
 								render: (data: PropsTableContractFund) => <>{convertCoin(data?.reverseAmount) || '---'}</>,
 							},
 							{
-								title: 'Vốn dự án (VND)',
+								title: 'Sử dụng vốn dự án (VND)',
 								render: (data: PropsTableContractFund) => <>{convertCoin(data?.projectAmount) || '---'}</>,
 							},
 							// {

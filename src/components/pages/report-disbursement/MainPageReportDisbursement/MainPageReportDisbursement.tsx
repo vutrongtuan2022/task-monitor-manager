@@ -264,11 +264,11 @@ function MainPageReportDisbursement({}: PropsMainPageReportDisbursement) {
 								render: (data: IReportDisbursement) => <>{data?.project?.leader?.fullname}</>,
 							},
 							{
-								title: 'Vốn dự phòng (VND)',
+								title: 'Sử dụng vốn dự phòng (VND)',
 								render: (data: IReportDisbursement) => <>{convertCoin(data?.reverseAmount) || '---'}</>,
 							},
 							{
-								title: 'Vốn dự án (VND)',
+								title: 'Sử dụng vốn dự án (VND)',
 								render: (data: IReportDisbursement) => <>{convertCoin(data?.projectAmount) || '---'}</>,
 							},
 							{
