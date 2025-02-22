@@ -109,6 +109,16 @@ const activityServices = {
 			cancelToken: tokenAxios,
 		});
 	},
+	getActivityInReportForDecline: (
+		data: {
+			uuid: string;
+		},
+		tokenAxios?: any
+	) => {
+		return axiosClient.post(`/Activity/get-all-activity-in-report-for-decline`, data, {
+			cancelToken: tokenAxios,
+		});
+	},
 };
 
 export default activityServices;

@@ -40,6 +40,21 @@ const reportServices = {
 			cancelToken: tokenAxios,
 		});
 	},
+	declineWorkReport: (
+		data: {
+			reportUuid: string;
+			reason: string;
+			activityReports: {
+				activityReportUuid: string;
+				isDecline: boolean;
+			}[];
+		},
+		tokenAxios?: any
+	) => {
+		return axiosClient.post(`/Report/decline-detail-report`, data, {
+			cancelToken: tokenAxios,
+		});
+	},
 };
 
 export default reportServices;

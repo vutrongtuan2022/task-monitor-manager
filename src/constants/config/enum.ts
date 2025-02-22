@@ -8,6 +8,7 @@ export enum QUERY_KEY {
 	table_list_work_user,
 	table_list_report_work_last_month,
 	table_list_work_report,
+	table_list_work_cancel_report,
 	table_overview_report,
 	table_next_plan_report_overview,
 	table_work_report_overview,

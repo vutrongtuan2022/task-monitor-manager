@@ -20,14 +20,12 @@ import {CloseCircle, Eye, TickCircle} from 'iconsax-react';
 import Moment from 'react-moment';
 import reportServices from '~/services/reportServices';
 import {PATH} from '~/constants/config';
-import Form from '~/components/common/Form';
 import Dialog from '~/components/common/Dialog';
 import icons from '~/constants/images/icons';
-import Popup from '~/components/common/Popup';
-import TextArea from '~/components/common/Form/components/TextArea';
-import Button from '~/components/common/Button';
 import Loading from '~/components/common/Loading';
 import Tippy from '@tippyjs/react';
+import PositionContainer from '~/components/common/PositionContainer';
+import TableListWorkCancel from '../TableListWorkCancel';
 
 function MainPageReportWork({}: PropsMainPageReportWork) {
 	const router = useRouter();
@@ -36,13 +34,9 @@ function MainPageReportWork({}: PropsMainPageReportWork) {
 	const years = generateYearsArray();
 	const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
-	const {_page, _pageSize, _keyword, _year, _month, _state, _completeState} = router.query;
+	const {_page, _pageSize, _keyword, _year, _month, _state, _completeState, _uuidCancel} = router.query;
 
 	const [uuidConfirm, setUuidConfirm] = useState<string>('');
-	const [uuidCancel, setUuidCancel] = useState<string>('');
-	const [form, setForm] = useState<{note: string}>({
-		note: '',
-	});
 
 	const listReportWork = useQuery([QUERY_KEY.table_list_report_work, _page, _pageSize, _keyword, _year, _month, _state, _completeState], {
 		queryFn: () =>
@@ -84,30 +78,9 @@ function MainPageReportWork({}: PropsMainPageReportWork) {
 		},
 	});
 
-	const funcCancel = useMutation({
-		mutationFn: () => {
-			return httpRequest({
-				showMessageFailed: true,
-				showMessageSuccess: true,
-				msgSuccess: 'Từ chối báo cáo thành công!',
-				http: reportServices.approveReport({
-					uuid: uuidCancel,
-					isApprove: 0,
-					note: form.note,
-				}),
-			});
-		},
-		onSuccess(data) {
-			if (data) {
-				setUuidCancel('');
-				queryClient.invalidateQueries([QUERY_KEY.table_list_report_work]);
-			}
-		},
-	});
-
 	return (
 		<div className={styles.container}>
-			<Loading loading={funcConfirm.isLoading || funcCancel.isLoading} />
+			<Loading loading={funcConfirm.isLoading} />
 			<div className={styles.head}>
 				<div className={styles.main_search}>
 					<div className={styles.search}>
@@ -325,7 +298,15 @@ function MainPageReportWork({}: PropsMainPageReportWork) {
 													color='#EE464C'
 													icon={<CloseCircle fontSize={20} fontWeight={600} />}
 													tooltip='Từ chối báo cáo'
-													onClick={() => setUuidCancel(data?.uuid)}
+													onClick={() => {
+														router.replace({
+															pathname: router.pathname,
+															query: {
+																...router.query,
+																_uuidCancel: data?.uuid,
+															},
+														});
+													}}
 												/>
 											</>
 										)}
@@ -359,30 +340,34 @@ function MainPageReportWork({}: PropsMainPageReportWork) {
 				onSubmit={funcConfirm.mutate}
 			/>
 
-			<Form form={form} setForm={setForm}>
-				<Popup open={!!uuidCancel} onClose={() => setUuidCancel('')}>
-					<div className={styles.main_popup}>
-						<div className={styles.head_popup}>
-							<h4>Xác nhận từ chối duyệt báo cáo</h4>
-						</div>
-						<div className={styles.form_poup}>
-							<TextArea name='note' placeholder='Nhập lý do từ chối' label='Lý do từ chối' />
-							<div className={styles.group_button}>
-								<div>
-									<Button p_12_20 grey rounded_6 onClick={() => setUuidCancel('')}>
-										Hủy bỏ
-									</Button>
-								</div>
-								<div className={styles.btn}>
-									<Button disable={!form.note} p_12_20 error rounded_6 onClick={funcCancel.mutate}>
-										Xác nhận
-									</Button>
-								</div>
-							</div>
-						</div>
-					</div>
-				</Popup>
-			</Form>
+			<PositionContainer
+				open={!!_uuidCancel}
+				onClose={() => {
+					const {_uuidCancel, ...rest} = router.query;
+
+					router.replace({
+						pathname: router.pathname,
+						query: {
+							...rest,
+						},
+					});
+				}}
+			>
+				<TableListWorkCancel
+					reportUuid={_uuidCancel as string}
+					queryKeys={[QUERY_KEY.table_list_report_work]}
+					onClose={() => {
+						const {_uuidCancel, ...rest} = router.query;
+
+						router.replace({
+							pathname: router.pathname,
+							query: {
+								...rest,
+							},
+						});
+					}}
+				/>
+			</PositionContainer>
 		</div>
 	);
 }

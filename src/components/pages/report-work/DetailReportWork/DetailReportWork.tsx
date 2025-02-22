@@ -20,21 +20,16 @@ import Button from '~/components/common/Button';
 import Loading from '~/components/common/Loading';
 import Dialog from '~/components/common/Dialog';
 import icons from '~/constants/images/icons';
-import Form from '~/components/common/Form';
-import Popup from '~/components/common/Popup';
-import TextArea from '~/components/common/Form/components/TextArea';
+import PositionContainer from '~/components/common/PositionContainer';
+import TableListWorkCancel from '../TableListWorkCancel';
 
 function DetailReportWork({}: PropsDetailReportWork) {
 	const router = useRouter();
 	const queryClient = useQueryClient();
 
-	const {_uuid, _type} = router.query;
+	const {_uuid, _type, _action} = router.query;
 
 	const [openConfirm, setOpenConfirm] = useState<boolean>(false);
-	const [openCancel, setOpenCancel] = useState<boolean>(false);
-	const [form, setForm] = useState<{note: string}>({
-		note: '',
-	});
 
 	const {data: detailReportWork} = useQuery<IDetailReportWork>([QUERY_KEY.detail_report_work, _uuid], {
 		queryFn: () =>
@@ -70,30 +65,9 @@ function DetailReportWork({}: PropsDetailReportWork) {
 		},
 	});
 
-	const funcCancel = useMutation({
-		mutationFn: () => {
-			return httpRequest({
-				showMessageFailed: true,
-				showMessageSuccess: true,
-				msgSuccess: 'Từ chối báo cáo thành công!',
-				http: reportServices.approveReport({
-					uuid: _uuid as string,
-					isApprove: 0,
-					note: form.note,
-				}),
-			});
-		},
-		onSuccess(data) {
-			if (data) {
-				setOpenCancel(false);
-				queryClient.invalidateQueries([QUERY_KEY.detail_report_work]);
-			}
-		},
-	});
-
 	return (
 		<div className={styles.container}>
-			<Loading loading={funcConfirm.isLoading || funcCancel.isLoading} />
+			<Loading loading={funcConfirm.isLoading} />
 			<Breadcrumb
 				listUrls={[
 					{
@@ -112,7 +86,20 @@ function DetailReportWork({}: PropsDetailReportWork) {
 								<Button p_14_24 rounded_8 green onClick={() => setOpenConfirm(true)}>
 									Duyệt báo cáo
 								</Button>
-								<Button p_14_24 rounded_8 error onClick={() => setOpenCancel(true)}>
+								<Button
+									p_14_24
+									rounded_8
+									error
+									onClick={() => {
+										router.replace({
+											pathname: router.pathname,
+											query: {
+												...router.query,
+												_action: 'cancel',
+											},
+										});
+									}}
+								>
 									Từ chối báo cáo
 								</Button>
 							</>
@@ -295,30 +282,34 @@ function DetailReportWork({}: PropsDetailReportWork) {
 				onSubmit={funcConfirm.mutate}
 			/>
 
-			<Form form={form} setForm={setForm}>
-				<Popup open={openCancel} onClose={() => setOpenCancel(false)}>
-					<div className={styles.main_popup}>
-						<div className={styles.head_popup}>
-							<h4>Xác nhận từ chối duyệt báo cáo</h4>
-						</div>
-						<div className={styles.form_popup}>
-							<TextArea name='note' placeholder='Nhập lý do từ chối' label='Lý do từ chối' />
-							<div className={styles.group_button}>
-								<div>
-									<Button p_12_20 grey rounded_6 onClick={() => setOpenCancel(false)}>
-										Hủy bỏ
-									</Button>
-								</div>
-								<div className={styles.btn}>
-									<Button disable={!form.note} p_12_20 error rounded_6 onClick={funcCancel.mutate}>
-										Xác nhận
-									</Button>
-								</div>
-							</div>
-						</div>
-					</div>
-				</Popup>
-			</Form>
+			<PositionContainer
+				open={_action == 'cancel'}
+				onClose={() => {
+					const {_action, ...rest} = router.query;
+
+					router.replace({
+						pathname: router.pathname,
+						query: {
+							...rest,
+						},
+					});
+				}}
+			>
+				<TableListWorkCancel
+					reportUuid={_uuid as string}
+					queryKeys={[QUERY_KEY.detail_report_work]}
+					onClose={() => {
+						const {_action, ...rest} = router.query;
+
+						router.replace({
+							pathname: router.pathname,
+							query: {
+								...rest,
+							},
+						});
+					}}
+				/>
+			</PositionContainer>
 		</div>
 	);
 }
