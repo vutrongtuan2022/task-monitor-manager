@@ -210,7 +210,7 @@ function DetailAppendices({}: PropsDetailAppendices) {
 								</p>
 							</div>
 							<div className={styles.item}>
-								<p>Người tạo hợp đồng</p>
+								<p>Người tạo phụ lục hợp đồng</p>
 								<p>{detailContract?.creator?.fullname || '---'}</p>
 							</div>
 							<div className={styles.item}>
