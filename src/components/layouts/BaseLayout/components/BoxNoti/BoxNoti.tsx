@@ -129,20 +129,22 @@ function ItemNoti({noti, onClose}: {noti: INotify; onClose: () => void}) {
 		onClose();
 
 		if (noti.type == TYPE_NOTIFY.PROJECT) {
-			router.push(`${PATH.ProjectInfo}?_uuid=${noti?.data?.projectUuid}`);
+			return router.push(`${PATH.ProjectInfo}?_uuid=${noti?.data?.projectUuid}`);
 		}
 		if (noti.type == TYPE_NOTIFY.REPORT) {
-			router.push(`${PATH.ReportWork}/${noti?.data?.reportUuid}`);
+			return router.push(`${PATH.ReportWork}/${noti?.data?.reportUuid}`);
 		}
 		if (noti.type == TYPE_NOTIFY.CONTRACT) {
-			router.push(`${PATH.ContractReportDisbursement}/${noti?.data?.contractUuid}`);
+			return router.push(`${PATH.ContractReportDisbursement}/${noti?.data?.contractUuid}`);
 		}
 		if (noti.type == TYPE_NOTIFY.OVERVIEW) {
-			router.push(`${PATH.ReportOverview}/${noti?.data?.overviewUuid}`);
+			return router.push(`${PATH.ReportOverview}/${noti?.data?.overviewUuid}`);
 		}
 		if (noti.type == TYPE_NOTIFY.CONTRACT_FUND) {
-			router.push(`${PATH.ReportDisbursement}/${noti?.data?.contractFundUuid}`);
+			return router.push(`${PATH.ReportDisbursement}/${noti?.data?.contractFundUuid}`);
 		}
+
+		return null;
 	};
 
 	return (
