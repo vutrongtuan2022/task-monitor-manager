@@ -3,7 +3,7 @@ import {IWorkCancel, PropsTableListWorkCancel} from './interfaces';
 import styles from './TableListWorkCancel.module.scss';
 import {FolderOpen} from 'iconsax-react';
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
-import {QUERY_KEY, STATE_COMPLETE_REPORT, STATE_WORK_PROJECT} from '~/constants/config/enum';
+import {QUERY_KEY, STATE_COMPLETE_REPORT, STATE_WORK} from '~/constants/config/enum';
 import {httpRequest} from '~/services';
 import activityServices from '~/services/activityServices';
 import DataWrapper from '~/components/common/DataWrapper';
@@ -187,20 +187,32 @@ function TableListWorkCancel({reportUuid, queryKeys, onClose}: PropsTableListWor
 												stateActive={data?.state}
 												listState={[
 													{
-														state: STATE_WORK_PROJECT.NOT_PROCESSED,
+														state: STATE_WORK.NOT_PROCESSED,
 														text: 'Chưa xử lý',
 														textColor: '#FFFFFF',
 														backgroundColor: '#FDAD73',
 													},
 													{
-														state: STATE_WORK_PROJECT.PROCESSING,
+														state: STATE_WORK.PROCESSING,
 														text: 'Đang xử lý',
+														textColor: '#FFFFFF',
+														backgroundColor: '#5B70B3',
+													},
+													{
+														state: STATE_WORK.COMPLETED,
+														text: 'Đã hoàn thành',
 														textColor: '#FFFFFF',
 														backgroundColor: '#16C1F3',
 													},
 													{
-														state: STATE_WORK_PROJECT.COMPLETED,
-														text: 'Đã hoàn thành',
+														state: STATE_WORK.REJECTED,
+														text: 'Bị từ chối',
+														textColor: '#FFFFFF',
+														backgroundColor: '#EE464C',
+													},
+													{
+														state: STATE_WORK.APPROVED,
+														text: 'Đã được duyệt',
 														textColor: '#FFFFFF',
 														backgroundColor: '#06D7A0',
 													},
