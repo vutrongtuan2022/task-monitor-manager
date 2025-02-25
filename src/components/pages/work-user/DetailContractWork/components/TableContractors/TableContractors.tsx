@@ -14,6 +14,7 @@ import Table from '~/components/common/Table';
 import Noti from '~/components/common/DataWrapper/components/Noti';
 import {PropsTableContractor} from './interface';
 import Moment from 'react-moment';
+import {convertCoin} from '~/common/funcs/convertCoin';
 
 function TableContractors() {
 	const router = useRouter();
@@ -57,11 +58,15 @@ function TableContractors() {
 							},
 							{
 								title: 'Tên nhà thầu',
-								render: (data: PropsTableContractor) => <p>{data?.contractorName}</p>,
+								render: (data: PropsTableContractor) => <p>{data?.contractor?.name}</p>,
 							},
 							{
 								title: 'Thuộc nhóm nhà thầu',
-								render: (data: PropsTableContractor) => <p>{data?.contractorCatName}</p>,
+								render: (data: PropsTableContractor) => <p>{data?.contractorCat?.name}</p>,
+							},
+							{
+								title: 'Tiền hợp đồng (VND)',
+								render: (data: PropsTableContractor) => <p>{convertCoin(data?.amount) || '---'}</p>,
 							},
 							{
 								title: 'Thời gian tạo',
