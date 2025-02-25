@@ -97,7 +97,6 @@ export enum STATE_WORK {
 	PROCESSING,
 	COMPLETED,
 	REJECTED,
-	APPROVED,
 }
 
 export enum STATUS_WORK_PROJECT {
