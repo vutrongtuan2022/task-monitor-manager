@@ -16,6 +16,7 @@ import reportServices from '~/services/reportServices';
 import Loading from '~/components/common/Loading';
 import Form from '~/components/common/Form';
 import TextArea from '~/components/common/Form/components/TextArea';
+import {toastWarn} from '~/common/funcs/toast';
 
 function TableListWorkCancel({reportUuid, queryKeys, onClose}: PropsTableListWorkCancel) {
 	const queryClient = useQueryClient();
@@ -104,6 +105,14 @@ function TableListWorkCancel({reportUuid, queryKeys, onClose}: PropsTableListWor
 		},
 	});
 
+	const handleSubmit = () => {
+		if (listWorkChecked.length == 0) {
+			return toastWarn({msg: 'Cần phải từ chối ít nhất một công việc!'});
+		}
+
+		return funcDeclineWorkReport.mutate();
+	};
+
 	return (
 		<Form form={form} setForm={setForm}>
 			<div className={styles.container}>
@@ -117,13 +126,7 @@ function TableListWorkCancel({reportUuid, queryKeys, onClose}: PropsTableListWor
 							</Button>
 						</div>
 						<div className={styles.btn}>
-							<Button
-								p_12_20
-								primary
-								rounded_6
-								icon={<FolderOpen size={18} color='#fff' />}
-								onClick={funcDeclineWorkReport.mutate}
-							>
+							<Button p_12_20 primary rounded_6 icon={<FolderOpen size={18} color='#fff' />} onClick={handleSubmit}>
 								Xác nhận
 							</Button>
 						</div>
