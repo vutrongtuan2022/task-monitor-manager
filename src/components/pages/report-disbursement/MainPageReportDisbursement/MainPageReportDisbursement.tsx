@@ -377,7 +377,15 @@ function MainPageReportDisbursement({}: PropsMainPageReportDisbursement) {
 							<h4>Xác nhận từ chối duyệt báo cáo giải ngân</h4>
 						</div>
 						<div className={styles.form_poup}>
-							<TextArea name='feedback' placeholder='Nhập lý do từ chối' label='Lý do từ chối' />
+							<TextArea
+								name='feedback'
+								placeholder='Nhập lý do từ chối'
+								label={
+									<span>
+										Lý do từ chối <span style={{color: 'red'}}>*</span>
+									</span>
+								}
+							/>
 							<div className={styles.group_button}>
 								<div>
 									<Button p_12_20 grey rounded_6 onClick={() => setUuidCancel('')}>

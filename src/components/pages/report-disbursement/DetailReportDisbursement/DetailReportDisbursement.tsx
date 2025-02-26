@@ -268,7 +268,10 @@ function DetailReportDisbursement({}: PropsDetailReportDisbursement) {
 										fixedLeft: true,
 										render: (data: IContractFund) => (
 											<Tippy content='Chi tiết hợp đồng'>
-												<Link href={`${PATH.ContractReportDisbursement}/${data?.uuid}?_uuidContract=${_uuid}`} className={styles.link}>
+												<Link
+													href={`${PATH.ContractReportDisbursement}/${data?.uuid}?_uuidContract=${_uuid}`}
+													className={styles.link}
+												>
 													{data?.code}
 												</Link>
 											</Tippy>
@@ -382,7 +385,15 @@ function DetailReportDisbursement({}: PropsDetailReportDisbursement) {
 									<h4>Xác nhận từ chối duyệt báo cáo</h4>
 								</div>
 								<div className={styles.form_popup}>
-									<TextArea name='feedback' placeholder='Nhập lý do từ chối' label='Lý do từ chối' />
+									<TextArea
+										name='feedback'
+										placeholder='Nhập lý do từ chối'
+										label={
+											<span>
+												Lý do từ chối <span style={{color: 'red'}}>*</span>
+											</span>
+										}
+									/>
 									<div className={styles.group_button}>
 										<div>
 											<Button p_12_20 grey rounded_6 onClick={() => setOpenCancel(false)}>

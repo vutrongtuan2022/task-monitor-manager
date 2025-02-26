@@ -257,7 +257,16 @@ function TableListWorkCancel({reportUuid, queryKeys, onClose}: PropsTableListWor
 					</div>
 
 					<div className={styles.note}>
-						<TextArea name='note' placeholder='Nhập lý do từ chối' blur={true} label={<span>Lý do từ chối</span>} />
+						<TextArea
+							name='note'
+							placeholder='Nhập lý do từ chối'
+							blur={true}
+							label={
+								<span>
+									Lý do từ chối <span style={{color: 'red'}}>*</span>
+								</span>
+							}
+						/>
 					</div>
 				</div>
 			</div>
