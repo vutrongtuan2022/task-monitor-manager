@@ -86,7 +86,7 @@ function TableListWorkCancel({reportUuid, queryKeys, onClose}: PropsTableListWor
 			return httpRequest({
 				showMessageFailed: true,
 				showMessageSuccess: true,
-				msgSuccess: 'Xác nhận công việc thành công!',
+				msgSuccess: 'Từ chối báo cáo công việc thành công!',
 				http: reportServices.declineWorkReport({
 					reportUuid: reportUuid,
 					reason: form?.note,

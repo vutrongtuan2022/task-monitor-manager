@@ -230,6 +230,17 @@ function DetailContractProject({}: PropsDetailContractProject) {
 								<p>Thời gian tạo</p>
 								<p>{detailContract?.created ? <Moment date={detailContract?.created} format='DD/MM/YYYY' /> : '---'}</p>
 							</div>
+							{detailContract?.parent == null ? (
+								<div className={styles.item}>
+									<p>Ngày kết thúc phụ lục hợp đồng chính</p>
+									<p>{detailContract?.created ? <Moment date={detailContract?.endDate} format='DD/MM/YYYY' /> : '---'}</p>
+								</div>
+							) : (
+								<div className={styles.item}>
+									<p>Ngày kết thúc hợp đồng chính</p>
+									<p>{detailContract?.created ? <Moment date={detailContract?.endDate} format='DD/MM/YYYY' /> : '---'}</p>
+								</div>
+							)}
 						</GridColumn>
 					</div>
 				</div>
