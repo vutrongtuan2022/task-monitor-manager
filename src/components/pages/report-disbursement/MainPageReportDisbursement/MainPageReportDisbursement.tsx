@@ -31,6 +31,7 @@ import contractsFundServices from '~/services/contractsFundServices';
 import userServices from '~/services/userServices';
 import projectServices from '~/services/projectServices';
 import Tippy from '@tippyjs/react';
+import {toastWarn} from '~/common/funcs/toast';
 
 function MainPageReportDisbursement({}: PropsMainPageReportDisbursement) {
 	const router = useRouter();
@@ -139,6 +140,13 @@ function MainPageReportDisbursement({}: PropsMainPageReportDisbursement) {
 			}
 		},
 	});
+
+	const handleChangeCancel = () => {
+		if (!form.feedback) {
+			return toastWarn({msg: 'Vui lòng nhập lý do từ chối!'});
+		}
+		return funcCancel.mutate();
+	};
 
 	return (
 		<div className={styles.container}>
@@ -393,7 +401,7 @@ function MainPageReportDisbursement({}: PropsMainPageReportDisbursement) {
 									</Button>
 								</div>
 								<div className={styles.btn}>
-									<Button disable={!form.feedback} p_12_20 error rounded_6 onClick={funcCancel.mutate}>
+									<Button disable={!form.feedback} p_12_20 error rounded_6 onClick={handleChangeCancel}>
 										Xác nhận
 									</Button>
 								</div>
