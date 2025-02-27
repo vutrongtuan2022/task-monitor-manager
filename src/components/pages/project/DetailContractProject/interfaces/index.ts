@@ -1,7 +1,6 @@
 export interface PropsDetailContractProject {}
 
 export interface IDetailContract {
-	accumAmountThisYear: number;
 	advanceGuarantee: {
 		amount: number;
 		endDate: string;
@@ -21,45 +20,45 @@ export interface IDetailContract {
 		uuid: string;
 	};
 	activityDTO: {
-		name: number;
+		name: string;
 		state: number;
+		project: {
+			code: string;
+			name: string;
+			state: number;
+			leader: {
+				fullname: string;
+				code: string;
+				uuid: string;
+			};
+			branch: {
+				code: string;
+				name: string;
+				uuid: string;
+			};
+			uuid: string;
+		};
 		contracts: {
 			code: string;
+			state: number;
 			status: number;
+			parent: {
+				code: string;
+				state: number;
+				status: number;
+				uuid: string;
+			};
 			uuid: string;
 		};
 		uuid: string;
 	};
-	contractorDTO: {
-		qh: {
-			code: string;
-			name: string;
-			uuid: string;
-		};
-		tp: {
-			code: string;
-			name: string;
-			uuid: string;
-		};
-		xa: {
-			code: string;
-			name: string;
-			uuid: string;
-		};
-		address: string;
-		note: string;
-		status: number;
-		code: string;
-		name: string;
-		contractorCat: {
-			id: number;
-			code: string;
-			name: string;
-			isDefault: number;
-			uuid: string;
-		}[];
-		uuid: string;
-	};
+	totalContractor: number;
+	totalContractorCat: number;
+	contractorInfos: {
+		contractorName: string;
+		contractorCatName: string;
+		createDate: string;
+	}[];
 	creator: {
 		fullname: string;
 		code: string;
@@ -69,27 +68,56 @@ export interface IDetailContract {
 		code: string;
 		name: string;
 		state: number;
+		leader: {
+			fullname: string;
+			code: string;
+			uuid: string;
+		};
+		branch: {
+			code: string;
+			name: string;
+			uuid: string;
+		};
 		uuid: string;
 	};
-	contractorInfos: {
-		contractorName: string;
-		contractorCatName: string;
-		createDate: string;
+	contractor: {
+		contractorDTO: {
+			code: string;
+			name: string;
+			contractorLinkUuid: string;
+			contractorCat: {
+				id: number;
+				code: string;
+				name: string;
+				isDefault: string;
+				uuid: string;
+			}[];
+			amount: number;
+			uuid: string;
+		};
+		amount: number;
 	}[];
-	totalDayAdvantage: number;
+	totalDayss: number;
+	accumAmountThisYear: number;
 	amount: number;
 	accumAmount: number;
 	progress: number;
 	startDate: string;
+	endDateCacluator: string;
+	totalDayAdvantage: number;
 	endDate: string;
-	updated: null;
+	updated: string;
 	created: string;
 	code: string;
-	status: number;
-	uuid: string;
 	state: number;
-	totalContractor: number;
-	totalContractorCat: number;
+	status: number;
+	parent: {
+		code: string;
+		state: number;
+		status: number;
+		uuid: string;
+	};
+	uuid: string;
 }
 
 export interface IContractDetailFund {
