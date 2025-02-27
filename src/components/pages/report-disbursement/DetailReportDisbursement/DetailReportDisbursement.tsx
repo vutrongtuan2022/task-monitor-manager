@@ -27,6 +27,7 @@ import icons from '~/constants/images/icons';
 import Form from '~/components/common/Form';
 import Popup from '~/components/common/Popup';
 import TextArea from '~/components/common/Form/components/TextArea';
+import {toastWarn} from '~/common/funcs/toast';
 
 function DetailReportDisbursement({}: PropsDetailReportDisbursement) {
 	const router = useRouter();
@@ -109,6 +110,13 @@ function DetailReportDisbursement({}: PropsDetailReportDisbursement) {
 			}
 		},
 	});
+
+	const handleChangeCancel = () => {
+		if (!form.feedback) {
+			return toastWarn({msg: 'Vui lòng nhập lý do từ chối!'});
+		}
+		return funcCancel.mutate();
+	};
 
 	return (
 		<div className={styles.container}>
@@ -401,7 +409,7 @@ function DetailReportDisbursement({}: PropsDetailReportDisbursement) {
 											</Button>
 										</div>
 										<div className={styles.btn}>
-											<Button disable={!form.feedback} p_12_20 error rounded_6 onClick={funcCancel.mutate}>
+											<Button disable={!form.feedback} p_12_20 error rounded_6 onClick={handleChangeCancel}>
 												Xác nhận
 											</Button>
 										</div>

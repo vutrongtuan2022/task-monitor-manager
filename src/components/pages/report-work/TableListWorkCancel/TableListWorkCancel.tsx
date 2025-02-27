@@ -110,6 +110,10 @@ function TableListWorkCancel({reportUuid, queryKeys, onClose}: PropsTableListWor
 			return toastWarn({msg: 'Cần phải từ chối ít nhất một công việc!'});
 		}
 
+		if (!form.note) {
+			return toastWarn({msg: 'Vui lòng nhập lý do từ chối!'});
+		}
+
 		return funcDeclineWorkReport.mutate();
 	};
 
