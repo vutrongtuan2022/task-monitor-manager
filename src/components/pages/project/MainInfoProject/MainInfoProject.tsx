@@ -291,10 +291,10 @@ function MainInfoProject({}: PropsMainInfoProject) {
 												)}
 											</p>
 										</div>
-										<div className={styles.item}>
+										{/* <div className={styles.item}>
 											<p>Công tác số hóa hồ sơ</p>
 											<p>{detailProject?.digitalFile}</p>
-										</div>
+										</div> */}
 									</GridColumn>
 								</div>
 								<div className={styles.mt}>

@@ -172,15 +172,15 @@ function WorkReportOverview({}: PropsWorkReportOverview) {
 										/>
 									),
 								},
-								{
-									title: 'Số hóa',
-									render: (data: IWorkReportOverview) => (
-										<p style={{color: data?.megatype == 'Task' ? '#2970FF' : data?.megatype ? '' : ''}}>
-											<p>{data?.digitalization == 0 && 'Chưa số hóa'}</p>
-											<p>{data?.digitalization == 1 && 'Đã số hóa'}</p>
-										</p>
-									),
-								},
+								// {
+								// 	title: 'Số hóa',
+								// 	render: (data: IWorkReportOverview) => (
+								// 		<p style={{color: data?.megatype == 'Task' ? '#2970FF' : data?.megatype ? '' : ''}}>
+								// 			<p>{data?.digitalization == 0 && 'Chưa số hóa'}</p>
+								// 			<p>{data?.digitalization == 1 && 'Đã số hóa'}</p>
+								// 		</p>
+								// 	),
+								// },
 							]}
 						/>
 					</DataWrapper>

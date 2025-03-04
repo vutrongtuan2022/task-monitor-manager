@@ -231,15 +231,15 @@ function TableReportWorkLastMonth({}: PropsTableReportWorkLastMonth) {
 								</div>
 							),
 						},
-						{
-							title: 'Số hóa',
-							render: (data: IReportWorkLastMonth) => (
-								<p style={{color: data?.megatype == 'Task' ? '#2970FF' : data?.megatype ? '' : ''}}>
-									{data?.digitalizedState == 0 && 'Chưa số hóa'}
-									{data?.digitalizedState == 1 && 'Đã số hóa'}
-								</p>
-							),
-						},
+						// {
+						// 	title: 'Số hóa',
+						// 	render: (data: IReportWorkLastMonth) => (
+						// 		<p style={{color: data?.megatype == 'Task' ? '#2970FF' : data?.megatype ? '' : ''}}>
+						// 			{data?.digitalizedState == 0 && 'Chưa số hóa'}
+						// 			{data?.digitalizedState == 1 && 'Đã số hóa'}
+						// 		</p>
+						// 	),
+						// },
 					]}
 				/>
 			</DataWrapper>

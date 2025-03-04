@@ -471,15 +471,15 @@ function MainWorkReport({}: PropsMainWorkReport) {
 											/>
 										),
 									},
-									{
-										title: 'Số hóa',
-										render: (data: IActivitiProject) => (
-											<p style={{color: data?.megatype == 'Task' ? '#2970FF' : data?.megatype ? '' : ''}}>
-												{data?.digitalization == 0 && 'Chưa số hóa'}
-												{data?.digitalization == 1 && 'Đã số hóa'}
-											</p>
-										),
-									},
+									// {
+									// 	title: 'Số hóa',
+									// 	render: (data: IActivitiProject) => (
+									// 		<p style={{color: data?.megatype == 'Task' ? '#2970FF' : data?.megatype ? '' : ''}}>
+									// 			{data?.digitalization == 0 && 'Chưa số hóa'}
+									// 			{data?.digitalization == 1 && 'Đã số hóa'}
+									// 		</p>
+									// 	),
+									// },
 								]}
 							/>
 						</DataWrapper>
