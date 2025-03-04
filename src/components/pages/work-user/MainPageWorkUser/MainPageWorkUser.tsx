@@ -401,19 +401,19 @@ function MainPageWorkUser({}: PropsMainPageWorkUser) {
 									</div>
 								),
 							},
-							{
-								title: 'Số hóa',
-								render: (data: IWorkUser) => (
-									<p
-										style={{
-											color: data?.type == TYPE_WORK.TASK ? '#2970FF' : data?.type == TYPE_WORK.SUB_TASK ? '' : '',
-										}}
-									>
-										{data?.digitalizedState == 0 && 'Chưa số hóa'}
-										{data?.digitalizedState == 1 && 'Đã số hóa'}
-									</p>
-								),
-							},
+							// {
+							// 	title: 'Số hóa',
+							// 	render: (data: IWorkUser) => (
+							// 		<p
+							// 			style={{
+							// 				color: data?.type == TYPE_WORK.TASK ? '#2970FF' : data?.type == TYPE_WORK.SUB_TASK ? '' : '',
+							// 			}}
+							// 		>
+							// 			{data?.digitalizedState == 0 && 'Chưa số hóa'}
+							// 			{data?.digitalizedState == 1 && 'Đã số hóa'}
+							// 		</p>
+							// 	),
+							// },
 							{
 								title: 'Hành động',
 								fixedRight: true,

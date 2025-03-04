@@ -228,15 +228,15 @@ function TableReportWorkCurrent({}: PropsTableReportWorkCurrent) {
 								</div>
 							),
 						},
-						{
-							title: 'Số hóa',
-							render: (data: IReportWorkCurrent) => (
-								<span style={{color: data?.megatype == 'Task' ? '#2970FF' : data?.megatype ? '' : ''}}>
-									{data?.digitalizedState == 0 && 'Chưa số hóa'}
-									{data?.digitalizedState == 1 && 'Đã số hóa'}
-								</span>
-							),
-						},
+						// {
+						// 	title: 'Số hóa',
+						// 	render: (data: IReportWorkCurrent) => (
+						// 		<span style={{color: data?.megatype == 'Task' ? '#2970FF' : data?.megatype ? '' : ''}}>
+						// 			{data?.digitalizedState == 0 && 'Chưa số hóa'}
+						// 			{data?.digitalizedState == 1 && 'Đã số hóa'}
+						// 		</span>
+						// 	),
+						// },
 					]}
 				/>
 			</DataWrapper>
