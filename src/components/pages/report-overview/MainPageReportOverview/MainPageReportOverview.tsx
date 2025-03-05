@@ -128,6 +128,10 @@ function MainPageReportOverview({}: PropsMainPageReportOverview) {
 								render: (data: IReportOverview) => <>{data?.report?.reporter?.fullname}</>,
 							},
 							{
+								title: 'Lãnh đạo phụ trách',
+								render: (data: IReportOverview) => <>{data?.project?.leader?.fullname}</>,
+							},
+							{
 								title: 'Số công việc thực hiện',
 								render: (data: IReportOverview) => (
 									<>

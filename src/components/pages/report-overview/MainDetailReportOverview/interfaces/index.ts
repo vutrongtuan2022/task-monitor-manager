@@ -10,6 +10,11 @@ export interface IDetailReportOverview {
 		name: string;
 		state: number;
 		uuid: string;
+		leader: {
+			fullname: string;
+			code: string;
+			uuid: string;
+		};
 	};
 	report: {
 		project: {
@@ -17,6 +22,11 @@ export interface IDetailReportOverview {
 			name: string;
 			state: number;
 			uuid: string;
+			leader: {
+				fullname: string;
+				code: string;
+				uuid: string;
+			};
 		};
 		reporter: {
 			fullname: string;
@@ -41,6 +51,11 @@ export interface IDetailReportOverview {
 			name: string;
 			state: number;
 			uuid: string;
+			leader: {
+				fullname: string;
+				code: string;
+				uuid: string;
+			};
 		};
 		monthReport: string | null;
 		realeaseBudget: number;
