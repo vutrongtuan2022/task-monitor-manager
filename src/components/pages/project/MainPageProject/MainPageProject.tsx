@@ -197,7 +197,11 @@ function MainPageProject({}: PropsMainPageProject) {
 								),
 							},
 							{
-								title: 'Quy trình áp dụng',
+								title: (
+									<span style={{textAlign: 'center'}}>
+										Loại công trình <br /> PGD hoặc TSCN
+									</span>
+								),
 								render: (data: IProject) => <>{data?.taskCat?.name}</>,
 							},
 							{

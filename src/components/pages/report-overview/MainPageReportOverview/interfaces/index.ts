@@ -8,6 +8,11 @@ export interface IReportOverview {
 		name: string;
 		state: number;
 		uuid: string;
+		leader: {
+			fullname: string;
+			code: string;
+			uuid: string;
+		};
 	};
 	report: {
 		completeState: number;
