@@ -233,24 +233,12 @@ function MainPageProject({}: PropsMainPageProject) {
 								render: (data: IProject) => <>{convertCoin(data?.totalInvest)}</>,
 							},
 							{
-								title: (
-									<div className={styles.sort} onClick={() => handleSortChange(COLUMN_SORT_PROJECT.PROGRESS)}>
-										<p>Tiến độ dự án</p>
-										<div className={styles.icon_sort}>
-											{(sort.column != COLUMN_SORT_PROJECT.PROGRESS ||
-												(sort.column == COLUMN_SORT_PROJECT.PROGRESS && sort.type == null)) && (
-												<TiArrowUnsorted size={16} />
-											)}
-											{sort.column === COLUMN_SORT_PROJECT.PROGRESS && sort.type === SORT_TYPE.DECREASE && (
-												<TiArrowSortedDown size={16} />
-											)}
-											{sort.column === COLUMN_SORT_PROJECT.PROGRESS && sort.type === SORT_TYPE.INCREASE && (
-												<TiArrowSortedUp size={16} />
-											)}
-										</div>
-									</div>
+								title: 'Công việc thực hiện gần nhất',
+								render: (data: IProject) => (
+									<Tippy content={data?.activity?.name}>
+										<p className={styles.name}>{data?.activity?.name || '---'}</p>
+									</Tippy>
 								),
-								render: (data: IProject) => <Progress percent={data?.progress} width={80} />,
 							},
 							{
 								title: 'Trạng thái',

@@ -239,6 +239,10 @@ function MainInfoProject({}: PropsMainInfoProject) {
 										<p>Tiến độ dự án</p>
 										<Progress percent={detailProject?.progress!} width={80} />
 									</div>
+									<div className={styles.item}>
+										<p>Công việc thực hiện gần nhất</p>
+										<p className={styles.activeName}>{detailProject?.activity?.name || '---'}</p>
+									</div>
 								</GridColumn>
 								<div className={styles.mt}>
 									<GridColumn col_3>
