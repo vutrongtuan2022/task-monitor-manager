@@ -25,12 +25,14 @@ import FormExportExcel from '../FormExportExcel';
 import Button from '~/components/common/Button';
 import Image from 'next/image';
 import icons from '~/constants/images/icons';
+import FormExportExcelUser from '../FormExportExcelUser';
 
 function MainPageReportOverview({}: PropsMainPageReportOverview) {
 	const router = useRouter();
 	const years = generateYearsArray();
 	const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 	const [isExportPopupOpen, setExportPopupOpen] = useState(false);
+	const [isExportUserPopupOpen, setExportUserPopupOpen] = useState(false);
 	const {_page, _pageSize, _keyword, _year, _month, _action} = router.query;
 
 	const listOverview = useQuery([QUERY_KEY.table_overview_report, _page, _pageSize, _keyword, _year, _month], {
@@ -57,6 +59,14 @@ function MainPageReportOverview({}: PropsMainPageReportOverview) {
 
 	const handleOpenExport = () => {
 		setExportPopupOpen(true);
+	};
+
+	const handleCloseExportUser = () => {
+		setExportUserPopupOpen(false);
+	};
+
+	const handleOpenExportUser = () => {
+		setExportUserPopupOpen(true);
 	};
 
 	return (
@@ -89,11 +99,19 @@ function MainPageReportOverview({}: PropsMainPageReportOverview) {
 						/>
 					</div>
 				</div>
-				<div className={styles.btn}>
-					<Button rounded_8 w_fit p_8_16 green bold onClick={handleOpenExport}>
-						<Image src={icons.exportExcel} alt='icon down' width={20} height={20} />
-						Xuất excel
-					</Button>
+				<div className={styles.group_button}>
+					<div className={styles.btn}>
+						<Button rounded_8 w_fit p_8_16 blue bold onClick={handleOpenExportUser}>
+							<Image src={icons.exportExcel} alt='icon down' width={20} height={20} />
+							Xuất excel
+						</Button>
+					</div>
+					<div className={styles.btn}>
+						<Button rounded_8 w_fit p_8_16 green bold onClick={handleOpenExport}>
+							<Image src={icons.exportExcel} alt='icon down' width={20} height={20} />
+							Xuất báo cáo tổng hợp
+						</Button>
+					</div>
 				</div>
 			</div>
 			<WrapperScrollbar>
@@ -184,6 +202,9 @@ function MainPageReportOverview({}: PropsMainPageReportOverview) {
 			</WrapperScrollbar>
 			<Popup open={isExportPopupOpen} onClose={handleCloseExport}>
 				<FormExportExcel onClose={handleCloseExport} />
+			</Popup>
+			<Popup open={isExportUserPopupOpen} onClose={handleCloseExportUser}>
+				<FormExportExcelUser onClose={handleCloseExportUser} />
 			</Popup>
 		</div>
 	);

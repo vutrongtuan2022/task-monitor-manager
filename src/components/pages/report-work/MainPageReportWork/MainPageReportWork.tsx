@@ -26,6 +26,10 @@ import Loading from '~/components/common/Loading';
 import Tippy from '@tippyjs/react';
 import PositionContainer from '~/components/common/PositionContainer';
 import TableListWorkCancel from '../TableListWorkCancel';
+import Popup from '~/components/common/Popup';
+import FormExportExcel from '../FormExportExcel';
+import Button from '~/components/common/Button';
+import Image from 'next/image';
 
 function MainPageReportWork({}: PropsMainPageReportWork) {
 	const router = useRouter();
@@ -33,6 +37,7 @@ function MainPageReportWork({}: PropsMainPageReportWork) {
 
 	const years = generateYearsArray();
 	const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+	const [isExportPopupOpen, setExportPopupOpen] = useState(false);
 
 	const {_page, _pageSize, _keyword, _year, _month, _state, _completeState, _uuidCancel} = router.query;
 
@@ -77,6 +82,14 @@ function MainPageReportWork({}: PropsMainPageReportWork) {
 			}
 		},
 	});
+
+	const handleCloseExport = () => {
+		setExportPopupOpen(false);
+	};
+
+	const handleOpenExport = () => {
+		setExportPopupOpen(true);
+	};
 
 	return (
 		<div className={styles.container}>
@@ -154,6 +167,14 @@ function MainPageReportWork({}: PropsMainPageReportWork) {
 								},
 							]}
 						/>
+					</div>
+				</div>
+				<div className={styles.group_button}>
+					<div className={styles.btn}>
+						<Button rounded_8 w_fit p_8_16 green bold onClick={handleOpenExport}>
+							<Image src={icons.exportExcel} alt='icon down' width={20} height={20} />
+							Xuất excel
+						</Button>
 					</div>
 				</div>
 			</div>
@@ -329,6 +350,10 @@ function MainPageReportWork({}: PropsMainPageReportWork) {
 					dependencies={[_pageSize, _keyword, _year, _month, _state, _completeState]}
 				/>
 			</WrapperScrollbar>
+
+			<Popup open={isExportPopupOpen} onClose={handleCloseExport}>
+				<FormExportExcel onClose={handleCloseExport} />
+			</Popup>
 
 			<Dialog
 				type='primary'

@@ -304,52 +304,48 @@ function DetailReportDisbursement({}: PropsDetailReportDisbursement) {
 										),
 									},
 									{
-										title: 'Số nhóm nhà thầu',
+										title: 'Tên nhóm nhà thầu',
 										render: (data: IContractFund) => (
 											<>
-												{data?.contractorInfos?.length && (
-													<Tippy
-														content={
-															<ol style={{paddingLeft: '16px'}}>
-																{[...new Set(data?.contractorInfos?.map((v) => v.contractorCatName))].map(
-																	(catName, i) => (
-																		<li key={i}>{catName}</li>
-																	)
-																)}
-															</ol>
-														}
-													>
-														<span className={styles.link_contractor}>
-															{[...new Set(data?.contractorInfos?.map((v) => v.contractorCatName))]?.length ||
-																'---'}
-														</span>
-													</Tippy>
-												)}
+												{/* {data?.contractorInfos?.length && ( */}
+												<Tippy
+													content={
+														<ol style={{paddingLeft: '16px'}}>
+															{[...new Set(data?.contractorInfos?.map((v) => v.contractorCatName))].map(
+																(catName, i) => (
+																	<li key={i}>{catName}</li>
+																)
+															)}
+														</ol>
+													}
+												>
+													<p className={styles.name}>
+														{data?.contractorInfos?.map((v) => v?.contractorCatName).join(', ')}
+													</p>
+												</Tippy>
+												{/* )} */}
 											</>
 										),
 									},
 									{
-										title: 'Số nhà thầu',
+										title: 'Tên nhà thầu',
 										render: (data: IContractFund) => (
 											<>
-												{data?.contractorInfos?.length && (
-													<Tippy
-														content={
-															<ol style={{paddingLeft: '16px'}}>
-																{[...new Set(data?.contractorInfos?.map((v) => v.contractorName))].map(
-																	(catName, i) => (
-																		<li key={i}>{catName}</li>
-																	)
-																)}
-															</ol>
-														}
-													>
-														<span className={styles.link_contractor}>
-															{[...new Set(data?.contractorInfos?.map((v) => v.contractorName))]?.length ||
-																'---'}
-														</span>
-													</Tippy>
-												)}
+												<Tippy
+													content={
+														<ol style={{paddingLeft: '16px'}}>
+															{[...new Set(data?.contractorInfos?.map((v) => v.contractorName))].map(
+																(catName, i) => (
+																	<li key={i}>{catName}</li>
+																)
+															)}
+														</ol>
+													}
+												>
+													<p className={styles.name}>
+														{data?.contractorInfos?.map((v) => v?.contractorName).join(', ')}
+													</p>
+												</Tippy>
 											</>
 										),
 									},

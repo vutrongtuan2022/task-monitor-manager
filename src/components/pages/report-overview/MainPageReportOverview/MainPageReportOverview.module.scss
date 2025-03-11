@@ -27,6 +27,15 @@
 		min-width: 220px;
 	}
 }
+
+.group_button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	padding: 24px;
+}
+
 .main {
 	flex: 1;
 	overflow: auto;

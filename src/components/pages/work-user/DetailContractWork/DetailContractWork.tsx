@@ -137,50 +137,12 @@ function DetailContractWork({}: PropsDetailContractWork) {
 								<p>{detailContract?.activityDTO?.name || '---'}</p>
 							</div>
 							<div className={styles.item}>
-								<p>Số nhóm nhà thầu</p>
-								<p>
-									{detailContract?.contractorInfos?.length && (
-										<Tippy
-											content={
-												<ol style={{paddingLeft: '16px'}}>
-													{[...new Set(detailContract?.contractorInfos?.map((v) => v.contractorCatName))].map(
-														(catName, i) => (
-															<li key={i}>{catName}</li>
-														)
-													)}
-												</ol>
-											}
-										>
-											<span className={styles.link_contractor}>
-												{[...new Set(detailContract?.contractorInfos?.map((v) => v.contractorCatName))]?.length ||
-													'---'}
-											</span>
-										</Tippy>
-									)}
-								</p>
+								<p>Tên nhóm nhà thầu</p>
+								<p>{detailContract?.contractorInfos?.map((v) => v?.contractorCatName).join(', ')}</p>
 							</div>
 							<div className={styles.item}>
-								<p>Số nhà thầu</p>
-								<p>
-									{detailContract?.contractorInfos?.length && (
-										<Tippy
-											content={
-												<ol style={{paddingLeft: '16px'}}>
-													{[...new Set(detailContract?.contractorInfos?.map((v) => v.contractorName))].map(
-														(catName, i) => (
-															<li key={i}>{catName}</li>
-														)
-													)}
-												</ol>
-											}
-										>
-											<span className={styles.link_contractor}>
-												{[...new Set(detailContract?.contractorInfos?.map((v) => v.contractorName))]?.length ||
-													'---'}
-											</span>
-										</Tippy>
-									)}
-								</p>
+								<p>Tên nhà thầu</p>
+								<p> {detailContract?.contractorInfos?.map((v) => v?.contractorName).join(', ')}</p>
 							</div>
 							<div className={styles.item}>
 								<p>Ngày ký hợp đồng</p>
