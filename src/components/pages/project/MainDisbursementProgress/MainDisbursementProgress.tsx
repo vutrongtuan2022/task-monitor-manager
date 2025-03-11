@@ -340,6 +340,7 @@ function MainDisbursementProgress({}: PropsMainDisbursementProgress) {
 									},
 									{
 										title: 'Số hợp đồng',
+										fixedLeft: true,
 										render: (data: IContractsForProject) => (
 											<Tippy content='Chi tiết hợp đồng'>
 												<Link href={`${PATH.ProjectContract}/${data?.uuid}`} className={styles.link}>
@@ -444,6 +445,10 @@ function MainDisbursementProgress({}: PropsMainDisbursementProgress) {
 												<p className={styles.name}>{data?.activityName || ''}</p>
 											</Tippy>
 										),
+									},
+									{
+										title: 'Lũy kế giải ngân HĐ (VND)',
+										render: (data: IContractsForProject) => <>{convertCoin(data?.accumAmount)}</>,
 									},
 									{
 										title: 'Trạng thái',
