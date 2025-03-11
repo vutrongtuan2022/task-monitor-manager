@@ -339,11 +339,10 @@ function ItemContractorProject({
 							onChange={(e) => handleChangeValue(index, 'note', e?.target?.value)}
 						/>
 					</div>
-					{index >= 1 && (
-						<div className={styles.delete} onClick={handleDelete}>
-							<Trash size={22} color='#fff' />
-						</div>
-					)}
+
+					<div className={styles.delete} onClick={handleDelete}>
+						<Trash size={22} color='#fff' />
+					</div>
 				</div>
 			</GridColumn>
 
