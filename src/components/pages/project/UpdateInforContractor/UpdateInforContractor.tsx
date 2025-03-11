@@ -105,6 +105,11 @@ function UpdateInforContractor({}: PropsUpdateInforContractor) {
 				queryClient.invalidateQueries([QUERY_KEY.detail_contractor_project]);
 			}
 		},
+		onError(err) {
+			if (err) {
+				queryClient.invalidateQueries([QUERY_KEY.detail_contractor_project]);
+			}
+		},
 	});
 
 	const updateContractorProject = () => {

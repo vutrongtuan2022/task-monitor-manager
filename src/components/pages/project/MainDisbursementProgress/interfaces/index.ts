@@ -16,6 +16,7 @@ export interface IDetailProgressContractFund {
 export interface IContractsForProject {
 	code: string;
 	amount: number;
+	accumAmount: number;
 	startDate: string;
 	endDate: string;
 	totalDayAdvantage: number;
@@ -58,5 +59,4 @@ export interface IContractsForProject {
 		status: number;
 		uuid: string;
 	};
-	
 }
