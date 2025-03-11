@@ -300,26 +300,30 @@ function MainPageWorkUser({}: PropsMainPageWorkUser) {
 							{
 								title: 'Khó khăn vướng mắc',
 								render: (data: IWorkUser) => (
-									<>
-										{(data?.issue && (
-											<Tippy content={data?.issue}>
-												<p
-													className={styles.name}
-													style={{
-														color:
-															data?.type == TYPE_WORK.TASK
-																? '#2970FF'
-																: data?.type == TYPE_WORK.SUB_TASK
-																? ''
-																: '',
-													}}
-												>
-													{data?.issue || '---'}
-												</p>
-											</Tippy>
-										)) ||
-											'---'}
-									</>
+									<Tippy content={data?.issue || '---'}>
+										<p
+											className={styles.issue}
+											style={{
+												color:
+													data?.type == TYPE_WORK.TASK ? '#2970FF' : data?.type == TYPE_WORK.SUB_TASK ? '' : '',
+											}}
+										>
+											{data?.issue || '---'}
+										</p>
+									</Tippy>
+								),
+							},
+							{
+								title: 'Hợp đồng',
+								render: (data: IWorkUser) => (
+									<p
+										style={{
+											color: data?.type == TYPE_WORK.TASK ? '#2970FF' : data?.type == TYPE_WORK.SUB_TASK ? '' : '',
+										}}
+									>
+										{' '}
+										{data?.activity?.contracts?.code || '---'}
+									</p>
 								),
 							},
 							{
