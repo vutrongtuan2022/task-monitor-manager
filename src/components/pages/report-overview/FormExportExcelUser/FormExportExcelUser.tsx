@@ -44,8 +44,9 @@ function FormExportExcelUser({onClose}: PropsFormExportExcelUser) {
 	const exportExcel = useMutation({
 		mutationFn: () => {
 			return httpRequest({
-				http: overviewServices.exportOverviewReport({
-					projectUuid: projects?.map((v: any) => v?.uuid),
+				http: overviewServices.exportUpNoOverviewReport({
+					projectUuid: [],
+					// projects?.map((v: any) => v?.uuid),
 					year: form.year,
 					month: form.month,
 				}),

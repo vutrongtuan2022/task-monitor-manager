@@ -169,14 +169,14 @@ function MainPageReportWork({}: PropsMainPageReportWork) {
 						/>
 					</div>
 				</div>
-				{/* <div className={styles.group_button}>
+				<div className={styles.group_button}>
 					<div className={styles.btn}>
 						<Button rounded_8 w_fit p_8_16 green bold onClick={handleOpenExport}>
 							<Image src={icons.exportExcel} alt='icon down' width={20} height={20} />
 							Xuất excel
 						</Button>
 					</div>
-				</div> */}
+				</div>
 			</div>
 			<WrapperScrollbar>
 				<DataWrapper
@@ -351,9 +351,9 @@ function MainPageReportWork({}: PropsMainPageReportWork) {
 				/>
 			</WrapperScrollbar>
 
-			{/* <Popup open={isExportPopupOpen} onClose={handleCloseExport}>
+			<Popup open={isExportPopupOpen} onClose={handleCloseExport}>
 				<FormExportExcel onClose={handleCloseExport} />
-			</Popup> */}
+			</Popup>
 
 			<Dialog
 				type='primary'
