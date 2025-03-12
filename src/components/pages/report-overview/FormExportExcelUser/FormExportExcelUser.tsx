@@ -28,25 +28,24 @@ function FormExportExcelUser({onClose}: PropsFormExportExcelUser) {
 		month: today.getMonth() + 1,
 	});
 
-	// const {data: listProject} = useQuery([QUERY_KEY.dropdown_project], {
-	// 	queryFn: () =>
-	// 		httpRequest({
-	// 			http: projectServices.categoryProject({
-	// 				keyword: '',
-	// 				status: STATUS_CONFIG.ACTIVE,
-	// 			}),
-	// 		}),
-	// 	select(data) {
-	// 		return data;
-	// 	},
-	// });
+	const {data: listProject} = useQuery([QUERY_KEY.dropdown_project], {
+		queryFn: () =>
+			httpRequest({
+				http: projectServices.categoryProject({
+					keyword: '',
+					status: STATUS_CONFIG.ACTIVE,
+				}),
+			}),
+		select(data) {
+			return data;
+		},
+	});
 
 	const exportExcel = useMutation({
 		mutationFn: () => {
 			return httpRequest({
 				http: overviewServices.exportUpNoOverviewReport({
-					projectUuid: [],
-					// projects?.map((v: any) => v?.uuid),
+					projectUuid: projects?.map((v: any) => v?.uuid),
 					year: form.year,
 					month: form.month,
 				}),
@@ -66,10 +65,10 @@ function FormExportExcelUser({onClose}: PropsFormExportExcelUser) {
 	return (
 		<div className={styles.container}>
 			<Loading loading={exportExcel.isLoading} />
-			<h4 className={styles.title}>Xuất danh sách nhân viên chưa báo cáo tháng</h4>
+			<h4 className={styles.title}>Xuất danh sách nhân viên chưa báo cáo tổng hợp</h4>
 			<div className={styles.form}>
 				<div className={styles.main_form}>
-					{/* <div className={styles.mt}>
+					<div className={styles.mt}>
 						<SelectMany
 							placeholder='Tất cả công trình'
 							label={<span>Chọn công trình</span>}
@@ -87,7 +86,7 @@ function FormExportExcelUser({onClose}: PropsFormExportExcelUser) {
 								code: v?.code,
 							}))}
 						/>
-					</div> */}
+					</div>
 					<div className={styles.mt}>
 						<div className={styles.col_2}>
 							<Select
