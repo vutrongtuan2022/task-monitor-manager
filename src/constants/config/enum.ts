@@ -30,6 +30,8 @@ export enum QUERY_KEY {
 	dropdown_group_contractor,
 	dropdown_contractor,
 	dropdown_project,
+	dropdown_contractor_in_project,
+	dropdown_activity_in_project,
 
 	detail_update_contractor_project,
 	detail_project,
@@ -51,6 +53,8 @@ export enum QUERY_KEY {
 	detail_contract,
 	detail_progress_contract_fund_project,
 	detail_activity_contract,
+	detail_contract_addium,
+	detail_contract_addendum,
 
 	count_unseen_noti,
 	list_notify,

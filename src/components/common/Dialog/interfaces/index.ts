@@ -1,7 +1,7 @@
 export interface PropsDialog {
 	open: boolean;
 	title: string;
-	note?: string;
+	note?: string | React.ReactNode;
 	icon?: any;
 	onClose: () => any;
 	onSubmit: () => any;
