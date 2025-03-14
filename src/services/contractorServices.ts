@@ -30,6 +30,18 @@ const contractorServices = {
 			cancelToken: tokenAxios,
 		});
 	},
+	categoryContractorInProject: (
+		data: {
+			keyword: string;
+			status: number;
+			uuid: string;
+		},
+		tokenAxios?: any
+	) => {
+		return axiosClient.post(`/Contractor/category-contractor-in-project`, data, {
+			cancelToken: tokenAxios,
+		});
+	},
 };
 
 export default contractorServices;

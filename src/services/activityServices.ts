@@ -119,6 +119,16 @@ const activityServices = {
 			cancelToken: tokenAxios,
 		});
 	},
+	categoryActivityProject: (
+		data: {
+			uuid: string;
+		},
+		tokenAxios?: any
+	) => {
+		return axiosClient.post(`/Activity/category-activity-in-project`, data, {
+			cancelToken: tokenAxios,
+		});
+	},
 };
 
 export default activityServices;

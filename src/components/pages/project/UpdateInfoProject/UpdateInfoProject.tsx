@@ -260,6 +260,10 @@ function UpdateInfoProject({}: PropsUpdateInfoProject) {
 						path: `${PATH.UpdateInfoCapital}?_uuid=${_uuid}`,
 					},
 					{
+						title: 'Quản lý hợp đồng',
+						path: `${PATH.UpdateDisbursementProgress}?_uuid=${_uuid}`,
+					},
+					{
 						title: 'Quản lý nhà thầu',
 						path: `${PATH.UpdateInfoContractor}?_uuid=${_uuid}`,
 					},
