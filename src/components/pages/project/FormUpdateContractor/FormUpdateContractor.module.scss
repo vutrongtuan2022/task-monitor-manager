@@ -1,0 +1,91 @@
+@import '../../../../styles/variables';
+
+.container {
+	position: relative;
+	width: 540px;
+	height: 100vh;
+	background: #fff;
+
+	display: flex;
+	flex-direction: column;
+}
+
+.title {
+	color: #2f3d50;
+	font-size: 24px;
+	font-weight: 600;
+	padding: 24px;
+}
+
+.form {
+	flex: 1;
+	overflow: auto;
+	background: #f4f5f6;
+	border-radius: 16px;
+	padding: 24px;
+}
+
+.mt {
+	margin-top: 24px;
+}
+
+.group_button {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 10px;
+	padding: 24px;
+}
+
+.close {
+	cursor: pointer;
+	user-select: none;
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	transition: 0.3s;
+
+	&:active {
+		transform: scale(0.9);
+	}
+}
+
+@media (max-width: $widthTablet) {
+	.title {
+		padding: 20px;
+	}
+
+	.form {
+		padding: 20px;
+	}
+
+	.mt {
+		margin-top: 20px;
+	}
+
+	.group_button {
+		padding: 20px;
+	}
+}
+
+@media (max-width: $widthMobile) {
+	.container {
+		width: 100vw;
+	}
+
+	.title {
+		padding: 16px;
+	}
+
+	.form {
+		padding: 16px;
+	}
+
+	.mt {
+		margin-top: 16px;
+	}
+
+	.group_button {
+		padding: 16px;
+	}
+}

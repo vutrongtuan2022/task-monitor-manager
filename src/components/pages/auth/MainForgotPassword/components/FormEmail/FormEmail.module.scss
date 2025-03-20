@@ -1,0 +1,63 @@
+@import '../../../../../../styles/variables';
+
+.title {
+	color: #2f3d50;
+	font-size: 20px;
+	font-weight: 700;
+}
+
+.des {
+	color: var(--text-color-secondary-2);
+	font-size: 14px;
+	font-weight: 400;
+	margin-top: 4px;
+}
+
+.form {
+	margin-top: 24px;
+}
+
+.btn {
+	margin-top: 20px;
+}
+
+.rememberLogin {
+	margin-top: 16px;
+	color: #535763;
+	font-size: 14px;
+	font-weight: 500;
+}
+
+.text_login {
+	margin-left: 4px;
+	color: #005994;
+	transition: 0.3s;
+
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
+@media (max-width: $widthMobile) {
+	.title {
+		color: #2f3d50;
+		font-size: 16px;
+		margin-top: 12px;
+	}
+
+	.des {
+		font-size: 13px;
+	}
+
+	.form {
+		margin-top: 16px;
+	}
+
+	.btn {
+		margin-top: 12px;
+	}
+
+	.rememberLogin {
+		margin-top: 10px;
+	}
+}

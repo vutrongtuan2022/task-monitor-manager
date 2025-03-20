@@ -1,0 +1,42 @@
+.main {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	height: 100%;
+	padding-bottom: 16px;
+}
+
+.breadcrumb {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 10px;
+}
+
+.icon {
+	color: var(--light);
+	font-size: 20px;
+}
+
+.item {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.link {
+	color: var(--light);
+	font-size: 16px;
+	font-weight: 400;
+	user-select: none;
+	transition: 0.3s;
+
+	&:hover {
+		text-decoration: underline;
+	}
+
+	&.pathNow {
+		text-decoration: none;
+		opacity: 0.5;
+	}
+}

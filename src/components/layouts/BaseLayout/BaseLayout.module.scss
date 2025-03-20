@@ -1,0 +1,94 @@
+@import '../../../styles/color';
+@import '../../../styles/variables';
+
+$width-tab: 256px;
+$width-tab-hidden: 80px;
+$duration: 0.1s;
+
+.container {
+	min-height: 100vh;
+	background-image: url('../../../../public/static/images/background.png');
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+.tab {
+	position: fixed;
+	width: $width-tab;
+	height: 100%;
+	top: 0;
+	left: 0;
+	transition: width $duration ease-in-out;
+	z-index: 11;
+	background-color: var(--light);
+}
+
+.wrapper {
+	height: 100vh;
+	max-height: 100vh;
+	padding-left: $width-tab;
+	display: flex;
+	flex-direction: column;
+	padding-bottom: 32px;
+}
+
+.main {
+	flex: 1;
+	overflow: auto;
+	padding: 0 32px;
+}
+
+.hidden {
+	.tab {
+		width: $width-tab-hidden;
+	}
+
+	.wrapper {
+		padding-left: $width-tab-hidden;
+	}
+}
+
+@media (max-width: $widthTablet) {
+	.tab {
+		position: fixed;
+		max-height: 100vh;
+		left: -100%;
+		top: 0;
+		bottom: 0;
+		transition: 0.3s;
+	}
+
+	.wrapper {
+		padding-left: 0;
+		padding-bottom: 24px;
+	}
+
+	.main {
+		padding: 0 24px;
+	}
+
+	.hidden {
+		.tab {
+			position: fixed;
+			max-height: 100vh;
+			left: -100%;
+			top: 0;
+			bottom: 0;
+			transition: 0.3s;
+		}
+
+		.wrapper {
+			padding-left: 0;
+		}
+	}
+}
+
+@media (max-width: $widthMobile) {
+	.wrapper {
+		padding-bottom: 16px;
+	}
+
+	.main {
+		padding: 0 16px;
+	}
+}

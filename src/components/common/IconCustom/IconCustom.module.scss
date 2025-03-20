@@ -1,0 +1,42 @@
+.container {
+	width: fit-content;
+	height: fit-content;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	user-select: none;
+	padding: 4px;
+	transition: 0.3s;
+
+	&:hover {
+		opacity: 0.7;
+	}
+
+	i {
+		width: 24px;
+		height: 24px;
+	}
+
+	&:active {
+		transform: scale(0.9);
+	}
+	&.create {
+		color: #35c244;
+	}
+
+	&.edit {
+		color: var(--primary-btn);
+	}
+	&.delete {
+		color: var(--error);
+	}
+	&.view {
+		color: var(--orange);
+	}
+
+	&.disnable {
+		pointer-events: none;
+		opacity: 0.3;
+	}
+}
