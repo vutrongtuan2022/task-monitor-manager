@@ -161,9 +161,18 @@ function TableReportWorkLastMonth({}: PropsTableReportWorkLastMonth) {
 							),
 						},
 						{
+							title: 'Tình trạng xử lý',
+							render: (data: IReportWorkLastMonth) => (
+								<p style={{color: data?.megatype == 'Task' ? '#2970FF' : data?.megatype ? '' : ''}}>
+									{data?.unfinishReason == null ? '---' : data?.unfinishReason}
+								</p>
+							),
+						},
+						{
 							title: 'Tiến độ công việc',
 							render: (data: IReportWorkLastMonth) => <Progress percent={data?.progress} width={80} />,
 						},
+
 						{
 							title: 'Trạng thái',
 							render: (data: IReportWorkLastMonth) => (
