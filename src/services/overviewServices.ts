@@ -125,6 +125,18 @@ const overviewServices = {
 			cancelToken: tokenAxios,
 		});
 	},
+	exportUpNoFundReport: (
+		data: {
+			projectUuid: string[];
+			year: number;
+			month: number;
+		},
+		tokenAxios?: any
+	) => {
+		return axiosClient.post(`/OverviewReport/export-up-no-fund-report`, data, {
+			cancelToken: tokenAxios,
+		});
+	},
 };
 
 export default overviewServices;

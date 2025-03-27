@@ -32,6 +32,8 @@ import userServices from '~/services/userServices';
 import projectServices from '~/services/projectServices';
 import Tippy from '@tippyjs/react';
 import {toastWarn} from '~/common/funcs/toast';
+import Image from 'next/image';
+import FormExportExcelUser from '../FormExportExcelUser';
 
 function MainPageReportDisbursement({}: PropsMainPageReportDisbursement) {
 	const router = useRouter();
@@ -41,6 +43,8 @@ function MainPageReportDisbursement({}: PropsMainPageReportDisbursement) {
 	const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
 	const {_page, _pageSize, _keyword, _year, _month, _state, _reporterUuid, _project} = router.query;
+
+	const [isExportUserPopupOpen, setExportUserPopupOpen] = useState(false);
 
 	const [uuidConfirm, setUuidConfirm] = useState<string>('');
 	const [uuidCancel, setUuidCancel] = useState<string>('');
@@ -148,6 +152,14 @@ function MainPageReportDisbursement({}: PropsMainPageReportDisbursement) {
 		return funcCancel.mutate();
 	};
 
+	const handleCloseExportUser = () => {
+		setExportUserPopupOpen(false);
+	};
+
+	const handleOpenExportUser = () => {
+		setExportUserPopupOpen(true);
+	};
+
 	return (
 		<div className={styles.container}>
 			<Loading loading={funcConfirm.isLoading || funcCancel.isLoading} />
@@ -224,6 +236,12 @@ function MainPageReportDisbursement({}: PropsMainPageReportDisbursement) {
 								},
 							]}
 						/>
+					</div>
+					<div className={styles.btn}>
+						<Button rounded_8 w_fit p_8_16 green bold onClick={handleOpenExportUser}>
+							<Image src={icons.exportExcel} alt='icon down' width={20} height={20} />
+							Xuất DSNV chưa báo cáo
+						</Button>
 					</div>
 				</div>
 			</div>
@@ -410,6 +428,9 @@ function MainPageReportDisbursement({}: PropsMainPageReportDisbursement) {
 					</div>
 				</Popup>
 			</Form>
+			<Popup open={isExportUserPopupOpen} onClose={handleCloseExportUser}>
+				<FormExportExcelUser onClose={handleCloseExportUser} />
+			</Popup>
 		</div>
 	);
 }
