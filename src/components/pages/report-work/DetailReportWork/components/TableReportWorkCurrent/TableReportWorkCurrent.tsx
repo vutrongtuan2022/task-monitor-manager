@@ -158,6 +158,14 @@ function TableReportWorkCurrent({}: PropsTableReportWorkCurrent) {
 							),
 						},
 						{
+							title: 'Tình trạng xử lý',
+							render: (data: IReportWorkCurrent) => (
+								<p style={{color: data?.megatype == 'Task' ? '#2970FF' : data?.megatype ? '' : ''}}>
+									{data?.unfinishReason == null ? '---' : data?.unfinishReason}
+								</p>
+							),
+						},
+						{
 							title: 'Tiến độ công việc',
 							render: (data: IReportWorkCurrent) => <Progress percent={data?.progress} width={80} />,
 						},
