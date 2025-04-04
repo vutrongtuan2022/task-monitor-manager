@@ -58,7 +58,7 @@ interface IFromUpdateContractAddendum {
 	advanceGuaranteeAmount: number | string;
 	advanceGuaranteeEndDate: string;
 	contractParentUuid: string;
-	totalDayss: number | null;
+	totalDayss: number | string;
 }
 
 function FromUpdateContractAddendum({onClose, uuidContract, queryKeys}: PropsFromUpdateContractAddendum) {
@@ -115,7 +115,7 @@ function FromUpdateContractAddendum({onClose, uuidContract, queryKeys}: PropsFro
 									amountInContract: convertCoin(v?.amount) || 0,
 							  })),
 					startDate: data?.startDate || '',
-					totalDayss: data?.totalDayss || 0,
+					totalDayss: convertCoin(data?.totalDayss) || 0,
 					amount: convertCoin(data?.amount),
 					contractExecutionAmount: convertCoin(data?.contractExecution?.amount),
 					contractExecutionEndDate: data?.contractExecution?.endDate || '',
@@ -194,9 +194,6 @@ function FromUpdateContractAddendum({onClose, uuidContract, queryKeys}: PropsFro
 	const handleSubmit = () => {
 		if (!form?.startDate) {
 			return toastWarn({msg: 'Vui lòng chọn ngày ký phụ lục hợp đồng!'});
-		}
-		if (form?.totalDayss! < 0) {
-			return toastWarn({msg: 'Thời gian gia hạn hợp đồng (ngày) không hợp lệ!'});
 		}
 		if (form?.contractorAndCat?.length == 0) {
 			return toastWarn({msg: 'Vui lòng thêm nhà thầu!'});
