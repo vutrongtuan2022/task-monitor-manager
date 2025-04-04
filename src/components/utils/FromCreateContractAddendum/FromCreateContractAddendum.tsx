@@ -51,7 +51,7 @@ interface IFromCreateContractAddendum {
 		amountInContract: number | string;
 	}[];
 	startDate: string;
-	totalDayAdvantage: number | null;
+	totalDayAdvantage: number | string;
 	amount: number | string;
 	contractExecutionAmount: number | string;
 	contractExecutionEndDate: string;
@@ -190,9 +190,6 @@ function FromCreateContractAddendum({onClose, uuidActivity, uuidContract, queryK
 	const handleSubmit = () => {
 		if (!form?.startDate) {
 			return toastWarn({msg: 'Vui lòng chọn ngày ký phụ lục hợp đồng!'});
-		}
-		if (form?.totalDayAdvantage! < 0) {
-			return toastWarn({msg: 'Thời gian gia hạn hợp đồng (ngày) không hợp lệ!'});
 		}
 		if (form?.contractorAndCat?.length == 0) {
 			return toastWarn({msg: 'Vui lòng thêm nhà thầu!'});

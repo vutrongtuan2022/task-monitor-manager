@@ -50,7 +50,7 @@ interface IFormCancelContract {
 		amountInContract: number | string;
 	}[];
 	startDate: string;
-	totalDayAdvantage: number | null;
+	totalDayAdvantage: number | string;
 	amount: number | string;
 	contractExecutionAmount: number | string;
 	contractExecutionEndDate: string;
@@ -72,7 +72,7 @@ function FormCancelContract({onClose, nameActivity, uuidActivity, uuidContract, 
 			},
 		],
 		startDate: '',
-		totalDayAdvantage: null,
+		totalDayAdvantage: 0,
 		amount: 0,
 		contractExecutionAmount: 0,
 		contractExecutionEndDate: '',
@@ -96,7 +96,7 @@ function FormCancelContract({onClose, nameActivity, uuidActivity, uuidContract, 
 						amountInContract: price(v?.amountInContract),
 					})),
 					startDate: moment(form?.startDate).format('YYYY-MM-DD'),
-					totalDayAdvantage: form?.totalDayAdvantage!,
+					totalDayAdvantage: price(form?.totalDayAdvantage!),
 					amount: price(form?.amount),
 					contractExecutionAmount: price(form?.contractExecutionAmount),
 					contractExecutionEndDate: form?.contractExecutionEndDate
@@ -117,7 +117,7 @@ function FormCancelContract({onClose, nameActivity, uuidActivity, uuidContract, 
 					code: '',
 					contractorAndCat: [],
 					startDate: '',
-					totalDayAdvantage: null,
+					totalDayAdvantage: 0,
 					amount: 0,
 					contractExecutionAmount: 0,
 					contractExecutionEndDate: '',
@@ -142,9 +142,6 @@ function FormCancelContract({onClose, nameActivity, uuidActivity, uuidContract, 
 	const handleSubmit = () => {
 		if (!form?.startDate) {
 			return toastWarn({msg: 'Vui lòng chọn ngày ký hợp đồng!'});
-		}
-		if (form?.totalDayAdvantage! < 0) {
-			return toastWarn({msg: 'Thời gian thực hiện hợp đồng không hợp lệ!'});
 		}
 		if (form?.contractorAndCat?.length == 0) {
 			return toastWarn({msg: 'Vui lòng thêm nhà thầu!'});
@@ -224,7 +221,8 @@ function FormCancelContract({onClose, nameActivity, uuidActivity, uuidContract, 
 									</span>
 								}
 								placeholder='Nhập số ngày'
-								type='number'
+								type='text'
+								isMoney
 								name='totalDayAdvantage'
 								value={form?.totalDayAdvantage}
 								isRequired={true}

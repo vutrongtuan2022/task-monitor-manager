@@ -219,7 +219,6 @@ function UpdateInfoCapital({}: PropsUpdateInfoCapital) {
 										placeholder='Nhập tổng dự toán'
 										name='realBudget'
 										value={form?.realBudget}
-										isRequired={true}
 										blur={true}
 										isMoney={true}
 									/>
