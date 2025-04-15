@@ -8,7 +8,7 @@ export default function Page() {
 		<Fragment>
 			<Head>
 				<title>Quản lý dự án</title>
-				<meta name='description' content='Quản lý dự án vietinbank' />
+				<meta name='description' content='Quản lý dự án' />
 				<meta name='viewport' content='width=device-width, initial-scale=1' />
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
