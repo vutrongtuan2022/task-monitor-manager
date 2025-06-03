@@ -19,6 +19,7 @@ export enum QUERY_KEY {
 	table_contract_fund_for_overview,
 	table_contract_by_activity,
 	table_contract_by_appendices,
+	table_csct,
 
 	dropdown_branches,
 	dropdown_task_cat,
@@ -55,6 +56,7 @@ export enum QUERY_KEY {
 	detail_activity_contract,
 	detail_contract_addium,
 	detail_contract_addendum,
+	detail_csct,
 
 	count_unseen_noti,
 	list_notify,
@@ -181,4 +183,11 @@ export enum TYPE_NOTIFY {
 	CONTRACT,
 	OVERVIEW,
 	CONTRACT_FUND,
+}
+
+export enum STATUS_CSCT {
+	NUMBER_ISSUED = 1, // Đã cấp số
+	PENDING_APPROVAL, // Chờ phê duyệt
+	APPROVED, // Đã phê duyệt
+	REJECTED, // Bị từ chối
 }
