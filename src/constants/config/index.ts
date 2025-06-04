@@ -1,4 +1,4 @@
-import {ArchiveBook, DocumentForward, DocumentText1, ElementEqual, Moneys, Note, People} from 'iconsax-react';
+import {ArchiveBook, DocumentForward, DocumentText1, ElementEqual, EmptyWalletTick, Moneys, Note, People} from 'iconsax-react';
 import {TYPE_DATE} from './enum';
 
 export const MAXIMUM_FILE = 10; //MB
@@ -48,6 +48,8 @@ export enum PATH {
 	User = '/user',
 
 	ReportOverview = '/report-overview',
+
+	CSCT = '/csct',
 }
 
 export const Menu: {
@@ -97,6 +99,12 @@ export const Menu: {
 		path: PATH.ReportOverview,
 		pathActive: PATH.ReportOverview,
 		icon: ArchiveBook,
+	},
+	{
+		title: 'CSCT thanh toán',
+		path: PATH.CSCT,
+		pathActive: PATH.CSCT,
+		icon: EmptyWalletTick,
 	},
 ];
 
