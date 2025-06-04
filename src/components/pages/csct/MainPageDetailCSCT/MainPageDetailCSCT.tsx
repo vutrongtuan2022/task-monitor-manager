@@ -1,6 +1,6 @@
 import Breadcrumb from '~/components/common/Breadcrumb';
 import styles from './MainPageDetailCSCT.module.scss';
-import {IContractsForProject, IDetailCSCT, PropsMainPageDetailCSCT} from './interfaces';
+import {IContractsPN, IDetailCSCT, PropsMainPageDetailCSCT} from './interfaces';
 import {PATH} from '~/constants/config';
 import GridColumn from '~/components/layouts/GridColumn';
 import StateActive from '~/components/common/StateActive';
@@ -37,27 +37,18 @@ function MainPageDetailCSCT({}: PropsMainPageDetailCSCT) {
 		enabled: !!_uuid,
 	});
 
-	const {data: listContractForProject, isLoading} = useQuery(
-		[QUERY_KEY.table_contract_for_project, _uuid, _page, _pageSize, _keyword, _contractorUuid, _contractorCat],
-		{
-			queryFn: () =>
-				httpRequest({
-					http: contractsServices.listContractsForProject({
-						page: Number(_page) || 1,
-						pageSize: Number(_pageSize) || 10,
-						keyword: (_keyword as string) || '',
-						status: STATUS_CONFIG.ACTIVE,
-						projectUuid: (_uuid as string) || '',
-						contractorUuid: (_contractorUuid as string) || '',
-						contractorCat: (_contractorCat as string) || '',
-					}),
+	const {data: ListPNContract, isLoading} = useQuery([QUERY_KEY.table_pn_contract, _uuid], {
+		queryFn: () =>
+			httpRequest({
+				http: pnServices.getListPNContract({
+					uuid: (_uuid as string) || '',
 				}),
-			select(data) {
-				return data;
-			},
-			enabled: !!_uuid,
-		}
-	);
+			}),
+		select(data) {
+			return data;
+		},
+		enabled: !!_uuid,
+	});
 
 	return (
 		<div className={styles.container}>
@@ -114,51 +105,57 @@ function MainPageDetailCSCT({}: PropsMainPageDetailCSCT) {
 						<GridColumn col_3>
 							<div className={styles.item}>
 								<p>Mã dự án</p>
-								<p style={{color: '#005994'}}>123456</p>
+								<p style={{color: '#005994'}}>{detailCSCT?.project?.code || '---'}</p>
 							</div>
 							<div className={styles.item}>
 								<p>Tên dự án</p>
-								<p>Dự án cấp thành phố</p>
+								<p>{detailCSCT?.project?.name || '---'}</p>
 							</div>
 							<div className={styles.item}>
 								<p>Mã cấp số</p>
-								<p>M2W23</p>
+								<p>{detailCSCT?.code || '---'}</p>
 							</div>
 							<div className={styles.item}>
 								<p>Ngày lấy số</p>
-								<p>03/06/2025</p>
+								<p>{detailCSCT?.numberingDate ? <Moment date={detailCSCT?.numberingDate} format='DD/MM/YYYY' /> : '---'}</p>
 							</div>
 							<div className={styles.item}>
 								<p>Ngày trên thông báo cấp vốn</p>
-								<p>03/06/2025</p>
+								<p>{detailCSCT?.noticeDate ? <Moment date={detailCSCT?.noticeDate} format='DD/MM/YYYY' /> : '---'}</p>
 							</div>
 							<div className={styles.item}>
 								<p>Số lượng hợp đồng</p>
-								<p>24</p>
+								<p>{detailCSCT?.totalContracts}</p>
 							</div>
 							<div className={styles.item}>
 								<p>Lãnh đạo phụ trách</p>
-								<p>Nguyễn Đức Bình</p>
+								<p>{detailCSCT?.user?.fullname || '---'}</p>
 							</div>
 							<div className={styles.item}>
 								<p>Cán bộ phụ trách</p>
-								<p>Minh Đặng Vũ</p>
+								<p>{detailCSCT?.project?.leader?.fullname || '---'}</p>
 							</div>
 							<div className={styles.item}>
 								<p>Ngày tạo dự án</p>
-								<p>03/06/2025</p>
+								<p>
+									{detailCSCT?.project?.created ? (
+										<Moment date={detailCSCT?.project?.created} format='DD/MM/YYYY' />
+									) : (
+										'---'
+									)}
+								</p>
 							</div>
 							<div className={styles.item}>
 								<p>Tống giá trị thanh toán (VND)</p>
-								<p>{convertCoin(2000000000)}</p>
+								<p>{convertCoin(detailCSCT?.totalAmount!)}</p>
 							</div>
 							<div className={styles.item}>
 								<p>LKSCTTT theo năm (VND)</p>
-								<p>{convertCoin(5000000000)}</p>
+								<p>{convertCoin(detailCSCT?.accumAmountInYear!)}</p>
 							</div>
 							<div className={styles.item}>
 								<p>LKSCT đến hiện tại (VND)</p>
-								<p>{convertCoin(1200000000)}</p>
+								<p>{convertCoin(detailCSCT?.accumAmount!)}</p>
 							</div>
 						</GridColumn>
 					</div>
@@ -168,130 +165,62 @@ function MainPageDetailCSCT({}: PropsMainPageDetailCSCT) {
 						<h4>Danh sách hợp đồng</h4>
 					</div>
 					<div className={styles.main_table}>
-						<DataWrapper
-							loading={isLoading}
-							data={
-								// listContractForProject?.items ||
-								[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-							}
-						>
+						<DataWrapper loading={isLoading} data={ListPNContract || []}>
 							<Table
-								data={
-									// listContractForProject?.items ||
-									[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-								}
+								data={ListPNContract || []}
 								column={[
 									{
 										title: 'STT',
-										render: (data: IContractsForProject, index: number) => <>{index + 1}</>,
+										render: (data: IContractsPN, index: number) => <>{index + 1}</>,
 									},
 									{
-										title: 'Tên hợp đồng',
+										title: 'Mã hợp đồng',
 										fixedLeft: true,
-										render: (data: IContractsForProject) => (
-											// <Tippy content='Chi tiết hợp đồng'>
-											// 	<Link href={`${PATH.ProjectContract}/${data?.uuid}`} className={styles.link}>
-											// 		{data?.code || '---'}
-											// 	</Link>
-											// </Tippy>
-											<>Hợp đồng M2WABC2</>
+										render: (data: IContractsPN) => (
+											<Tippy content='Chi tiết hợp đồng'>
+												<Link href={`${PATH.ProjectContract}/${data?.uuid}`} className={styles.link}>
+													{data?.contract?.code || '---'}
+												</Link>
+											</Tippy>
 										),
 									},
 									{
 										title: 'Tên nhóm nhà thầu',
-										render: (data: IContractsForProject) => (
-											<>
-												{/* <Tippy
-												content={
-													<ol style={{paddingLeft: '16px'}}>
-														{[...new Set(data?.contractorInfos?.map((v) => v.contractorCatName))].map(
-															(catName, i) => (
-																<li key={i}>{catName}</li>
-															)
-														)}
-													</ol>
-												}
-											>
-												<p className={styles.name}>
-													{data?.contractorInfos?.map((v) => v?.contractorCatName).join(', ')}
-												</p>
-											</Tippy> */}
-												Nhà thầu số 3
-											</>
-										),
+										render: (data: IContractsPN) => <>{data?.contractor?.contractorCat?.name}</>,
 									},
 									{
 										title: 'Tên nhà thầu',
-										render: (data: IContractsForProject) => (
+										render: (data: IContractsPN) => <>{data?.contractor?.contractor?.name || '---'}</>,
+									},
+									{
+										title: 'Giá trị đề nghị thanh toán (VND)',
+										render: (data: IContractsPN) => <>{convertCoin(data?.amount)}</>,
+									},
+									{
+										title: 'Loại thanh toán',
+										render: (data: IContractsPN) => (
 											<>
-												{/* <Tippy
-												content={
-													<ol style={{paddingLeft: '16px'}}>
-														{[...new Set(data?.contractorInfos?.map((v) => v.contractorName))].map(
-															(catName, i) => (
-																<li key={i}>{catName}</li>
-															)
-														)}
-													</ol>
-												}
-											>
-												<p className={styles.name}>
-													{data?.contractorInfos?.map((v) => v?.contractorName).join(', ')}
-												</p>
-											</Tippy> */}
-												Nhà thầu thiết kế
+												{data?.type === 1 && 'Thanh toán'}
+												{data?.type === 2 && 'Tạm ứng'}
 											</>
 										),
 									},
 									{
-										title: 'Giá trị đề nghị thanh toán (VND)',
-										render: (data: IContractsForProject) => <>{convertCoin(500000000)}</>,
-									},
-									{
-										title: 'Loại thanh toán',
-										render: (data: IContractsForProject) => <>{'Tạm ứng'}</>,
-									},
-									{
 										title: 'Ghi chú',
-										render: (data: IContractsForProject) => (
+										render: (data: IContractsPN) => (
 											<>
-												{/* {(data?.note && (
-												<Tippy content={data?.note}>
-													<p className={styles.note}>{data?.note || '---'}</p>
-												</Tippy>
-											)) ||
-												'---'} */}
-												<Tippy
-													content={
-														'Hợp đồng M2WABC2Hợp đồng M2WABC2Hợp đồng M2WABC2Hợp đồng M2WABC2Hợp đồng M2WABC2Hợp đồng M2WABC2Hợp đồng M2WABC2Hợp đồng M2WABC2'
-													}
-												>
-													<p className={styles.note}>
-														Hợp đồng M2WABC2Hợp đồng M2WABC2Hợp đồng M2WABC2Hợp đồng M2WABC2Hợp đồng M2WABC2Hợp
-														đồng M2WABC2Hợp đồng M2WABC2Hợp đồng M2WABC2
-													</p>
-												</Tippy>
+												{(data?.note && (
+													<Tippy content={data?.note}>
+														<p className={styles.note}>{data?.note || '---'}</p>
+													</Tippy>
+												)) ||
+													'---'}
 											</>
 										),
 									},
 								]}
 							/>
 						</DataWrapper>
-						<Pagination
-							currentPage={
-								// Number(_page) ||
-								1
-							}
-							pageSize={
-								// Number(_pageSize) ||
-								10
-							}
-							total={
-								// listContractForProject?.pagination?.totalCount ||
-								10
-							}
-							dependencies={[_uuid, _pageSize, _keyword, _contractorUuid, _contractorCat]}
-						/>
 					</div>
 				</div>
 			</div>

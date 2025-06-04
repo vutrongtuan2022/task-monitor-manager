@@ -20,6 +20,7 @@ export enum QUERY_KEY {
 	table_contract_by_activity,
 	table_contract_by_appendices,
 	table_csct,
+	table_pn_contract,
 
 	dropdown_branches,
 	dropdown_task_cat,

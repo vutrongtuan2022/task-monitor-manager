@@ -88,15 +88,13 @@ const pnServices = {
 			cancelToken: tokenAxios,
 		});
 	},
-	approvePN: (
+	getListPNContract: (
 		data: {
 			uuid: string;
-			action: number;
-			reason: string;
 		},
 		tokenAxios?: any
 	) => {
-		return axiosClient.post(`/PN/approve-pn`, data, {
+		return axiosClient.post(`/PN/get-list-pn-contract-by-pn`, data, {
 			cancelToken: tokenAxios,
 		});
 	},

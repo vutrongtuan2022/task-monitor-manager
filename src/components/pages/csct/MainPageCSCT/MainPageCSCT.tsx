@@ -14,14 +14,8 @@ import {useRouter} from 'next/router';
 import {useQuery} from '@tanstack/react-query';
 import {QUERY_KEY, STATUS_CONFIG, STATUS_CSCT} from '~/constants/config/enum';
 import {httpRequest} from '~/services';
-import contractorServices from '~/services/contractorServices';
-import contractorcatServices from '~/services/contractorcatServices';
-import PositionContainer from '~/components/common/PositionContainer';
 import Tippy from '@tippyjs/react';
 import Search from '~/components/common/Search';
-import Button from '~/components/common/Button';
-import Image from 'next/image';
-import icons from '~/constants/images/icons';
 import projectServices from '~/services/projectServices';
 import pnServices from '~/services/pnServices';
 import Progress from '~/components/common/Progress';
@@ -108,20 +102,10 @@ function MainPageCSCT({}: PropsMainPageCSCT) {
 				<div className={styles.btn}></div>
 			</div>
 			<WrapperScrollbar>
-				<DataWrapper
-					data={
-						// listPN?.data?.items ||
-						[1, 2, 3, 4, 5, 6]
-					}
-					loading={listPN.isLoading}
-					noti={<Noti />}
-				>
+				<DataWrapper data={listPN?.data?.items || []} loading={listPN.isLoading} noti={<Noti />}>
 					<Table
 						fixedHeader={true}
-						data={
-							// listPN?.data?.items ||
-							[1, 2, 3, 4, 5, 6]
-						}
+						data={listPN?.data?.items || []}
 						column={[
 							{
 								title: 'STT',
@@ -133,7 +117,7 @@ function MainPageCSCT({}: PropsMainPageCSCT) {
 								render: (data: ICSCT, index: number) => (
 									<Tippy content='Xem chi tiết'>
 										<Link href={`${PATH.CSCT}/${data?.uuid}`} className={styles.link}>
-											{index + 1}
+											{data?.code || '---'}
 										</Link>
 									</Tippy>
 								),
@@ -141,29 +125,28 @@ function MainPageCSCT({}: PropsMainPageCSCT) {
 							{
 								title: 'Ngày lấy số',
 								render: (data: ICSCT) => (
-									<>{'2025-03-13T11:26:17'}</>
-									// <p>{data?.releasedDate ? <Moment date={'2025-03-13T11:26:17'} format='DD/MM/YYYY' /> : '---'}</p>
+									<p>{data?.numberingDate ? <Moment date={data?.numberingDate} format='DD/MM/YYYY' /> : '---'}</p>
 								),
 							},
 							{
 								title: 'Tên dự án',
-								render: (data: ICSCT) => <>{'Dự án cấp thành phố'}</>,
+								render: (data: ICSCT) => <>{data?.project?.name || '---'}</>,
 							},
 							{
 								title: 'SL hợp đồng',
-								render: (data: ICSCT) => <p>{'24'}</p>,
+								render: (data: ICSCT) => <p>{data?.totalContracts}</p>,
 							},
 							{
 								title: 'Lãnh đạo phụ trách',
-								render: (data: ICSCT) => <>{'---'}</>,
+								render: (data: ICSCT) => <>{data?.project?.leader?.fullname || '---'}</>,
 							},
 							{
 								title: 'Cán bộ chuyên quản',
-								render: (data: ICSCT) => <>{'---'}</>,
+								render: (data: ICSCT) => <>{data?.user?.fullname || '---'}</>,
 							},
 							{
 								title: 'Tiến độ giải ngân',
-								render: (data: ICSCT) => <Progress percent={50} width={80} />,
+								render: (data: ICSCT) => <Progress percent={data?.percent} width={80} />,
 							},
 							{
 								title: 'Trạng thái',

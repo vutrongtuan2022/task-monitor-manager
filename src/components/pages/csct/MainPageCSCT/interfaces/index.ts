@@ -1,28 +1,36 @@
 export interface PropsMainPageCSCT {}
 
 export interface ICSCT {
-	contractorCat: {
-		id: number;
+	totalAmount: number;
+	accumAmount: number;
+	percent: number;
+	totalContracts: number;
+	user: {
+		fullname: string;
 		code: string;
-		name: string;
 		uuid: string;
-	}[];
-	contractorCatPending: {
-		id: number;
-		code: string;
-		name: string;
-		uuid: string;
-	}[];
-	updated: string;
-	created: string;
-	status: number;
+	};
+	numberingDate: string;
+	noticeDate: string;
 	code: string;
-	name: string;
-	uuid: string;
+	project: {
+		code: string;
+		name: string;
+		created: string;
+		state: number;
+		leader: {
+			uuid: string;
+			fullname: string;
+			code: string;
+		};
+		member: [];
+		branch: {
+			code: string;
+			name: string;
+			uuid: string;
+		};
+		uuid: string;
+	};
 	state: number;
-	qh: any;
-	tp: any;
-	xa: any;
-	address: string;
-	note: string;
+	uuid: string;
 }
