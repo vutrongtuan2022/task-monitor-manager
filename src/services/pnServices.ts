@@ -7,6 +7,8 @@ const pnServices = {
 			page: number;
 			keyword: string;
 			status: number | null;
+			state: number | null;
+			projectUuid: string;
 		},
 		tokenAxios?: any
 	) => {
