@@ -26,7 +26,7 @@ import Link from 'next/link';
 
 function MainPageCSCT({}: PropsMainPageCSCT) {
 	const router = useRouter();
-	const {_page, _pageSize, _keyword} = router.query;
+	const {_page, _pageSize, _keyword, _state, _project} = router.query;
 
 	const {data: listProject} = useQuery([QUERY_KEY.dropdown_project], {
 		queryFn: () =>
@@ -41,7 +41,7 @@ function MainPageCSCT({}: PropsMainPageCSCT) {
 		},
 	});
 
-	const listPN = useQuery([QUERY_KEY.table_csct, _page, _pageSize, _keyword], {
+	const listPN = useQuery([QUERY_KEY.table_csct, _page, _pageSize, _keyword, _state, _project], {
 		queryFn: () =>
 			httpRequest({
 				http: pnServices.listPN({
@@ -49,6 +49,8 @@ function MainPageCSCT({}: PropsMainPageCSCT) {
 					page: Number(_page) || 1,
 					keyword: (_keyword as string) || '',
 					status: STATUS_CONFIG.ACTIVE,
+					state: !!_state ? Number(_state) : null,
+					projectUuid: (_project as string) || '',
 				}),
 			}),
 		select(data) {
@@ -200,19 +202,10 @@ function MainPageCSCT({}: PropsMainPageCSCT) {
 					/>
 				</DataWrapper>
 				<Pagination
-					currentPage={
-						// Number(_page) ||
-						1
-					}
-					pageSize={
-						// Number(_pageSize) ||
-						10
-					}
-					total={
-						// listPN?.data?.pagination?.totalCount ||
-						10
-					}
-					dependencies={[_pageSize, _keyword]}
+					currentPage={Number(_page) || 1}
+					pageSize={Number(_pageSize) || 10}
+					total={listPN?.data?.pagination?.totalCount || 0}
+					dependencies={[_pageSize, _keyword, _state, _project]}
 				/>
 			</WrapperScrollbar>
 		</div>
