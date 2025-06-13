@@ -178,7 +178,7 @@ function MainPageDetailCSCT({}: PropsMainPageDetailCSCT) {
 										fixedLeft: true,
 										render: (data: IContractsPN) => (
 											<Tippy content='Chi tiết hợp đồng'>
-												<Link href={`${PATH.ProjectContract}/${data?.uuid}`} className={styles.link}>
+												<Link href={`${PATH.ProjectContract}/${data?.contract?.uuid}`} className={styles.link}>
 													{data?.contract?.code || '---'}
 												</Link>
 											</Tippy>
