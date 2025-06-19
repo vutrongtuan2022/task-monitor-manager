@@ -69,7 +69,7 @@ function MainPageDetailCSCT({}: PropsMainPageDetailCSCT) {
 					<div className={styles.head}>
 						<h4>Thông tin cơ bản</h4>
 						<div className={styles.state}>
-							<p>Trạng thái giải ngân:</p>
+							<p>Trạng thái:</p>
 							<StateActive
 								stateActive={1}
 								listState={[
@@ -146,7 +146,7 @@ function MainPageDetailCSCT({}: PropsMainPageDetailCSCT) {
 								</p>
 							</div>
 							<div className={styles.item}>
-								<p>Tống giá trị thanh toán (VND)</p>
+								<p>Tổng giá trị thanh toán (VND)</p>
 								<p>{convertCoin(detailCSCT?.totalAmount!)}</p>
 							</div>
 							<div className={styles.item}>

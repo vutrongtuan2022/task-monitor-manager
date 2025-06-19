@@ -62,7 +62,7 @@ function MainPageCSCT({}: PropsMainPageCSCT) {
 			<div className={styles.head}>
 				<div className={styles.main_search}>
 					<div className={styles.search}>
-						<Search keyName='_keyword' placeholder='Tìm kiếm theo nhà thầu' />
+						<Search keyName='_keyword' placeholder='Tìm kiếm theo mã cấp số' />
 					</div>
 					<div className={styles.filter}>
 						<FilterCustom

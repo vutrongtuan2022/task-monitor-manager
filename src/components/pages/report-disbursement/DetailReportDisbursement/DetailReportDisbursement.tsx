@@ -298,56 +298,32 @@ function DetailReportDisbursement({}: PropsDetailReportDisbursement) {
 										render: (data: IContractFund) => <>{convertCoin(data?.projectAmount)}</>,
 									},
 									{
-										title: 'Ngày giải ngân',
+										title: 'Số thông báo chấp thuận thanh toán',
+										render: (data: IContractFund) => <>{data?.pnContract?.pn?.code || '---'}</>,
+									},
+									{
+										title: 'Ngày chấp thuận thanh toán',
 										render: (data: IContractFund) => (
-											<>{data?.releaseDate ? <Moment date={data?.releaseDate} format='DD/MM/YYYY' /> : '---'}</>
+											<p>
+												{data?.pnContract?.pn?.numberingDate ? (
+													<Moment date={data?.pnContract?.pn?.numberingDate} format='DD/MM/YYYY' />
+												) : (
+													'---'
+												)}
+											</p>
 										),
+									},
+									{
+										title: 'Giá trị chấp thuận thanh toán',
+										render: (data: IContractFund) => <>{convertCoin(data?.pnContract?.amount) || '---'}</>,
 									},
 									{
 										title: 'Tên nhóm nhà thầu',
-										render: (data: IContractFund) => (
-											<>
-												{/* {data?.contractorInfos?.length && ( */}
-												<Tippy
-													content={
-														<ol style={{paddingLeft: '16px'}}>
-															{[...new Set(data?.contractorInfos?.map((v) => v.contractorCatName))].map(
-																(catName, i) => (
-																	<li key={i}>{catName}</li>
-																)
-															)}
-														</ol>
-													}
-												>
-													<p className={styles.name}>
-														{data?.contractorInfos?.map((v) => v?.contractorCatName).join(', ')}
-													</p>
-												</Tippy>
-												{/* )} */}
-											</>
-										),
+										render: (data: IContractFund) => <>{data?.pnContract?.contractor?.contractorCat?.name || '---'} </>,
 									},
 									{
 										title: 'Tên nhà thầu',
-										render: (data: IContractFund) => (
-											<>
-												<Tippy
-													content={
-														<ol style={{paddingLeft: '16px'}}>
-															{[...new Set(data?.contractorInfos?.map((v) => v.contractorName))].map(
-																(catName, i) => (
-																	<li key={i}>{catName}</li>
-																)
-															)}
-														</ol>
-													}
-												>
-													<p className={styles.name}>
-														{data?.contractorInfos?.map((v) => v?.contractorName).join(', ')}
-													</p>
-												</Tippy>
-											</>
-										),
+										render: (data: IContractFund) => <>{data?.pnContract?.contractor?.contractor?.name || '---'}</>,
 									},
 									{
 										title: 'Mô tả',

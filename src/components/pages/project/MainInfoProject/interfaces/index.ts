@@ -35,6 +35,7 @@ export interface IDetailInfoProject {
 	remainReserveBudget: number;
 	accumAmount: number;
 	annualAccumAmount: number;
+	accumReserve: number;
 	annualBudget: number;
 	address: string;
 	activity: {
@@ -86,4 +87,5 @@ export interface IDetailInfoProject {
 	realEnd: string;
 	created: string;
 	uuid: string;
+	totalAmountPN: number;
 }
