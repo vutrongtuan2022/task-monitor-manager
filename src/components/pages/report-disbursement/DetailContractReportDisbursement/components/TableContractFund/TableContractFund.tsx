@@ -71,6 +71,14 @@ function TableContractFund() {
 								),
 							},
 							{
+								title: 'Tên nhóm nhà thầu',
+								render: (data: PropsTableContractFund) => <>{data?.pnContract?.contractor?.contractorCat?.name || '---'}</>,
+							},
+							{
+								title: 'Tên nhà thầu',
+								render: (data: PropsTableContractFund) => <>{data?.pnContract?.contractor?.contractor?.name || '---'}</>,
+							},
+							{
 								title: 'Sử dụng vốn dự phòng (VND)',
 								render: (data: PropsTableContractFund) => <>{convertCoin(data?.reverseAmount) || '---'}</>,
 							},
@@ -87,6 +95,26 @@ function TableContractFund() {
 								render: (data: PropsTableContractFund) => (
 									<p>{data?.releasedDate ? <Moment date={data?.releasedDate} format='DD/MM/YYYY' /> : '---'}</p>
 								),
+							},
+							{
+								title: 'Số thông báo chấp thuận thanh toán',
+								render: (data: PropsTableContractFund) => <>{data?.pnContract?.pn?.code || '---'}</>,
+							},
+							{
+								title: 'Ngày chấp nhận thanh toán',
+								render: (data: PropsTableContractFund) => (
+									<>
+										{data?.pnContract ? (
+											<Moment date={data?.pnContract?.pn?.numberingDate} format='DD/MM/YYYY' />
+										) : (
+											'---'
+										)}
+									</>
+								),
+							},
+							{
+								title: 'Giá trị chấp nhận thanh toán (VND)',
+								render: (data: PropsTableContractFund) => <>{convertCoin(data?.pnContract?.amount) || '---'}</>,
 							},
 							{
 								title: 'Thời gian tạo',
