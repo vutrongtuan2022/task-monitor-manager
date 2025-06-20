@@ -87,19 +87,19 @@ function TableContracfund({}: PropsTableContracFund) {
 							{
 								title: 'Số thông báo chấp thuận thanh toán',
 								render: (data: IContractFund) => (
-									<p>{data?.releaseDate ? <Moment date={data?.releaseDate} format='DD/MM/YYYY' /> : '---'}</p>
+									<>{data?.pnContract ? data.pnContract.pn.code : '---'}</>
 								),
 							},
 							{
 								title: 'Ngày chấp thuận thanh toán',
 								render: (data: IContractFund) => (
-									<p>{data?.releaseDate ? <Moment date={data?.releaseDate} format='DD/MM/YYYY' /> : '---'}</p>
+									<p>{data?.pnContract ? <Moment date={data?.pnContract.pn.numberingDate} format='DD/MM/YYYY' /> : '---'}</p>
 								),
 							},
 							{
 								title: 'Giá trị chấp thuận thanh toán',
 								render: (data: IContractFund) => (
-									<p>{data?.releaseDate ? <Moment date={data?.releaseDate} format='DD/MM/YYYY' /> : '---'}</p>
+									<p>{data?.pnContract ? convertCoin(data?.pnContract.amount) : '---'}</p>
 								),
 							},
 							{
