@@ -71,7 +71,7 @@ function MainPageDetailCSCT({}: PropsMainPageDetailCSCT) {
 						<div className={styles.state}>
 							<p>Trạng thái:</p>
 							<StateActive
-								stateActive={1}
+								stateActive={detailCSCT?.state!}
 								listState={[
 									{
 										state: STATUS_CSCT.NUMBER_ISSUED,
