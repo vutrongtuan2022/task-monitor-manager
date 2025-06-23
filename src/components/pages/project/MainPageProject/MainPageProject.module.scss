@@ -28,6 +28,11 @@
 	}
 }
 
+.btn {
+	display: flex;
+	gap: 12px;
+}
+
 .main {
 	flex: 1;
 	overflow: auto;
