@@ -10,6 +10,7 @@ import SelectMany from '~/components/common/SelectMany';
 import DatePicker from '~/components/common/DatePicker';
 import Button from '~/components/common/Button';
 import {IoClose} from 'react-icons/io5';
+import moment from 'moment';
 
 function FormExportExcel({onClose}: PropsFormExportExcel) {
 	const [projects, setProjects] = useState<any[]>([]);
@@ -39,9 +40,9 @@ function FormExportExcel({onClose}: PropsFormExportExcel) {
 		mutationFn: () => {
 			return httpRequest({
 				http: projectServices.exportProject({
-					projectUuid: projects?.map((v: any) => v?.uuid),
-					from: form.fromDate || null,
-					to: form.toDate || null,
+					projects: projects?.map((v: any) => v?.uuid),
+					from: form.fromDate ? moment(form.fromDate).format('YYYY-MM-DD') : null,
+					to: form.toDate ? moment(form.toDate).format('YYYY-MM-DD') : null,
 				}),
 			});
 		},
