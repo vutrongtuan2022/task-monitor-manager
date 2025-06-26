@@ -70,7 +70,7 @@ export const httpRequest = async ({
 }) => {
 	setLoading && setLoading(() => true);
 	try {
-		await delay(500);
+		// await delay(500);
 		const res: any = await http;
 
 		if (res.error.code === 0) {
