@@ -31,7 +31,7 @@ function hasDuplicateContractor(
 	const seen = new Set();
 
 	for (const item of data) {
-		const key = `${item.contractorUuid}-${item.contractorCatUuid}`;
+		const key = `${item.contractorCatUuid}-${item.contractorUuid}`;
 		if (seen.has(key)) {
 			return true;
 		}
@@ -192,13 +192,13 @@ function FromCreateContractAddendum({onClose, uuidActivity, uuidContract, queryK
 			return toastWarn({msg: 'Vui lòng chọn ngày ký phụ lục hợp đồng!'});
 		}
 		if (form?.contractorAndCat?.length == 0) {
-			return toastWarn({msg: 'Vui lòng thêm nhà thầu!'});
+			return toastWarn({msg: 'Vui lòng thêm nhóm nhà thầu!'});
 		}
 		if (form?.contractorAndCat?.some((v) => !v?.contractorCatUuid || !v?.contractorUuid)) {
 			return toastWarn({msg: 'Vui lòng chọn đầy đủ thông tin nhà thầu!'});
 		}
 		if (hasDuplicateContractor(form.contractorAndCat)) {
-			return toastWarn({msg: 'Tên nhà thầu, nhóm nhà thầu trùng nhau!'});
+			return toastWarn({msg: 'Nhóm nhà thầu, tên nhà thầu trùng nhau!'});
 		}
 
 		return funcCreateContractAdditional.mutate();
@@ -312,10 +312,10 @@ function FromCreateContractAddendum({onClose, uuidActivity, uuidContract, queryK
 					<div className={styles.main_form}>
 						<GridColumn col_3>
 							<p className={styles.label}>
-								Tên nhà thầu <span style={{color: 'red'}}>*</span>
+								Nhóm nhà thầu <span style={{color: 'red'}}>*</span>
 							</p>
 							<p className={styles.label}>
-								Nhóm nhà thầu <span style={{color: 'red'}}>*</span>
+								Tên nhà thầu <span style={{color: 'red'}}>*</span>
 							</p>
 							<p className={styles.label}>Tiền phụ lục hợp đồng</p>
 						</GridColumn>
@@ -421,13 +421,13 @@ function ItemContractorProject({
 	form: IFromCreateContractAddendum;
 	setForm: (any: any) => void;
 }) {
-	const {data: dropdownContractorInProject} = useQuery([QUERY_KEY.dropdown_contractor_in_project], {
+	const {data: listGroupContractor} = useQuery([QUERY_KEY.dropdown_group_contractor], {
 		queryFn: () =>
 			httpRequest({
-				http: contractorServices.categoryContractorInProject({
+				http: contractorcatServices.categoryContractorCat({
 					keyword: '',
 					status: STATUS_CONFIG.ACTIVE,
-					uuid: uuidActivity,
+					activityUuid: uuidActivity,
 				}),
 			}),
 		select(data) {
@@ -435,45 +435,50 @@ function ItemContractorProject({
 		},
 		enabled: !!uuidActivity,
 	});
-
-	const {data: listGroupContractor} = useQuery([QUERY_KEY.dropdown_group_contractor, data?.contractorUuid], {
+	const {data: dropdownContractorInProject} = useQuery([QUERY_KEY.dropdown_contractor_in_project, data?.contractorCatUuid], {
 		queryFn: () =>
 			httpRequest({
-				http: contractorcatServices.categoryContractorCat({
+				http: contractorServices.categoryContractor({
 					keyword: '',
 					status: STATUS_CONFIG.ACTIVE,
-					contractorUuid: data?.contractorUuid,
-					activityUuid: uuidActivity,
+					uuid: uuidActivity,
+					type: data?.contractorCatUuid,
 				}),
 			}),
 		select(data) {
 			return data;
 		},
-		enabled: !!data?.contractorUuid && !!uuidActivity,
+		enabled: !!data?.contractorCatUuid && !!uuidActivity,
 	});
 
 	const handleChangeValue = (index: number, name: string, value: any, isConvert?: boolean) => {
 		const newData = [...form.contractorAndCat];
 
-		if (isConvert) {
+		if (name === 'contractorCatUuid') {
+			newData[index] = {
+				...newData[index],
+				contractorCatUuid: value,
+				contractorUuid: '', // reset contractorUuid
+			};
+		} else if (isConvert) {
 			if (!Number(price(value))) {
 				newData[index] = {
 					...newData[index],
 					[name]: 0,
-					...(name === 'contractorUuid' ? {contractorCatUuid: ''} : {}),
+					...(name === 'contractorCatUuid' ? {contractorUuid: ''} : {}),
 				};
 			}
 
 			newData[index] = {
 				...newData[index],
 				[name]: convertCoin(Number(price(value))),
-				...(name === 'contractorUuid' ? {contractorCatUuid: ''} : {}),
+				...(name === 'contractorCatUuid' ? {contractorUuid: ''} : {}),
 			};
 		} else {
 			newData[index] = {
 				...newData[index],
 				[name]: value,
-				...(name === 'contractorUuid' ? {contractorCatUuid: ''} : {}),
+				...(name === 'contractorCatUuid' ? {contractorUuid: ''} : {}),
 			};
 		}
 
@@ -485,14 +490,15 @@ function ItemContractorProject({
 
 	return (
 		<div className={clsx(styles.contractorProject, styles.col_3)}>
-			<Select isSearch={true} readOnly={true} name='contractorUuid' value={data?.contractorUuid} placeholder='Chọn'>
-				{dropdownContractorInProject?.map((v: any) => (
+			<Select isSearch={true} readOnly={true} name='contractorCatUuid' value={data?.contractorCatUuid} placeholder='Chọn'>
+				{listGroupContractor?.map((v: any) => (
 					<Option key={v.uuid} value={v.uuid} title={v?.name} />
 				))}
 			</Select>
+
 			<div>
-				<Select isSearch={true} readOnly={true} name='contractorCatUuid' value={data?.contractorCatUuid} placeholder='Chọn'>
-					{listGroupContractor?.map((v: any) => (
+				<Select isSearch={true} readOnly={true} name='contractorUuid' value={data?.contractorUuid} placeholder='Chọn'>
+					{dropdownContractorInProject?.map((v: any) => (
 						<Option key={v.uuid} value={v.uuid} title={v?.name} />
 					))}
 				</Select>
