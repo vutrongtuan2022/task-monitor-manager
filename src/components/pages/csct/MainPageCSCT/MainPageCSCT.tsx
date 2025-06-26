@@ -147,7 +147,7 @@ function MainPageCSCT({}: PropsMainPageCSCT) {
 								render: (data: ICSCT) => <>{data?.user?.fullname || '---'}</>,
 							},
 							{
-								title: 'Tiến độ giải ngân',
+								title: 'Tỷ lệ giải ngân/Giá trị CSCTTT',
 								render: (data: ICSCT) => <Progress percent={data?.percent} width={80} />,
 							},
 							{
