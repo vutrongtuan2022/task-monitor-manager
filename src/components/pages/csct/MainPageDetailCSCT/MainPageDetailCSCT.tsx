@@ -125,13 +125,7 @@ function MainPageDetailCSCT({}: PropsMainPageDetailCSCT) {
 							</div>
 							<div className={styles.item}>
 								<p>Ngày phê duyệt CSCTTT</p>
-								<p>
-									{detailCSCT?.project?.created ? (
-										<Moment date={detailCSCT?.project?.created} format='DD/MM/YYYY' />
-									) : (
-										'---'
-									)}
-								</p>
+								<p>{detailCSCT?.approvalDate ? <Moment date={detailCSCT?.approvalDate} format='DD/MM/YYYY' /> : '---'}</p>
 							</div>
 
 							<div className={styles.item}>
