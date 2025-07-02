@@ -164,10 +164,23 @@ const projectServices = {
 		data: {
 			keyword: string;
 			status: number;
+			excludeState?: number | null;
 		},
 		tokenAxios?: any
 	) => {
 		return axiosClient.post(`/Project/category-project`, data, {
+			cancelToken: tokenAxios,
+		});
+	},
+	exportProject: (
+		data: {
+			projects: string[];
+			from: string | null;
+			to: string | null;
+		},
+		tokenAxios?: any
+	) => {
+		return axiosClient.post(`/Project/export-project`, data, {
 			cancelToken: tokenAxios,
 		});
 	},

@@ -28,6 +28,7 @@ import Form from '~/components/common/Form';
 import Popup from '~/components/common/Popup';
 import TextArea from '~/components/common/Form/components/TextArea';
 import {toastWarn} from '~/common/funcs/toast';
+import Image from 'next/image';
 
 function DetailReportDisbursement({}: PropsDetailReportDisbursement) {
 	const router = useRouter();
@@ -361,28 +362,21 @@ function DetailReportDisbursement({}: PropsDetailReportDisbursement) {
 					<Form form={form} setForm={setForm}>
 						<Popup open={openCancel} onClose={() => setOpenCancel(false)}>
 							<div className={styles.main_popup}>
-								<div className={styles.head_popup}>
-									<h4>Xác nhận từ chối duyệt báo cáo</h4>
+								<div className={styles.warning}>
+									<Image src={icons.danger} alt='icon down' width={120} height={120} />
+									<h2>Xác nhận từ chối báo cáo giải ngân</h2>
 								</div>
 								<div className={styles.form_popup}>
-									<TextArea
-										name='feedback'
-										placeholder='Nhập lý do từ chối'
-										label={
-											<span>
-												Lý do từ chối <span style={{color: 'red'}}>*</span>
-											</span>
-										}
-									/>
+									<TextArea name='feedback' placeholder='Nhập lý do từ chối' />
 									<div className={styles.group_button}>
 										<div>
 											<Button p_12_20 grey rounded_6 onClick={() => setOpenCancel(false)}>
-												Hủy bỏ
+												Không
 											</Button>
 										</div>
 										<div className={styles.btn}>
 											<Button disable={!form.feedback} p_12_20 error rounded_6 onClick={handleChangeCancel}>
-												Xác nhận
+												Có, tôi đồng ý
 											</Button>
 										</div>
 									</div>

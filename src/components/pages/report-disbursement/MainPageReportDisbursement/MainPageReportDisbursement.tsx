@@ -18,7 +18,7 @@ import StateActive from '~/components/common/StateActive';
 import Moment from 'react-moment';
 import {convertCoin} from '~/common/funcs/convertCoin';
 import IconCustom from '~/components/common/IconCustom';
-import {CloseCircle, Eye, TickCircle} from 'iconsax-react';
+import {CloseCircle, Danger, Eye, TickCircle} from 'iconsax-react';
 import {PATH} from '~/constants/config';
 import Loading from '~/components/common/Loading';
 import Dialog from '~/components/common/Dialog';
@@ -34,6 +34,7 @@ import Tippy from '@tippyjs/react';
 import {toastWarn} from '~/common/funcs/toast';
 import Image from 'next/image';
 import FormExportExcelUser from '../FormExportExcelUser';
+import {IoClose} from 'react-icons/io5';
 
 function MainPageReportDisbursement({}: PropsMainPageReportDisbursement) {
 	const router = useRouter();
@@ -399,28 +400,21 @@ function MainPageReportDisbursement({}: PropsMainPageReportDisbursement) {
 			<Form form={form} setForm={setForm}>
 				<Popup open={!!uuidCancel} onClose={() => setUuidCancel('')}>
 					<div className={styles.main_popup}>
-						<div className={styles.head_popup}>
-							<h4>Xác nhận từ chối duyệt báo cáo giải ngân</h4>
+						<div className={styles.warning}>
+							<Image src={icons.danger} alt='icon down' width={120} height={120} />
+							<h2>Xác nhận từ chối báo cáo giải ngân</h2>
 						</div>
-						<div className={styles.form_poup}>
-							<TextArea
-								name='feedback'
-								placeholder='Nhập lý do từ chối'
-								label={
-									<span>
-										Lý do từ chối <span style={{color: 'red'}}>*</span>
-									</span>
-								}
-							/>
+						<div className={styles.form_popup}>
+							<TextArea name='feedback' placeholder='Nhập lý do từ chối' />
 							<div className={styles.group_button}>
 								<div>
 									<Button p_12_20 grey rounded_6 onClick={() => setUuidCancel('')}>
-										Hủy bỏ
+										Không
 									</Button>
 								</div>
 								<div className={styles.btn}>
 									<Button disable={!form.feedback} p_12_20 error rounded_6 onClick={handleChangeCancel}>
-										Xác nhận
+										Có, tôi đồng ý
 									</Button>
 								</div>
 							</div>
