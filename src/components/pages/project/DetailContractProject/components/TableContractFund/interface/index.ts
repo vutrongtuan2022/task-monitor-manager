@@ -3,6 +3,7 @@ export interface PropsTableContractFund {
 	releasedYear: number;
 	projectAmount: number;
 	reverseAmount: number;
+	totalAmount: number;
 	amount: number;
 	releasedDate: string;
 	creator: {

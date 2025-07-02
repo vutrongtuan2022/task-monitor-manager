@@ -81,6 +81,10 @@ function TableContractFund() {
 								render: (data: PropsTableContractFund) => <>{data?.pnContract?.contractor?.contractor?.name || '---'}</>,
 							},
 							{
+								title: 'Tổng giá trị giải ngân (VND)',
+								render: (data: PropsTableContractFund) => <>{convertCoin(data?.totalAmount) || '---'}</>,
+							},
+							{
 								title: 'Sử dụng vốn dự phòng (VND)',
 								render: (data: PropsTableContractFund) => <>{convertCoin(data?.reverseAmount) || '---'}</>,
 							},
