@@ -331,6 +331,22 @@ function MainPageWorkUser({}: PropsMainPageWorkUser) {
 								render: (data: IWorkUser) => <Progress percent={data?.progress} width={80} />,
 							},
 							{
+								title: 'Tình trạng xử lý',
+								render: (data: IWorkUser) => (
+									<Tippy content={data?.unfinishReason || '---'}>
+										<p
+											className={styles.unfinishReason}
+											style={{
+												color:
+													data?.type == TYPE_WORK.TASK ? '#2970FF' : data?.type == TYPE_WORK.SUB_TASK ? '' : '',
+											}}
+										>
+											{data?.unfinishReason || '---'}
+										</p>
+									</Tippy>
+								),
+							},
+							{
 								title: 'Trạng thái',
 								render: (data: IWorkUser) => (
 									<div
