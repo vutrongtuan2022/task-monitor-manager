@@ -13,6 +13,7 @@ export interface PropsTableContractFund {
 	created: string;
 	state: number;
 	note: string;
+	uuid: string;
 	pnContract: {
 		pn: {
 			code: string;

@@ -299,7 +299,7 @@ function DetailReportDisbursement({}: PropsDetailReportDisbursement) {
 										render: (data: IContractFund) => <>{convertCoin(data?.projectAmount)}</>,
 									},
 									{
-										title: 'Số thông báo chấp thuận thanh toán',
+										title: 'Mã số chấp thuận thanh toán',
 										render: (data: IContractFund) => <>{data?.pnContract?.pn?.code || '---'}</>,
 									},
 									{
