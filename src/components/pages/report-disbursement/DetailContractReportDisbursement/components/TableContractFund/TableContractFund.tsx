@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styles from './TableContractFund.module.scss';
 import {PropsTableContractFund} from './interface';
 import {useRouter} from 'next/router';
@@ -16,8 +16,16 @@ import Moment from 'react-moment';
 import Tippy from '@tippyjs/react';
 import StateActive from '~/components/common/StateActive';
 import Pagination from '~/components/common/Pagination';
+import IconCustom from '~/components/common/IconCustom';
+import {Eye} from 'iconsax-react';
+import PositionContainer from '~/components/common/PositionContainer';
+import DetailContractFund from '../DetailContractFund';
 function TableContractFund() {
 	const router = useRouter();
+	const [uuidContractFund, setUuidContractFund] = useState<{
+		uuid: string;
+		releasedMonthYear: string;
+	} | null>(null);
 
 	const {_page, _pageSize, _uuid} = router.query;
 
@@ -169,6 +177,40 @@ function TableContractFund() {
 									/>
 								),
 							},
+							{
+								title: 'Tác vụ',
+								fixedRight: true,
+								render: (data: PropsTableContractFund) => (
+									<div style={{display: 'flex', alignItems: 'center', gap: '4px'}}>
+										<IconCustom
+											type='edit'
+											icon={<Eye fontSize={20} fontWeight={600} />}
+											tooltip='Xem chi tiết'
+											// onClick={() => {
+											// 	router.replace({
+											// 		pathname: router.pathname,
+											// 		query: {
+											// 			...router.query,
+											// 			_uuidContractFund: data?.uuid,
+											// 		},
+											// 	});
+											// }}
+											onClick={() =>
+												setUuidContractFund({
+													releasedMonthYear:
+														data?.releasedMonth && data?.releasedYear
+															? `tháng ${data.releasedMonth}/${data.releasedYear}`
+															: data?.releasedYear
+															? `năm ${data.releasedYear}`
+															: '',
+
+													uuid: data?.uuid || '',
+												})
+											}
+										/>
+									</div>
+								),
+							},
 						]}
 					/>
 				</DataWrapper>
@@ -179,6 +221,36 @@ function TableContractFund() {
 					dependencies={[_pageSize, _uuid]}
 				/>
 			</WrapperScrollbar>
+			{/* <PositionContainer
+				open={!!_uuidContractFund}
+				onClose={() => {
+					const {_uuidContractFund, ...rest} = router.query;
+
+					router.replace({
+						pathname: router.pathname,
+						query: {
+							...rest,
+						},
+					});
+				}}
+			>
+				<DetailContractFund
+					userContractFund={uuidContractFund!}
+					onClose={() => {
+						const {_uuidContractFund, ...rest} = router.query;
+
+						router.replace({
+							pathname: router.pathname,
+							query: {
+								...rest,
+							},
+						});
+					}}
+				/>
+			</PositionContainer> */}
+			<PositionContainer open={!!uuidContractFund} onClose={() => setUuidContractFund(null)}>
+				<DetailContractFund onClose={() => setUuidContractFund(null)} userContractFund={uuidContractFund!} />
+			</PositionContainer>
 		</div>
 	);
 }
