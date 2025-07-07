@@ -5,6 +5,8 @@ export interface PropsTableContractFund {
 	reverseAmount: number;
 	amount: number;
 	releasedDate: string;
+	totalAmount: number;
+	uuid: string;
 	creator: {
 		fullname: string;
 		code: string;
