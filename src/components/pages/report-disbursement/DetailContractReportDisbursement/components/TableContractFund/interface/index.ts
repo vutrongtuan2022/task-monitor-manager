@@ -11,6 +11,7 @@ export interface PropsTableContractFund {
 		uuid: string;
 	};
 	created: string;
+	totalAmount: number;
 	state: number;
 	note: string;
 	uuid: string;
