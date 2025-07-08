@@ -28,98 +28,156 @@ export interface IDetailContractFund {
 	uuid: string;
 }
 export interface IContractFund {
-	activity: {
-		name: string;
-		state: number;
-		contracts: {
-			code: string;
-			status: number;
-			uuid: string;
-		};
-		uuid: string;
-	};
-	projectAmount: number;
-	reverseAmount: number;
-	releaseDate: string;
-	contractorInfos: {
-		contractorName: string;
-		contractorCatName: string;
-		createDate: string;
-	}[];
-	contractor: {
-		code: string;
-		name: string;
-		contractorCat: {
-			id: number;
-			code: string;
-			name: string;
-			isDefault: number;
-			uuid: string;
-		};
-		uuid: string;
-	};
-	contractorGroup: {
-		id: number;
-		code: string;
-		name: string;
-		isDefault: number;
-		uuid: string;
-	};
-	note: string;
-	code: string;
-	status: number;
 	uuid: string;
-	totalContractor: number;
-	totalContractorCat: number;
-	pnContract: {
-		pn: {
-			code: string;
-			project: {
-				code: string;
-				name: string;
-				created: string;
-				state: 2;
-				leader: {
-					fullname: string;
-					code: string;
-					uuid: string;
-				};
-				member: [];
-				branch: {
+	code: string;
+	state: number;
+	status: number;
+	parent: {
+		uuid: string;
+		code: string;
+		state: number;
+		status: number;
+		parent: string;
+		contractorLinks: [
+			{
+				uuid: string;
+				contractor: {
 					uuid: string;
 					code: string;
 					name: string;
+					state: number;
+					contractorLinkUuid: string;
+					contractorCat: [
+						{
+							uuid: string;
+							id: number;
+							code: string;
+							name: string;
+							isDefault: number;
+						}
+					];
+					amount: number;
 				};
-				uuid: string;
-			};
-			state: number;
+				contractorCat: {
+					uuid: string;
+					id: number;
+					code: string;
+					name: string;
+					isDefault: number;
+				};
+				status: number;
+			}
+		];
+		startDate: string;
+		created: string;
+	};
+	contractorLinks: [
+		{
 			uuid: string;
-			numberingDate: string;
-			noticeDate: string;
-		};
-		contractor: {
 			contractor: {
+				uuid: string;
 				code: string;
 				name: string;
-				uuid: string;
 				state: number;
+				contractorLinkUuid: string;
+				contractorCat: [
+					{
+						uuid: string;
+						id: number;
+						code: string;
+						name: string;
+						isDefault: number;
+					}
+				];
 				amount: number;
 			};
 			contractorCat: {
 				uuid: string;
+				id: number;
 				code: string;
 				name: string;
 				isDefault: number;
-				id: number;
 			};
 			status: number;
-			uuid: string;
-		};
-		amount: number;
-		accumAmount: number;
-		type: number;
-		note: string;
+		}
+	];
+	startDate: string;
+	created: string;
+	activity: {
 		uuid: string;
-		status: number;
+		name: string;
+		state: number;
+		project: {
+			uuid: string;
+			code: string;
+			name: string;
+			created: string;
+			state: number;
+			leader: {
+				uuid: string;
+				fullname: string;
+				code: string;
+			};
+			member: [
+				{
+					uuid: string;
+					fullname: string;
+					code: string;
+				}
+			];
+			branch: {
+				uuid: string;
+				code: string;
+				name: string;
+			};
+		};
+		contracts: {
+			uuid: string;
+			code: string;
+			state: number;
+			status: number;
+			parent: string;
+			contractorLinks: [
+				{
+					uuid: string;
+					contractor: {
+						uuid: string;
+						code: string;
+						name: string;
+						state: number;
+						contractorLinkUuid: string;
+						contractorCat: [
+							{
+								uuid: string;
+								id: number;
+								code: string;
+								name: string;
+								isDefault: number;
+							}
+						];
+						amount: number;
+					};
+					contractorCat: {
+						uuid: string;
+						id: number;
+						code: string;
+						name: string;
+						isDefault: number;
+					};
+					status: number;
+				}
+			];
+			startDate: string;
+			created: string;
+		};
+		task: {
+			uuid: string;
+			name: string;
+			parent: string;
+		};
 	};
+	projectAmount: number;
+	reverseAmount: number;
+	totalAmount: number;
+	note: string;
 }

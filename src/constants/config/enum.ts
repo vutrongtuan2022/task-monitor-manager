@@ -22,6 +22,8 @@ export enum QUERY_KEY {
 	table_contract_by_appendices,
 	table_csct,
 	table_pn_contract,
+	table_contract_fund_for_overview_contractor,
+	table_contractfund_detail_paged_contract_contract_fund,
 
 	dropdown_branches,
 	dropdown_task_cat,

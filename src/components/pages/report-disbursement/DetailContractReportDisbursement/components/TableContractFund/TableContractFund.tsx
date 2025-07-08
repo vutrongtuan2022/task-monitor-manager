@@ -79,12 +79,8 @@ function TableContractFund() {
 								),
 							},
 							{
-								title: 'Tên nhóm nhà thầu',
-								render: (data: PropsTableContractFund) => <>{data?.pnContract?.contractor?.contractorCat?.name || '---'}</>,
-							},
-							{
-								title: 'Tên nhà thầu',
-								render: (data: PropsTableContractFund) => <>{data?.pnContract?.contractor?.contractor?.name || '---'}</>,
+								title: 'Tổng giá trị giải ngân (VND)',
+								render: (data: PropsTableContractFund) => <>{convertCoin(data?.totalAmount) || '---'}</>,
 							},
 							{
 								title: 'Sử dụng vốn dự phòng (VND)',
@@ -98,49 +94,11 @@ function TableContractFund() {
 							// 	title: 'Người tạo',
 							// 	render: (data: PropsTableContractFund) => <>{data?.creator?.fullname}</>,
 							// },
-							{
-								title: 'Ngày giải ngân',
-								render: (data: PropsTableContractFund) => (
-									<p>{data?.releasedDate ? <Moment date={data?.releasedDate} format='DD/MM/YYYY' /> : '---'}</p>
-								),
-							},
-							{
-								title: 'Số thông báo chấp thuận thanh toán',
-								render: (data: PropsTableContractFund) => <>{data?.pnContract?.pn?.code || '---'}</>,
-							},
-							{
-								title: 'Ngày chấp nhận thanh toán',
-								render: (data: PropsTableContractFund) => (
-									<>
-										{data?.pnContract ? (
-											<Moment date={data?.pnContract?.pn?.numberingDate} format='DD/MM/YYYY' />
-										) : (
-											'---'
-										)}
-									</>
-								),
-							},
-							{
-								title: 'Giá trị chấp nhận thanh toán (VND)',
-								render: (data: PropsTableContractFund) => <>{convertCoin(data?.pnContract?.amount) || '---'}</>,
-							},
+
 							{
 								title: 'Thời gian tạo',
 								render: (data: PropsTableContractFund) => (
 									<p>{data?.created ? <Moment date={data?.created} format='DD/MM/YYYY' /> : '---'}</p>
-								),
-							},
-							{
-								title: 'Mô tả',
-								render: (data: PropsTableContractFund) => (
-									<>
-										{(data?.note && (
-											<Tippy content={data?.note}>
-												<p className={styles.name}>{data?.note || '---'}</p>
-											</Tippy>
-										)) ||
-											'---'}
-									</>
 								),
 							},
 							{
