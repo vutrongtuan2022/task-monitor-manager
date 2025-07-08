@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styles from './TableContracfund.module.scss';
 import {IContractFund, PropsTableContracFund} from './interface';
 import clsx from 'clsx';
@@ -10,19 +10,26 @@ import {httpRequest} from '~/services';
 import Noti from '~/components/common/DataWrapper/components/Noti';
 import Table from '~/components/common/Table';
 import {convertCoin} from '~/common/funcs/convertCoin';
-import Moment from 'react-moment';
+import {Eye} from 'iconsax-react';
+import IconCustom from '~/components/common/IconCustom';
 import Pagination from '~/components/common/Pagination';
 import {useRouter} from 'next/router';
 import overviewServices from '~/services/overviewServices';
 import Tippy from '@tippyjs/react';
 import Link from 'next/link';
 import {PATH} from '~/constants/config';
+import PositionContainer from '~/components/common/PositionContainer';
+import DetailContractFund from '../DetailContractFund';
 
 function TableContracfund({}: PropsTableContracFund) {
 	const router = useRouter();
 
 	const {_uuid, _page, _pageSize} = router.query;
-
+	const [uuidContractFund, setUuidContractFund] = useState<{
+		contractUuid: string;
+		overviewReportUuid: string;
+		code: string;
+	} | null>(null);
 	const {data: listContractFundForOverView, isLoading} = useQuery([QUERY_KEY.table_contract_fund_for_overview, _uuid, _page, _pageSize], {
 		queryFn: () =>
 			httpRequest({
@@ -59,15 +66,16 @@ function TableContracfund({}: PropsTableContracFund) {
 								render: (data: IContractFund, index: number) => <>{index + 1}</>,
 							},
 							{
+								title: 'STT',
+								render: (data: IContractFund, index: number) => <>{index + 1}</>,
+							},
+							{
 								title: 'Số hợp đồng',
 								fixedLeft: true,
 								render: (data: IContractFund) => (
 									<Tippy content='Chi tiết hợp đồng'>
-										<Link
-											href={`${PATH.ContractReportDisbursement}/${data?.activity?.contracts?.uuid}`}
-											className={styles.link}
-										>
-											{data?.activity?.contracts?.code}
+										<Link href={`${PATH.ContractReportDisbursement}/${data?.uuid}`} className={styles.link}>
+											{data?.code}
 										</Link>
 									</Tippy>
 								),
@@ -82,45 +90,7 @@ function TableContracfund({}: PropsTableContracFund) {
 							},
 							{
 								title: 'Sử dụng vốn dự án (VND)',
-								render: (data: IContractFund) => <>{convertCoin(data?.amount)}</>,
-							},
-							{
-								title: 'Số thông báo chấp thuận thanh toán',
-								render: (data: IContractFund) => (
-									<>{data?.pnContract ? data.pnContract.pn.code : '---'}</>
-								),
-							},
-							{
-								title: 'Ngày chấp thuận thanh toán',
-								render: (data: IContractFund) => (
-									<p>{data?.pnContract ? <Moment date={data?.pnContract.pn.numberingDate} format='DD/MM/YYYY' /> : '---'}</p>
-								),
-							},
-							{
-								title: 'Giá trị chấp thuận thanh toán',
-								render: (data: IContractFund) => (
-									<p>{data?.pnContract ? convertCoin(data?.pnContract.amount) : '---'}</p>
-								),
-							},
-							{
-								title: 'Ngày giải ngân',
-								render: (data: IContractFund) => (
-									<>{data?.releaseDate ? <Moment date={data?.releaseDate} format='DD/MM/YYYY' /> : '---'}</>
-								),
-							},
-							{
-								title: 'Ngày gửi báo cáo',
-								render: (data: IContractFund) => (
-									<>{data?.sendDate ? <Moment date={data?.sendDate} format='DD/MM/YYYY' /> : '---'}</>
-								),
-							},
-							{
-								title: 'Tên nhóm nhà thầu',
-								render: (data: IContractFund) => <>{data?.pnContract?.contractor?.contractorCat?.name || '---'}</>,
-							},
-							{
-								title: 'Tên nhà thầu',
-								render: (data: IContractFund) => <>{data?.pnContract?.contractor?.contractor?.name || '---'}</>,
+								render: (data: IContractFund) => <>{convertCoin(data?.projectAmount)}</>,
 							},
 							{
 								title: 'Mô tả',
@@ -135,6 +105,27 @@ function TableContracfund({}: PropsTableContracFund) {
 									</>
 								),
 							},
+							{
+								title: 'Tác vụ',
+								fixedRight: true,
+								render: (data: IContractFund) => (
+									<div style={{display: 'flex', alignItems: 'center', gap: '4px'}}>
+										<IconCustom
+											type='edit'
+											icon={<Eye fontSize={20} fontWeight={600} />}
+											tooltip='Xem chi tiết'
+											
+											onClick={() =>
+												setUuidContractFund({
+													contractUuid: data?.uuid || '',
+													overviewReportUuid: (_uuid as string) || '',
+													code: data?.code || '',
+												})
+											}
+										/>
+									</div>
+								),
+							},
 						]}
 					/>
 				</DataWrapper>
@@ -145,6 +136,10 @@ function TableContracfund({}: PropsTableContracFund) {
 					dependencies={[_uuid, _pageSize]}
 				/>
 			</WrapperScrollbar>
+			<PositionContainer open={!!uuidContractFund} onClose={() => setUuidContractFund(null)}>
+				<DetailContractFund onClose={() => setUuidContractFund(null)} userContractFund={uuidContractFund!} />
+			</PositionContainer>
+			
 		</div>
 	);
 }

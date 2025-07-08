@@ -383,7 +383,7 @@ function MainPageReportDisbursement({}: PropsMainPageReportDisbursement) {
 					currentPage={Number(_page) || 1}
 					pageSize={Number(_pageSize) || 10}
 					total={listReportDisbursement?.data?.pagination?.totalCount}
-					dependencies={[_pageSize, _keyword, _year, _month, _state, _reporterUuid, _project]}
+					dependencies={[_pageSize, _keyword]}
 				/>
 			</WrapperScrollbar>
 

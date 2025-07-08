@@ -137,6 +137,22 @@ const overviewServices = {
 			cancelToken: tokenAxios,
 		});
 	},
+
+	listDetailContractFundReportOverview: (
+		data: {
+			pageSize: number;
+			page: number;
+			overviewReportUuid: string;
+			contractUuid: string;
+			month?: number | null;
+			year?: number | null;
+		},
+		tokenAxios?: any
+	) => {
+		return axiosClient.post(`/OverviewReport/get-page-list-detail-contract-contract-fund-overview-report`, data, {
+			cancelToken: tokenAxios,
+		});
+	},
 };
 
 export default overviewServices;

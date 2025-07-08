@@ -29,7 +29,10 @@ import Popup from '~/components/common/Popup';
 import TextArea from '~/components/common/Form/components/TextArea';
 import {toastWarn} from '~/common/funcs/toast';
 import Image from 'next/image';
-
+import IconCustom from '~/components/common/IconCustom';
+import {Eye} from 'iconsax-react';
+import PositionContainer from '~/components/common/PositionContainer';
+import DetailContractFund from '../DetailContractFund';
 function DetailReportDisbursement({}: PropsDetailReportDisbursement) {
 	const router = useRouter();
 	const queryClient = useQueryClient();
@@ -40,6 +43,11 @@ function DetailReportDisbursement({}: PropsDetailReportDisbursement) {
 	const [form, setForm] = useState<{feedback: string}>({
 		feedback: '',
 	});
+	const [uuidContractFund, setUuidContractFund] = useState<{
+		contractUuid: string;
+		contractFundUuid: string;
+		code: string;
+	} | null>(null);
 	const {data: detailContractFund} = useQuery<IDetailContractFund>([QUERY_KEY.detail_report_disbursement, _uuid], {
 		queryFn: () =>
 			httpRequest({
@@ -291,40 +299,16 @@ function DetailReportDisbursement({}: PropsDetailReportDisbursement) {
 										render: (data: IContractFund) => <>{data?.activity?.name}</>,
 									},
 									{
+										title: 'Tổng giá trị giải ngân (VND)',
+										render: (data: IContractFund) => <>{convertCoin(data?.totalAmount)}</>,
+									},
+									{
 										title: 'Sử dụng vốn dự phòng (VND)',
 										render: (data: IContractFund) => <>{convertCoin(data?.reverseAmount)}</>,
 									},
 									{
 										title: 'Sử dụng vốn dự án (VND)',
 										render: (data: IContractFund) => <>{convertCoin(data?.projectAmount)}</>,
-									},
-									{
-										title: 'Mã số chấp thuận thanh toán',
-										render: (data: IContractFund) => <>{data?.pnContract?.pn?.code || '---'}</>,
-									},
-									{
-										title: 'Ngày chấp thuận thanh toán',
-										render: (data: IContractFund) => (
-											<p>
-												{data?.pnContract?.pn?.numberingDate ? (
-													<Moment date={data?.pnContract?.pn?.numberingDate} format='DD/MM/YYYY' />
-												) : (
-													'---'
-												)}
-											</p>
-										),
-									},
-									{
-										title: 'Giá trị chấp thuận thanh toán',
-										render: (data: IContractFund) => <>{convertCoin(data?.pnContract?.amount) || '---'}</>,
-									},
-									{
-										title: 'Tên nhóm nhà thầu',
-										render: (data: IContractFund) => <>{data?.pnContract?.contractor?.contractorCat?.name || '---'} </>,
-									},
-									{
-										title: 'Tên nhà thầu',
-										render: (data: IContractFund) => <>{data?.pnContract?.contractor?.contractor?.name || '---'}</>,
 									},
 									{
 										title: 'Mô tả',
@@ -339,6 +323,35 @@ function DetailReportDisbursement({}: PropsDetailReportDisbursement) {
 											</>
 										),
 									},
+									{
+										title: 'Tác vụ',
+										fixedRight: true,
+										render: (data: IContractFund) => (
+											<div style={{display: 'flex', alignItems: 'center', gap: '4px'}}>
+												<IconCustom
+													type='edit'
+													icon={<Eye fontSize={20} fontWeight={600} />}
+													tooltip='Xem chi tiết'
+													// onClick={() => {
+													// 	router.replace({
+													// 		pathname: router.pathname,
+													// 		query: {
+													// 			...router.query,
+													// 			_uuidContractFund: data?.uuid,
+													// 		},
+													// 	});
+													// }}
+													onClick={() =>
+														setUuidContractFund({
+															contractFundUuid: _uuid as string,
+															contractUuid: data?.uuid || '',
+															code: data?.code || '',
+														})
+													}
+												/>
+											</div>
+										),
+									},
 								]}
 							/>
 						</DataWrapper>
@@ -349,6 +362,9 @@ function DetailReportDisbursement({}: PropsDetailReportDisbursement) {
 							dependencies={[_pageSize, _uuid]}
 						/>
 					</WrapperScrollbar>
+					<PositionContainer open={!!uuidContractFund} onClose={() => setUuidContractFund(null)}>
+						<DetailContractFund onClose={() => setUuidContractFund(null)} userContractFund={uuidContractFund!} />
+					</PositionContainer>
 					<Dialog
 						type='primary'
 						open={openConfirm}
