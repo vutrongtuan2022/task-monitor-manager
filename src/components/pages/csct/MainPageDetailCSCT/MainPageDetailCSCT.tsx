@@ -152,6 +152,12 @@ function MainPageDetailCSCT({}: PropsMainPageDetailCSCT) {
 								<p>LKSCT đến hiện tại (VND)</p>
 								<p>{convertCoin(detailCSCT?.accumAmount!)}</p>
 							</div>
+							{detailCSCT?.state === STATUS_CSCT.REJECTED && (
+								<div className={styles.item}>
+									<p>Lý do từ chối</p>
+									<p>{detailCSCT?.rejectReason || '---'}</p>
+								</div>
+							)}
 						</GridColumn>
 					</div>
 				</div>
