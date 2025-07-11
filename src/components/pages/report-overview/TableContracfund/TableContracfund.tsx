@@ -66,10 +66,6 @@ function TableContracfund({}: PropsTableContracFund) {
 								render: (data: IContractFund, index: number) => <>{index + 1}</>,
 							},
 							{
-								title: 'STT',
-								render: (data: IContractFund, index: number) => <>{index + 1}</>,
-							},
-							{
 								title: 'Số hợp đồng',
 								fixedLeft: true,
 								render: (data: IContractFund) => (
