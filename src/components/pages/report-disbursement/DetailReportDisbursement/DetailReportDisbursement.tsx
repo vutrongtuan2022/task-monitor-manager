@@ -64,7 +64,7 @@ function DetailReportDisbursement({}: PropsDetailReportDisbursement) {
 	const {data: listContractFund} = useQuery([QUERY_KEY.table_contract_report_disbursement, _page, _pageSize, _uuid], {
 		queryFn: () =>
 			httpRequest({
-				http: contractsFundServices.detailContractFundFundPaged({
+				http: contractsFundServices.ContractFundDetailPaged({
 					page: Number(_page) || 1,
 					pageSize: Number(_pageSize) || 10,
 					keyword: '',
