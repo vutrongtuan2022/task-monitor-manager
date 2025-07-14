@@ -32,6 +32,7 @@ const contractsFundServices = {
 			keyword: string | null;
 			status: number;
 			uuid: string;
+			contractUuid?: string | null;
 		},
 		tokenAxios?: any
 	) => {

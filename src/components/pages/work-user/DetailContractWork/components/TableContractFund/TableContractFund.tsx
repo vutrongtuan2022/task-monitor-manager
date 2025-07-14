@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styles from './TableContractFund.module.scss';
 import {PropsTableContractFund} from './interface';
 import {useRouter} from 'next/router';
@@ -13,12 +13,19 @@ import Noti from '~/components/common/DataWrapper/components/Noti';
 import Table from '~/components/common/Table';
 import {convertCoin} from '~/common/funcs/convertCoin';
 import Moment from 'react-moment';
-import Tippy from '@tippyjs/react';
+import IconCustom from '~/components/common/IconCustom';
+import {Eye} from 'iconsax-react';
+import PositionContainer from '~/components/common/PositionContainer';
+import DetailContractFund from '../DetailContractFund';
 import StateActive from '~/components/common/StateActive';
 import Pagination from '~/components/common/Pagination';
 function TableContractFund() {
 	const router = useRouter();
-
+	const [uuidContractFund, setUuidContractFund] = useState<{
+		uuid: string;
+		releasedMonthYear: string;
+		contractUuid?: string;
+	} | null>(null);
 	const {_page, _pageSize, _uuid} = router.query;
 
 	const {data: listContractFund} = useQuery([QUERY_KEY.table_contract_fund_detail, _page, _pageSize, _uuid], {
@@ -71,6 +78,10 @@ function TableContractFund() {
 								),
 							},
 							{
+								title: 'Tổng giá trị giải ngân (VND)',
+								render: (data: PropsTableContractFund) => <>{convertCoin(data?.totalAmount) || '---'}</>,
+							},
+							{
 								title: 'Sử dụng vốn dự phòng (VND)',
 								render: (data: PropsTableContractFund) => <>{convertCoin(data?.reverseAmount) || '---'}</>,
 							},
@@ -82,29 +93,11 @@ function TableContractFund() {
 							// 	title: 'Người tạo',
 							// 	render: (data: PropsTableContractFund) => <>{data?.creator?.fullname}</>,
 							// },
-							{
-								title: 'Ngày giải ngân',
-								render: (data: PropsTableContractFund) => (
-									<p>{data?.releasedDate ? <Moment date={data?.releasedDate} format='DD/MM/YYYY' /> : '---'}</p>
-								),
-							},
+
 							{
 								title: 'Thời gian tạo',
 								render: (data: PropsTableContractFund) => (
 									<p>{data?.created ? <Moment date={data?.created} format='DD/MM/YYYY' /> : '---'}</p>
-								),
-							},
-							{
-								title: 'Mô tả',
-								render: (data: PropsTableContractFund) => (
-									<>
-										{(data?.note && (
-											<Tippy content={data?.note}>
-												<p className={styles.name}>{data?.note || '---'}</p>
-											</Tippy>
-										)) ||
-											'---'}
-									</>
 								),
 							},
 							{
@@ -141,6 +134,41 @@ function TableContractFund() {
 									/>
 								),
 							},
+							{
+								title: 'Tác vụ',
+								fixedRight: true,
+								render: (data: PropsTableContractFund) => (
+									<div style={{display: 'flex', alignItems: 'center', gap: '4px'}}>
+										<IconCustom
+											type='edit'
+											icon={<Eye fontSize={20} fontWeight={600} />}
+											tooltip='Xem chi tiết'
+											// onClick={() => {
+											// 	router.replace({
+											// 		pathname: router.pathname,
+											// 		query: {
+											// 			...router.query,
+											// 			_uuidContractFund: data?.uuid,
+											// 		},
+											// 	});
+											// }}
+											onClick={() =>
+												setUuidContractFund({
+													releasedMonthYear:
+														data?.releasedMonth && data?.releasedYear
+															? `tháng ${data.releasedMonth}/${data.releasedYear}`
+															: data?.releasedYear
+															? `năm ${data.releasedYear}`
+															: '',
+
+													uuid: data?.uuid || '',
+													contractUuid: _uuid as string,
+												})
+											}
+										/>
+									</div>
+								),
+							},
 						]}
 					/>
 				</DataWrapper>
@@ -151,6 +179,9 @@ function TableContractFund() {
 					dependencies={[_pageSize, _uuid]}
 				/>
 			</WrapperScrollbar>
+			<PositionContainer open={!!uuidContractFund} onClose={() => setUuidContractFund(null)}>
+				<DetailContractFund onClose={() => setUuidContractFund(null)} userContractFund={uuidContractFund!} />
+			</PositionContainer>
 		</div>
 	);
 }

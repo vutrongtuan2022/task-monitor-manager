@@ -1,10 +1,9 @@
 export interface PropsTableContractFund {
 	releasedMonth: number;
 	releasedYear: number;
+	totalAmount: number;
 	projectAmount: number;
 	reverseAmount: number;
-	amount: number;
-	releasedDate: string;
 	creator: {
 		fullname: string;
 		code: string;
@@ -12,5 +11,5 @@ export interface PropsTableContractFund {
 	};
 	created: string;
 	state: number;
-	note: string;
+	uuid: string;
 }

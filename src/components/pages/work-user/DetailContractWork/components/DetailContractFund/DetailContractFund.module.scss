@@ -1,0 +1,38 @@
+.container {
+    display: flex;
+    background-color: #fff;
+    width: 1600px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+.head_main {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: solid 1px #eaedf2;
+    padding: 16px 24px;
+}
+
+.main {
+    flex: 1;
+    overflow: auto;
+    padding: 20px 0px;
+}
+
+.head {
+    border-left: 4px solid #005994;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    & > h4 {
+        color: #202939;
+        font-size: 20px;
+        font-weight: 600;
+    }
+}
+
+.main_table {
+    padding: 0px 10px;
+}
