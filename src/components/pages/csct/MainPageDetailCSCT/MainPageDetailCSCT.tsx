@@ -152,6 +152,12 @@ function MainPageDetailCSCT({}: PropsMainPageDetailCSCT) {
 								<p>LKSCT đến hiện tại (VND)</p>
 								<p>{convertCoin(detailCSCT?.accumAmount!)}</p>
 							</div>
+							{(detailCSCT?.state === STATUS_CSCT.REJECTED || detailCSCT?.state === STATUS_CSCT.PENDING_APPROVAL) && (
+								<div className={styles.item}>
+									<p>Lý do từ chối</p>
+									<p>{detailCSCT?.rejectReason || '---'}</p>
+								</div>
+							)}
 						</GridColumn>
 					</div>
 				</div>
@@ -188,16 +194,34 @@ function MainPageDetailCSCT({}: PropsMainPageDetailCSCT) {
 										render: (data: IContractsPN) => <>{data?.contractor?.contractor?.name || '---'}</>,
 									},
 									{
-										title: 'Giá trị đề nghị thanh toán (VND)',
-										render: (data: IContractsPN) => <>{convertCoin(data?.amount)}</>,
-									},
-									{
 										title: 'Loại thanh toán',
 										render: (data: IContractsPN) => (
 											<>
 												{data?.type === 1 && 'Thanh toán'}
 												{data?.type === 2 && 'Tạm ứng'}
 											</>
+										),
+									},
+									{
+										title: 'Số tiền tạm ứng (VND)',
+										render: (data: IContractsPN) => (
+											<>{data?.advanceAmount ? convertCoin(data?.advanceAmount) : '---'}</>
+										),
+									},
+									{
+										title: 'Tổng số tiền TT (VND)',
+										render: (data: IContractsPN) => <>{data?.amount ? convertCoin(data?.amount) : '---'}</>,
+									},
+									{
+										title: 'Số tiền còn phải TT (VND)',
+										render: (data: IContractsPN) => (
+											<>{data?.remainingAmount ? convertCoin(data?.remainingAmount) : '---'}</>
+										),
+									},
+									{
+										title: 'Số tiền khấu trừ tạm ứng (VND)',
+										render: (data: IContractsPN) => (
+											<>{data?.totalReverseAmount ? convertCoin(data?.totalReverseAmount) : '--'}</>
 										),
 									},
 									{

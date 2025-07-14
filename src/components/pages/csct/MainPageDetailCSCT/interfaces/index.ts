@@ -35,6 +35,7 @@ export interface IDetailCSCT {
 	state: number;
 	uuid: string;
 	approvalDate: string | null;
+	rejectReason: string | null;
 }
 
 export interface IContractsPN {
@@ -103,6 +104,9 @@ export interface IContractsPN {
 		status: number;
 		uuid: string;
 	};
+	totalReverseAmount: number | null;
+	remainingAmount: number | null;
+	advanceAmount: number | null;
 	amount: number;
 	accumAmount: number;
 	type: number;
