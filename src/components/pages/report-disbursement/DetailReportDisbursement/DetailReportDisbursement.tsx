@@ -311,19 +311,6 @@ function DetailReportDisbursement({}: PropsDetailReportDisbursement) {
 										render: (data: IContractFund) => <>{convertCoin(data?.projectAmount)}</>,
 									},
 									{
-										title: 'Mô tả',
-										render: (data: IContractFund) => (
-											<>
-												{(data?.note && (
-													<Tippy content={data?.note}>
-														<p className={styles.name}>{data?.note || '---'}</p>
-													</Tippy>
-												)) ||
-													'---'}
-											</>
-										),
-									},
-									{
 										title: 'Tác vụ',
 										fixedRight: true,
 										render: (data: IContractFund) => (
