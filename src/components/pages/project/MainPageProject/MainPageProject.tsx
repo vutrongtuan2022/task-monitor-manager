@@ -45,7 +45,7 @@ function MainPageProject({}: PropsMainPageProject) {
 	const queryClient = useQueryClient();
 
 	const [deleteProject, setDeleteProject] = useState<IProject | null>(null);
-	const [typeDate, setTypeDate] = useState<TYPE_DATE>(TYPE_DATE.TODAY);
+	const [typeDate, setTypeDate] = useState<TYPE_DATE>(TYPE_DATE.ALL);
 	const [date, setDate] = useState<{from: Date | null; to: Date | null} | null>(null);
 	const [sort, setSort] = useState<{
 		column: COLUMN_SORT_PROJECT | null;
@@ -233,6 +233,7 @@ function MainPageProject({}: PropsMainPageProject) {
 							setDate={setDate}
 							typeDate={typeDate}
 							setTypeDate={setTypeDate}
+							showOptionAll={true}
 						/>
 					</div>
 				</div>
