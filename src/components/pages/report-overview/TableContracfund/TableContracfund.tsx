@@ -78,7 +78,11 @@ function TableContracfund({}: PropsTableContracFund) {
 							},
 							{
 								title: 'Tên công việc',
-								render: (data: IContractFund) => <>{data?.activity?.name}</>,
+								render: (data: IContractFund) => (
+									<Tippy content={data?.activity?.name}>
+										<p className={styles.name}>{data?.activity?.name}</p>
+									</Tippy>
+								),
 							},
 							{
 								title: 'Tổng giá trị giải ngân (VND)',
