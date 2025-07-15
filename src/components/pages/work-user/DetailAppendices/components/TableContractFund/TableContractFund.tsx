@@ -13,18 +13,18 @@ import Noti from '~/components/common/DataWrapper/components/Noti';
 import Table from '~/components/common/Table';
 import {convertCoin} from '~/common/funcs/convertCoin';
 import Moment from 'react-moment';
-import Tippy from '@tippyjs/react';
-import StateActive from '~/components/common/StateActive';
-import Pagination from '~/components/common/Pagination';
-import PositionContainer from '~/components/common/PositionContainer';
-import DetailContractFund from '~/components/pages/report-disbursement/DetailContractReportDisbursement/components/DetailContractFund';
 import IconCustom from '~/components/common/IconCustom';
 import {Eye} from 'iconsax-react';
+import PositionContainer from '~/components/common/PositionContainer';
+import DetailContractFund from '../DetailContractFund';
+import StateActive from '~/components/common/StateActive';
+import Pagination from '~/components/common/Pagination';
 function TableContractFund() {
 	const router = useRouter();
 	const [uuidContractFund, setUuidContractFund] = useState<{
 		uuid: string;
 		releasedMonthYear: string;
+		contractUuid?: string;
 	} | null>(null);
 	const {_page, _pageSize, _uuid} = router.query;
 
@@ -162,6 +162,7 @@ function TableContractFund() {
 															: '',
 
 													uuid: data?.uuid || '',
+													contractUuid: _uuid as string,
 												})
 											}
 										/>

@@ -11,6 +11,20 @@ const contractsFundServices = {
 			cancelToken: tokenAxios,
 		});
 	},
+	ContractFundDetailPaged: (
+		data: {
+			pageSize: number;
+			page: number;
+			keyword: string | null;
+			status: number;
+			uuid: string;
+		},
+		tokenAxios?: any
+	) => {
+		return axiosClient.post(`/ContractFund/contractfund-detai-paged`, data, {
+			cancelToken: tokenAxios,
+		});
+	},
 	detailContractFundFundPaged: (
 		data: {
 			pageSize: number;
@@ -18,6 +32,7 @@ const contractsFundServices = {
 			keyword: string | null;
 			status: number;
 			uuid: string;
+			contractUuid?: string | null;
 		},
 		tokenAxios?: any
 	) => {

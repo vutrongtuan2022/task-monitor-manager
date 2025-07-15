@@ -25,6 +25,7 @@ function TableContractFund() {
 	const [uuidContractFund, setUuidContractFund] = useState<{
 		uuid: string;
 		releasedMonthYear: string;
+		contractUuid?: string;
 	} | null>(null);
 
 	const {_page, _pageSize, _uuid} = router.query;
@@ -163,6 +164,7 @@ function TableContractFund() {
 															: '',
 
 													uuid: data?.uuid || '',
+													contractUuid: _uuid as string,
 												})
 											}
 										/>

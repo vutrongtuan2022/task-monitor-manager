@@ -136,13 +136,11 @@ function DetailContractFund({onClose, userContractFund}: PropsDetailContractFund
 									{
 										title: 'Giá trị CTTT',
 										render: (data: IDetailContractFund) => (
-											<p>
-												{data?.pnContract?.amount ? (
-													<Moment date={data?.pnContract?.amount} format='DD/MM/YYYY' />
-												) : (
-													'---'
-												)}
-											</p>
+											<>
+												{convertCoin(
+													data?.pnContract.type == 2 ? data?.pnContract.advanceAmount : data?.pnContract.amount
+												) || '---'}
+											</>
 										),
 									},
 									{
