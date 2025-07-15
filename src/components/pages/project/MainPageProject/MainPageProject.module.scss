@@ -24,7 +24,10 @@
 	}
 
 	.filter {
+		display: flex;
+		gap: 12px;
 		min-width: 220px;
+		justify-content: space-between;
 	}
 }
 

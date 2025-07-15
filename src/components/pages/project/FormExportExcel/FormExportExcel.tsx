@@ -2,7 +2,7 @@ import {useMutation, useQuery} from '@tanstack/react-query';
 import styles from './FormExportExcel.module.scss';
 import {PropsFormExportExcel} from './interfaces';
 import {memo, useState} from 'react';
-import {QUERY_KEY, STATUS_CONFIG} from '~/constants/config/enum';
+import {QUERY_KEY, SORT_TYPE, STATUS_CONFIG} from '~/constants/config/enum';
 import {httpRequest} from '~/services';
 import projectServices from '~/services/projectServices';
 import Loading from '~/components/common/Loading';
@@ -11,8 +11,11 @@ import DatePicker from '~/components/common/DatePicker';
 import Button from '~/components/common/Button';
 import {IoClose} from 'react-icons/io5';
 import moment from 'moment';
+import {useRouter} from 'next/router';
 
 function FormExportExcel({onClose}: PropsFormExportExcel) {
+	const router = useRouter();
+
 	const [projects, setProjects] = useState<any[]>([]);
 	const [form, setForm] = useState<{
 		fromDate: string;
@@ -21,6 +24,9 @@ function FormExportExcel({onClose}: PropsFormExportExcel) {
 		fromDate: '',
 		toDate: '',
 	});
+	const [date, setDate] = useState<{from: Date | null; to: Date | null} | null>(null);
+
+	const {_page, _pageSize, _keyword, _status, _state, _userUuid, _managerUuid} = router.query;
 
 	const {data: listProject} = useQuery([QUERY_KEY.dropdown_project], {
 		queryFn: () =>
@@ -40,9 +46,22 @@ function FormExportExcel({onClose}: PropsFormExportExcel) {
 		mutationFn: () => {
 			return httpRequest({
 				http: projectServices.exportProject({
-					projects: projects?.map((v: any) => v?.uuid),
-					from: form.fromDate ? moment(form.fromDate).format('YYYY-MM-DD') : null,
-					to: form.toDate ? moment(form.toDate).format('YYYY-MM-DD') : null,
+					// projects: projects?.map((v: any) => v?.uuid),
+					// from: form.fromDate ? moment(form.fromDate).format('YYYY-MM-DD') : null,
+					// to: form.toDate ? moment(form.toDate).format('YYYY-MM-DD') : null,
+					page: Number(_page) || 1,
+					pageSize: Number(_pageSize) || 10,
+					keyword: (_keyword as string) || '',
+					status: STATUS_CONFIG.ACTIVE,
+					state: !!_state ? Number(_state) : null,
+					userUuid: (_userUuid as string) || '',
+					managerUuid: (_managerUuid as string) || '',
+					sort: {
+						column: null,
+						type: null,
+					},
+					timeStart: date?.from ? moment(date.from).startOf('day').format('YYYY-MM-DDTHH:mm:ss') : null,
+					timeEnd: date?.to ? moment(date.to).endOf('day').format('YYYY-MM-DDTHH:mm:ss') : null,
 				}),
 			});
 		},

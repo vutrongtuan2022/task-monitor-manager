@@ -14,6 +14,8 @@ const projectServices = {
 				column: number | null;
 				type: number | null;
 			};
+			timeStart: string | null;
+			timeEnd: string | null;
 		},
 		tokenAxios?: any
 	) => {
@@ -174,9 +176,22 @@ const projectServices = {
 	},
 	exportProject: (
 		data: {
-			projects: string[];
-			from: string | null;
-			to: string | null;
+			// projects: string[];
+			// from: string | null;
+			// to: string | null;
+			pageSize: number;
+			page: number;
+			keyword: string;
+			status: number;
+			state: number | null;
+			userUuid?: string;
+			managerUuid: string;
+			sort: {
+				column: number | null;
+				type: number | null;
+			};
+			timeStart?: string | null;
+			timeEnd?: string | null;
 		},
 		tokenAxios?: any
 	) => {
