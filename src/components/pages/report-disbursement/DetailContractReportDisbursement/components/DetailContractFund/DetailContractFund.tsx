@@ -14,6 +14,7 @@ import {QUERY_KEY, STATUS_CONFIG} from '~/constants/config/enum';
 import {httpRequest} from '~/services';
 import contractsFundServices from '~/services/contractsFundServices';
 import {Data} from 'iconsax-react';
+import Tippy from '@tippyjs/react';
 
 function DetailContractFund({onClose, userContractFund}: PropsDetailContractFund) {
 	const router = useRouter();
@@ -89,7 +90,9 @@ function DetailContractFund({onClose, userContractFund}: PropsDetailContractFund
 									{
 										title: 'Tên nhà thầu',
 										render: (data: IDetailContractFund) => (
-											<>{data?.pnContract?.contractor?.contractor?.name || '---'}</>
+											<Tippy content={data?.pnContract?.contractor?.contractor?.name}>
+												<p className={styles.name}>{data?.pnContract?.contractor?.contractor?.name || '---'}</p>
+											</Tippy>
 										),
 									},
 									{
@@ -135,7 +138,7 @@ function DetailContractFund({onClose, userContractFund}: PropsDetailContractFund
 										render: (data: IDetailContractFund) => (
 											<>
 												{convertCoin(
-													data?.pnContract.type == 2 ? data?.pnContract.advanceAmount : data?.pnContract.amount
+													data?.pnContract?.type == 2 ? data?.pnContract.advanceAmount : data?.pnContract?.amount
 												) || '---'}
 											</>
 										),
