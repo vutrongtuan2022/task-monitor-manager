@@ -73,8 +73,8 @@ function MainPageProject({}: PropsMainPageProject) {
 							column: sort.column,
 							type: sort.type,
 						},
-						timeStart: date?.from ? moment(date.from).startOf('day').format('YYYY-MM-DDTHH:mm:ss') : null,
-						timeEnd: date?.to ? moment(date.to).endOf('day').format('YYYY-MM-DDTHH:mm:ss') : null,
+						from: date?.from ? moment(date.from).startOf('day').format('YYYY-MM-DDTHH:mm:ss') : null,
+						to: date?.to ? moment(date.to).endOf('day').format('YYYY-MM-DDTHH:mm:ss') : null,
 					}),
 				}),
 			select(data) {
@@ -162,8 +162,8 @@ function MainPageProject({}: PropsMainPageProject) {
 						column: sort.column,
 						type: sort.type,
 					},
-					timeStart: date?.from ? moment(date.from).startOf('day').format('YYYY-MM-DDTHH:mm:ss') : null,
-					timeEnd: date?.to ? moment(date.to).endOf('day').format('YYYY-MM-DDTHH:mm:ss') : null,
+					from: date?.from ? moment(date.from).startOf('day').format('YYYY-MM-DDTHH:mm:ss') : null,
+					to: date?.to ? moment(date.to).endOf('day').format('YYYY-MM-DDTHH:mm:ss') : null,
 				}),
 			});
 		},

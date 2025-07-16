@@ -14,8 +14,8 @@ const projectServices = {
 				column: number | null;
 				type: number | null;
 			};
-			timeStart: string | null;
-			timeEnd: string | null;
+			from?: string | null;
+			to?: string | null;
 		},
 		tokenAxios?: any
 	) => {
@@ -190,8 +190,8 @@ const projectServices = {
 				column: number | null;
 				type: number | null;
 			};
-			timeStart?: string | null;
-			timeEnd?: string | null;
+			from?: string | null;
+			to?: string | null;
 		},
 		tokenAxios?: any
 	) => {
