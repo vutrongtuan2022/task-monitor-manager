@@ -13,6 +13,7 @@ import {useQuery} from '@tanstack/react-query';
 import {QUERY_KEY, STATUS_CONFIG} from '~/constants/config/enum';
 import {httpRequest} from '~/services';
 import overviewServices from '~/services/overviewServices';
+import Tippy from '@tippyjs/react';
 
 function DetailContractFund({onClose, userContractFund}: PropsDetailContractFund) {
 	const router = useRouter();
@@ -91,7 +92,9 @@ function DetailContractFund({onClose, userContractFund}: PropsDetailContractFund
 									{
 										title: 'Tên nhà thầu',
 										render: (data: IDetailContractFund) => (
-											<>{data?.pnContract?.contractor?.contractor?.name || '---'}</>
+											<Tippy content={data?.pnContract?.contractor?.contractor?.name}>
+												<p className={styles.name}>{data?.pnContract?.contractor?.contractor?.name || '---'}</p>
+											</Tippy>
 										),
 									},
 									{
