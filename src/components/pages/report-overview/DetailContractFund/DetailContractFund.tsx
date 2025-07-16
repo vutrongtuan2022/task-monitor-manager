@@ -42,7 +42,6 @@ function DetailContractFund({onClose, userContractFund}: PropsDetailContractFund
 			enabled: !!userContractFund?.contractUuid && !!userContractFund?.overviewReportUuid,
 		}
 	);
-	console.log(listContractFundDetail);
 
 	return (
 		<div className={styles.container}>

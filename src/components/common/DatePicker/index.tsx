@@ -107,6 +107,11 @@ function DatePicker({
 		setIsFocus(false);
 	};
 
+	const normalizedDate = new Date(value);
+	normalizedDate.setHours(0, 0, 0, 0);
+
+	const timestamp = normalizedDate.getTime();
+
 	return (
 		<div className={styles.container}>
 			{label && <p className={styles.label}>{label}</p>}
@@ -139,7 +144,13 @@ function DatePicker({
 					visible={show}
 					placement='bottom'
 					render={(attrs) => (
-						<Calendar onClickDay={handleClickDay} show={show} blockOldDay={blockOldDay} futureDayblock={futureDayblock} />
+						<Calendar
+							value={timestamp ? new Date(timestamp).getTime() : undefined}
+							onClickDay={handleClickDay}
+							show={show}
+							blockOldDay={blockOldDay}
+							futureDayblock={futureDayblock}
+						/>
 					)}
 					onClickOutside={() => setShow(false)}
 				>

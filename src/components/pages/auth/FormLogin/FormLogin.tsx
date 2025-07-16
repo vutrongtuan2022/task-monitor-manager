@@ -64,7 +64,6 @@ function FormLogin({}: PropsFormLogin) {
 			}),
 		onSuccess(data) {
 			if (data) {
-				console.log(data);
 				store.dispatch(setToken(data.token));
 				store.dispatch(setInfoUser(data));
 				store.dispatch(setStateLogin(true));
