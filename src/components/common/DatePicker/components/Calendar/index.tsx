@@ -11,6 +11,7 @@ interface props {
 	show?: boolean;
 	blockOldDay?: boolean;
 	futureDayblock?: number;
+	value: any;
 }
 
 const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
@@ -21,7 +22,7 @@ export const listMonth = [1, 3, 5, 7, 8, 10, 12];
 export const listDay = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
 
 /*===========> MAIN COMPONENT<==========*/
-function Calendar({onClickDay, show, blockOldDay, futureDayblock}: props) {
+function Calendar({onClickDay, show, blockOldDay, futureDayblock, value}: props) {
 	const [month, setMonth] = useState<number>(new Date().getMonth() + 1);
 	const [year, setYear] = useState<number>(new Date().getFullYear());
 	const [numberDay, setNumberDay] = useState<any>(0);
@@ -78,6 +79,12 @@ function Calendar({onClickDay, show, blockOldDay, futureDayblock}: props) {
 	useEffect(() => {
 		setType(TYPE[0]);
 	}, [show]);
+
+	useEffect(() => {
+		if (value && typeof value === 'number') {
+			setTimeSelect(value);
+		}
+	}, [value]);
 
 	useEffect(() => {
 		setYearTable({
