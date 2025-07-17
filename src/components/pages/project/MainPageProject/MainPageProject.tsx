@@ -229,8 +229,8 @@ function MainPageProject({}: PropsMainPageProject) {
 								name: v?.fullname,
 							}))}
 						/>
-						<FilterDateOne title='Thời gian từ' styleRounded={true} date={dateStart} onSetDate={setDateStart} />
-						<FilterDateOne title='Thời gian đến' styleRounded={true} date={dateEnd} onSetDate={setDateEnd} />
+						<FilterDateOne title='Thời gian bắt đầu dự tính' styleRounded={true} date={dateStart} onSetDate={setDateStart} />
+						<FilterDateOne title='Thời gian kết thúc dự tính' styleRounded={true} date={dateEnd} onSetDate={setDateEnd} />
 						{/* <FilterDateRange
 							title='Thời gian dự tính'
 							styleRounded={true}
