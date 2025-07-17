@@ -37,7 +37,7 @@ function FilterDateOne({title, date, styleRounded, onSetDate}: PropsFilterDateOn
 				<div className={styles.calendarContainer}>
 					<Calendar onClickDay={handleClickDay} show={openDate} value={timestamp ? new Date(timestamp).getTime() : undefined} />
 					<Button p_10_24 rounded_8 primary onClick={handleClean}>
-						đặt lại
+						Đặt lại
 					</Button>
 					{/* <div className={styles.delete} onClick={() => handleClean}>
 						<RefreshRightSquare color='#005994' />
