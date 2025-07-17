@@ -33,6 +33,7 @@ import FormExportExcel from '../FormExportExcel';
 import userServices from '~/services/userServices';
 import FilterDateRange from '~/components/common/FilterDateRange';
 import moment from 'moment';
+import FilterDateOne from '~/components/common/FilterDateOne';
 
 enum COLUMN_SORT_PROJECT {
 	PROGRESS = 1,
@@ -47,6 +48,8 @@ function MainPageProject({}: PropsMainPageProject) {
 	const [deleteProject, setDeleteProject] = useState<IProject | null>(null);
 	const [typeDate, setTypeDate] = useState<TYPE_DATE>(TYPE_DATE.ALL);
 	const [date, setDate] = useState<{from: Date | null; to: Date | null} | null>(null);
+	const [dateStart, setDateStart] = useState<Date | null>(null);
+	const [dateEnd, setDateEnd] = useState<Date | null>(null);
 	const [sort, setSort] = useState<{
 		column: COLUMN_SORT_PROJECT | null;
 		type: SORT_TYPE | null;
@@ -57,7 +60,7 @@ function MainPageProject({}: PropsMainPageProject) {
 	const {_page, _pageSize, _keyword, _status, _state, _userUuid, _managerUuid} = router.query;
 
 	const listProject = useQuery(
-		[QUERY_KEY.table_list_user, _page, _pageSize, _state, _keyword, _status, _managerUuid, _userUuid, sort, date?.from, date?.to],
+		[QUERY_KEY.table_list_user, _page, _pageSize, _state, _keyword, _status, _managerUuid, _userUuid, sort, dateStart, dateEnd],
 		{
 			queryFn: () =>
 				httpRequest({
@@ -73,8 +76,8 @@ function MainPageProject({}: PropsMainPageProject) {
 							column: sort.column,
 							type: sort.type,
 						},
-						from: date?.from ? moment(date.from).startOf('day').format('YYYY-MM-DDTHH:mm:ss') : null,
-						to: date?.to ? moment(date.to).endOf('day').format('YYYY-MM-DDTHH:mm:ss') : null,
+						from: dateStart ? moment(dateStart).startOf('day').format('YYYY-MM-DDTHH:mm:ss') : null,
+						to: dateEnd ? moment(dateEnd).endOf('day').format('YYYY-MM-DDTHH:mm:ss') : null,
 					}),
 				}),
 			select(data) {
@@ -162,8 +165,8 @@ function MainPageProject({}: PropsMainPageProject) {
 						column: sort.column,
 						type: sort.type,
 					},
-					from: date?.from ? moment(date.from).startOf('day').format('YYYY-MM-DDTHH:mm:ss') : null,
-					to: date?.to ? moment(date.to).endOf('day').format('YYYY-MM-DDTHH:mm:ss') : null,
+					from: dateStart ? moment(dateStart).startOf('day').format('YYYY-MM-DDTHH:mm:ss') : null,
+					to: dateEnd ? moment(dateEnd).endOf('day').format('YYYY-MM-DDTHH:mm:ss') : null,
 				}),
 			});
 		},
@@ -226,7 +229,9 @@ function MainPageProject({}: PropsMainPageProject) {
 								name: v?.fullname,
 							}))}
 						/>
-						<FilterDateRange
+						<FilterDateOne title='Thời gian từ' styleRounded={true} date={dateStart} onSetDate={setDateStart} />
+						<FilterDateOne title='Thời gian đến' styleRounded={true} date={dateEnd} onSetDate={setDateEnd} />
+						{/* <FilterDateRange
 							title='Thời gian dự tính'
 							styleRounded={true}
 							date={date}
@@ -234,7 +239,7 @@ function MainPageProject({}: PropsMainPageProject) {
 							typeDate={typeDate}
 							setTypeDate={setTypeDate}
 							showOptionAll={true}
-						/>
+						/> */}
 					</div>
 				</div>
 				<div className={styles.btn}>
@@ -403,7 +408,7 @@ function MainPageProject({}: PropsMainPageProject) {
 					currentPage={Number(_page) || 1}
 					pageSize={Number(_pageSize) || 10}
 					total={listProject?.data?.pagination?.totalCount}
-					dependencies={[_pageSize, _keyword, _status, _state, _userUuid, _managerUuid, date?.from, date?.to]}
+					dependencies={[_pageSize, _keyword, _status, _state, _userUuid, _managerUuid, dateStart, dateEnd]}
 				/>
 			</WrapperScrollbar>
 			<Dialog
